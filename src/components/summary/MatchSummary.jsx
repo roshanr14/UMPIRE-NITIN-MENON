@@ -185,14 +185,6 @@ Generated via CricUmpire Pro Scorecard`;
               <span>Resume Live Scoring</span>
             </button>
           )}
-
-          <button
-            onClick={onNavigateToAudit}
-            className="px-3.5 py-2 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs flex items-center gap-1.5 border border-slate-700 transition-all"
-          >
-            <Clock className="w-3.5 h-3.5" />
-            <span>Audit Trail</span>
-          </button>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">

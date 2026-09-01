@@ -122,18 +122,6 @@ export default function Header({
                 <FileText className="w-3.5 h-3.5" />
                 <span className="hidden md:inline">Scorecard</span>
               </button>
-
-              <button
-                onClick={() => setActiveTab('audit')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  activeTab === 'audit'
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                }`}
-              >
-                <History className="w-3.5 h-3.5" />
-                <span className="hidden md:inline">Audit Log</span>
-              </button>
             </>
           )}
         </nav>

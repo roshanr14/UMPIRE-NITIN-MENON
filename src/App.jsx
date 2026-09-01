@@ -5,7 +5,6 @@ import Header from './components/common/Header';
 import Dashboard from './components/dashboard/Dashboard';
 import LiveScoringView from './components/scoring/LiveScoringView';
 import MatchSummary from './components/summary/MatchSummary';
-import AuditLogViewer from './components/audit/AuditLogViewer';
 import CreateMatchModal from './components/match-setup/CreateMatchModal';
 import ShortcutsModal from './components/common/ShortcutsModal';
 import AuthModal from './components/auth/AuthModal';
@@ -16,7 +15,7 @@ import { createDefaultTeam } from './lib/cricketEngine';
 function MainApp() {
   const { match, createMatch, recordRun, recordExtra, undoLastAction, switchStrikeManual } = useMatch();
 
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'scoring' | 'summary' | 'audit'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'scoring' | 'summary'
 
   // Global Dialogs
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -111,7 +110,6 @@ function MainApp() {
             onOpenCreateMatch={() => setIsCreateOpen(true)}
             onNavigateToScoring={() => setActiveTab('scoring')}
             onNavigateToSummary={() => setActiveTab('summary')}
-            onNavigateToAudit={() => setActiveTab('audit')}
           />
         )}
 
@@ -126,11 +124,8 @@ function MainApp() {
         {activeTab === 'summary' && (
           <MatchSummary
             onNavigateToScoring={() => setActiveTab('scoring')}
-            onNavigateToAudit={() => setActiveTab('audit')}
           />
         )}
-
-        {activeTab === 'audit' && <AuditLogViewer />}
       </main>
 
       {/* Voice Assistant Floating Status Badge */}
