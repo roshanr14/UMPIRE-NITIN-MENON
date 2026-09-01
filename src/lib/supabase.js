@@ -14,8 +14,11 @@ class SupabaseManager {
   }
 
   init() {
-    let url = import.meta.env.VITE_SUPABASE_URL;
-    let anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    const DEFAULT_URL = 'https://igtvzmjlhmhhcjgtsrou.supabase.co';
+    const DEFAULT_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlndHZ6bWpsaG1oaGNqZ3Rzcm91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNzUxNjgsImV4cCI6MjEwMzg1MTE2OH0.AYnNxC_mGUFnvdVE0FvP5EiLOn1L0CAs19gmMI1Rli8';
+
+    let url = import.meta.env.VITE_SUPABASE_URL || DEFAULT_URL;
+    let anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || DEFAULT_ANON_KEY;
 
     // Check user-configured keys in localStorage if env not provided
     try {
@@ -64,8 +67,8 @@ class SupabaseManager {
       // ignore
     }
     return {
-      url: import.meta.env.VITE_SUPABASE_URL || '',
-      anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || '',
+      url: import.meta.env.VITE_SUPABASE_URL || 'https://igtvzmjlhmhhcjgtsrou.supabase.co',
+      anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlndHZ6bWpsaG1oaGNqZ3Rzcm91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNzUxNjgsImV4cCI6MjEwMzg1MTE2OH0.AYnNxC_mGUFnvdVE0FvP5EiLOn1L0CAs19gmMI1Rli8',
     };
   }
 
