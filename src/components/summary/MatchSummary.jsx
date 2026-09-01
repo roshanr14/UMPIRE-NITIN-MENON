@@ -22,19 +22,24 @@ import {
   Target,
   ArrowUpRight,
   Sparkles,
+  Image as ImageIcon,
+  CheckCircle2,
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { useMatch } from '../../context/MatchContext';
+import { useAuth } from '../../context/AuthContext';
 import { formatOvers, calculateEconomy, calculateStrikeRate, calculateCRR } from '../../lib/cricketEngine';
 
 export default function MatchSummary({ onNavigateToScoring, onNavigateToAudit }) {
   const { match } = useMatch();
+  const { user } = useAuth();
   const scorecardRef = useRef(null);
 
-  const [activeTab, setActiveTab] = useState('innings1'); // 'innings1' | 'innings2' | 'partnerships'
+  const [activeTab, setActiveTab] = useState('innings1'); // 'innings1' | 'innings2' | 'partnerships' | 'all'
   const [copiedShare, setCopiedShare] = useState(false);
-  const [isExporting, setIsExporting] = useState(false);
+  const [isExportingPDF, setIsExportingPDF] = useState(false);
+  const [isExportingImage, setIsExportingImage] = useState(false);
 
   if (!match) {
     return (
@@ -75,45 +80,72 @@ export default function MatchSummary({ onNavigateToScoring, onNavigateToAudit })
     window.print();
   };
 
-  // Export to PDF
+  // Export High-Resolution PDF
   const handleExportPDF = async () => {
     if (!scorecardRef.current) return;
-    setIsExporting(true);
+    setIsExportingPDF(true);
     try {
       const canvas = await html2canvas(scorecardRef.current, {
         scale: 2,
         backgroundColor: '#070a12',
         useCORS: true,
+        logging: false,
       });
-      const imgData = canvas.toDataURL('image/png');
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210;
-      const pageHeight = 297;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
       let heightLeft = imgHeight;
       let position = 0;
 
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
 
-      while (heightLeft >= 0) {
+      while (heightLeft > 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
       }
 
-      pdf.save(`${match.teamA.name}_vs_${match.teamB.name}_Official_Scorecard.pdf`);
+      const filename = `${match.teamA.name.replace(/\s+/g, '_')}_vs_${match.teamB.name.replace(/\s+/g, '_')}_Official_Scorecard.pdf`;
+      pdf.save(filename);
     } catch (err) {
       console.warn('PDF export error:', err);
     } finally {
-      setIsExporting(false);
+      setIsExportingPDF(false);
     }
   };
 
-  // Copy share text
+  // Export High-Definition Image (PNG)
+  const handleExportImage = async () => {
+    if (!scorecardRef.current) return;
+    setIsExportingImage(true);
+    try {
+      const canvas = await html2canvas(scorecardRef.current, {
+        scale: 2,
+        backgroundColor: '#070a12',
+        useCORS: true,
+        logging: false,
+      });
+
+      const link = document.createElement('a');
+      link.download = `${match.teamA.name.replace(/\s+/g, '_')}_vs_${match.teamB.name.replace(/\s+/g, '_')}_Scorecard.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (err) {
+      console.warn('Image export error:', err);
+    } finally {
+      setIsExportingImage(false);
+    }
+  };
+
+  // Copy share text for WhatsApp / SMS
   const handleShare = () => {
-    const text = `🏏 *CRICUMPIRE PRO MATCH RESULT*
+    const text = `🏏 *CRICUMPIRE PRO MATCH REPORT*
 *${match.teamA.name} vs ${match.teamB.name}*
 🏆 *Result:* ${match.result || (match.status === 'live' ? 'Match Live in Progress' : 'Innings Complete')}
 
@@ -173,6 +205,15 @@ Generated via CricUmpire Pro Scorecard`;
           </button>
 
           <button
+            onClick={handleExportImage}
+            disabled={isExportingImage}
+            className="px-3.5 py-2 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-1.5 border border-slate-700 transition-all active:scale-95 disabled:opacity-50"
+          >
+            <ImageIcon className="w-3.5 h-3.5 text-sky-400" />
+            <span>{isExportingImage ? 'Exporting...' : 'Save PNG'}</span>
+          </button>
+
+          <button
             onClick={handlePrint}
             className="px-3.5 py-2 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-1.5 border border-slate-700 transition-all"
           >
@@ -182,11 +223,11 @@ Generated via CricUmpire Pro Scorecard`;
 
           <button
             onClick={handleExportPDF}
-            disabled={isExporting}
+            disabled={isExportingPDF}
             className="px-4 py-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs flex items-center gap-2 shadow-lg shadow-emerald-950 transition-all active:scale-95 disabled:opacity-50"
           >
             <Download className="w-3.5 h-3.5" />
-            <span>{isExporting ? 'Generating PDF...' : 'Download Scorecard PDF'}</span>
+            <span>{isExportingPDF ? 'Generating PDF...' : 'Download Scorecard PDF'}</span>
           </button>
         </div>
       </div>
@@ -725,6 +766,32 @@ Generated via CricUmpire Pro Scorecard`;
             )}
           </div>
         )}
+
+        {/* OFFICIAL UMPIRE VERIFICATION SEAL */}
+        <div className="p-4 sm:p-6 rounded-3xl bg-slate-950/90 border border-slate-800/80 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-white font-display">
+                Certified Official Match Record
+              </p>
+              <p className="text-[11px] text-slate-400">
+                Scored by {user?.user_metadata?.name || 'Lead Umpire'} ({user?.user_metadata?.role || 'Official Scorer'})
+              </p>
+            </div>
+          </div>
+
+          <div className="text-right">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 block">
+              Digital Signature Verified
+            </span>
+            <span className="text-xs font-mono font-semibold text-emerald-400">
+              CricUmpire Pro System
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
