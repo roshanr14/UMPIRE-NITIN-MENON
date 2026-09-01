@@ -11,9 +11,10 @@ import {
   MicOff,
   Keyboard,
   Activity,
-  History,
   FileText,
   Home,
+  Zap,
+  Terminal,
 } from 'lucide-react';
 import { useMatch } from '../../context/MatchContext';
 import { useAuth } from '../../context/AuthContext';
@@ -30,64 +31,66 @@ export default function Header({
   const { user } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3 transition-colors">
+    <header className="sticky top-0 z-40 w-full bg-[#030712]/95 backdrop-blur-md border-b border-[#00f0ff]/20 px-3 sm:px-6 lg:px-8 py-2.5 transition-colors shadow-lg shadow-[#00f0ff]/5">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-        {/* Brand & Match Status */}
-        <div className="flex items-center gap-3.5">
+        {/* Brand & Cyberpunk HUD Title */}
+        <div className="flex items-center gap-3">
           <div
             onClick={() => setActiveTab('dashboard')}
-            className="flex items-center gap-2.5 cursor-pointer group"
+            className="flex items-center gap-2.5 cursor-pointer group select-none"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center shadow-lg shadow-emerald-950/50 group-hover:scale-105 transition-transform border border-emerald-400/30">
-              <span className="text-xl">🏏</span>
+            <div className="w-10 h-10 bg-gradient-to-br from-[#fcee0a] to-[#ff0055] p-[1.5px] cyber-clip">
+              <div className="w-full h-full bg-[#050814] flex items-center justify-center group-hover:bg-[#00f0ff]/10 transition-colors">
+                <span className="text-lg">🏏</span>
+              </div>
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-extrabold tracking-tight text-white font-display">
-                  Cric<span className="text-emerald-400">Umpire</span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-base sm:text-lg font-black tracking-wider text-white font-cyber">
+                  CRIC<span className="text-[#00f0ff] text-glow-cyan">//</span><span className="text-[#fcee0a] text-glow-yellow">2077</span>
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-700/50">
-                  PRO
+                <span className="text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-[#fcee0a]/10 text-[#fcee0a] border border-[#fcee0a]/40 font-mono">
+                  HUD
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 font-medium">
-                Official Umpire Live Control
+              <p className="text-[10px] text-[#00f0ff]/70 font-mono tracking-tight flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff] animate-ping" />
+                SYS_ONLINE // UMPIRE_CORE
               </p>
             </div>
           </div>
 
-          {/* Sync & Connectivity Status Badge */}
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all">
+          {/* Cyber Sync & Network Status Badge */}
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-[#050814] border border-[#00f0ff]/20 rounded-md font-mono text-[11px]">
             {isOnline ? (
               syncStatus === 'syncing' ? (
-                <span className="flex items-center gap-1.5 text-sky-400 bg-sky-950/50 border-sky-800/40 px-2.5 py-0.5 rounded-full border">
-                  <span className="w-2 h-2 rounded-full bg-sky-400 animate-ping" />
+                <span className="flex items-center gap-1.5 text-[#00f0ff]">
                   <Cloud className="w-3.5 h-3.5 animate-spin" />
-                  Syncing Match Data...
+                  <span>SYNCING_PACKETS...</span>
                 </span>
               ) : (
-                <span className="flex items-center gap-1.5 text-emerald-400 bg-emerald-950/50 border-emerald-800/40 px-2.5 py-0.5 rounded-full border">
+                <span className="flex items-center gap-1.5 text-[#39ff14]">
                   <Wifi className="w-3.5 h-3.5" />
-                  All Scores Successfully Synced
+                  <span>NET_SYNC // ACTIVE</span>
                 </span>
               )
             ) : (
-              <span className="flex items-center gap-1.5 text-amber-300 bg-amber-950/60 border-amber-800/50 px-2.5 py-0.5 rounded-full border shadow-sm">
-                <WifiOff className="w-3.5 h-3.5 text-amber-400" />
-                Offline – Scores Saved Locally
+              <span className="flex items-center gap-1.5 text-[#fcee0a]">
+                <WifiOff className="w-3.5 h-3.5" />
+                <span>OFFLINE_CACHE // READY</span>
               </span>
             )}
           </div>
         </div>
 
         {/* View Navigation Tabs */}
-        <nav className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+        <nav className="flex items-center gap-1 bg-[#050814] p-1 border border-[#00f0ff]/25 rounded-xl font-cyber text-xs">
           <button
             onClick={() => setActiveTab('dashboard')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all ${
               activeTab === 'dashboard'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                ? 'bg-[#00f0ff] text-[#030712] shadow-md shadow-[#00f0ff]/40'
+                : 'text-slate-400 hover:text-[#00f0ff] hover:bg-[#00f0ff]/5'
             }`}
           >
             <Home className="w-3.5 h-3.5" />
@@ -98,25 +101,25 @@ export default function Header({
             <>
               <button
                 onClick={() => setActiveTab('scoring')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all ${
                   activeTab === 'scoring'
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                    ? 'bg-[#fcee0a] text-[#030712] shadow-md shadow-[#fcee0a]/40 font-black'
+                    : 'text-slate-400 hover:text-[#fcee0a] hover:bg-[#fcee0a]/5'
                 }`}
               >
-                <Activity className="w-3.5 h-3.5 text-emerald-400" />
+                <Activity className="w-3.5 h-3.5 text-[#ff0055]" />
                 <span>Live Scoring</span>
                 {match.status === 'live' && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] animate-ping" />
                 )}
               </button>
 
               <button
                 onClick={() => setActiveTab('summary')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all ${
                   activeTab === 'summary'
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                    ? 'bg-[#00f0ff] text-[#030712] shadow-md shadow-[#00f0ff]/40 font-black'
+                    : 'text-slate-400 hover:text-[#00f0ff] hover:bg-[#00f0ff]/5'
                 }`}
               >
                 <FileText className="w-3.5 h-3.5" />
@@ -132,39 +135,39 @@ export default function Header({
           <button
             type="button"
             onClick={onToggleVoice}
-            title={isListeningVoice ? 'Voice Assistant Active (Click to mute)' : 'Enable Voice Scoring'}
-            className={`p-2 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all ${
+            title={isListeningVoice ? 'Voice Active (Mute)' : 'Enable Cyber Voice'}
+            className={`p-2 rounded-xl border text-xs font-mono font-bold flex items-center gap-1.5 transition-all ${
               isListeningVoice
-                ? 'bg-rose-600 text-white border-rose-400 shadow-md shadow-rose-900/40 animate-pulse'
-                : 'bg-slate-900 text-slate-300 border-slate-800 hover:border-slate-700 hover:text-white'
+                ? 'bg-[#ff0055] text-white border-[#ff0055] shadow-lg shadow-[#ff0055]/50 animate-pulse'
+                : 'bg-[#050814] text-[#00f0ff] border-[#00f0ff]/30 hover:border-[#00f0ff]'
             }`}
           >
             {isListeningVoice ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4 text-slate-400" />}
-            <span className="hidden xl:inline">{isListeningVoice ? 'Listening...' : 'Voice'}</span>
+            <span className="hidden xl:inline">{isListeningVoice ? 'VOX_REC' : 'VOX'}</span>
           </button>
 
-          {/* Outdoor High Contrast Toggle */}
+          {/* Outdoor High Contrast Mode */}
           <button
             type="button"
             onClick={() => updateSettings({ highContrast: !settings.highContrast })}
-            title={settings.highContrast ? 'Disable Outdoor Mode' : 'Enable High-Contrast Outdoor Mode'}
+            title={settings.highContrast ? 'Disable High-Contrast' : 'Enable High-Contrast HUD'}
             className={`p-2 rounded-xl border transition-all ${
               settings.highContrast
-                ? 'bg-amber-500 text-black border-amber-400 font-bold'
-                : 'bg-slate-900 text-slate-300 border-slate-800 hover:border-slate-700 hover:text-white'
+                ? 'bg-[#fcee0a] text-black border-[#fcee0a] font-black'
+                : 'bg-[#050814] text-slate-300 border-[#00f0ff]/20 hover:border-[#00f0ff]/60'
             }`}
           >
-            {settings.highContrast ? <Sun className="w-4 h-4 text-black" /> : <Moon className="w-4 h-4" />}
+            {settings.highContrast ? <Sun className="w-4 h-4 text-black" /> : <Moon className="w-4 h-4 text-[#00f0ff]" />}
           </button>
 
           {/* Sound Toggle */}
           <button
             type="button"
             onClick={() => updateSettings({ soundEnabled: !settings.soundEnabled })}
-            title={settings.soundEnabled ? 'Mute Scoring Audio' : 'Unmute Scoring Audio'}
-            className="p-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 hover:text-white transition-all"
+            title={settings.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
+            className="p-2 rounded-xl bg-[#050814] text-slate-300 border border-[#00f0ff]/20 hover:border-[#00f0ff]/60 transition-all"
           >
-            {settings.soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4 text-slate-500" />}
+            {settings.soundEnabled ? <Volume2 className="w-4 h-4 text-[#39ff14]" /> : <VolumeX className="w-4 h-4 text-slate-600" />}
           </button>
 
           {/* Keyboard Shortcuts Button */}
@@ -172,7 +175,7 @@ export default function Header({
             type="button"
             onClick={onOpenShortcuts}
             title="Keyboard Hotkeys (Press ? or Space)"
-            className="p-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 hover:text-white transition-all hidden md:flex items-center"
+            className="p-2 rounded-xl bg-[#050814] text-[#00f0ff] border border-[#00f0ff]/20 hover:border-[#00f0ff]/60 transition-all hidden md:flex items-center"
           >
             <Keyboard className="w-4 h-4" />
           </button>
@@ -181,16 +184,16 @@ export default function Header({
           <button
             type="button"
             onClick={onOpenAuth}
-            className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-all text-left"
+            className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl bg-[#050814] border border-[#00f0ff]/25 hover:border-[#00f0ff] transition-all text-left"
           >
-            <div className="w-7 h-7 rounded-lg bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-xs">
+            <div className="w-7 h-7 bg-gradient-to-br from-[#00f0ff] to-[#b000ff] text-[#030712] font-black font-cyber text-xs flex items-center justify-center rounded-lg">
               {user?.user_metadata?.name?.charAt(0) || 'U'}
             </div>
             <div className="hidden lg:block text-left leading-tight">
-              <p className="text-xs font-bold text-slate-200 truncate max-w-[90px]">
+              <p className="text-xs font-bold text-white font-cyber truncate max-w-[90px]">
                 {user?.user_metadata?.name || 'Umpire'}
               </p>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[9px] text-[#00f0ff] font-mono">
                 {user?.user_metadata?.role || 'Lead Scorer'}
               </p>
             </div>

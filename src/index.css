@@ -2,32 +2,56 @@
 
 @layer base {
   :root {
-    --font-display: 'Outfit', 'Inter', sans-serif;
-    --font-digit: 'Chakra Petch', 'JetBrains Mono', monospace;
-    --font-mono: 'JetBrains Mono', monospace;
+    --font-cyber: 'Orbitron', 'Chakra Petch', sans-serif;
+    --font-display: 'Chakra Petch', 'Orbitron', sans-serif;
+    --font-digit: 'Chakra Petch', 'Share Tech Mono', 'JetBrains Mono', monospace;
+    --font-mono: 'Share Tech Mono', 'JetBrains Mono', monospace;
+    
+    --cyber-yellow: #fcee0a;
+    --cyber-cyan: #00f0ff;
+    --cyber-pink: #ff0055;
+    --cyber-green: #39ff14;
+    --cyber-purple: #b000ff;
+    --cyber-dark: #050811;
+    --cyber-darker: #020409;
+    --cyber-surface: #0a0f1d;
   }
 
   body {
-    font-family: 'Inter', sans-serif;
-    background-color: #070a12;
-    color: #f1f5f9;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #030610;
+    color: #e0f2fe;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 240, 255, 0.08), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 90% 90%, rgba(255, 0, 85, 0.05), transparent 60%),
+      linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+    background-attachment: fixed;
   }
 
-  /* Custom scrollbar */
+  /* Cyberpunk Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0b1120;
+    background: #050811;
+    border-left: 1px solid rgba(0, 240, 255, 0.1);
   }
   ::-webkit-scrollbar-thumb {
-    background: #1e293b;
-    border-radius: 9999px;
+    background: #00f0ff;
+    box-shadow: 0 0 8px #00f0ff;
+    border-radius: 0px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #fcee0a;
+    box-shadow: 0 0 12px #fcee0a;
   }
+}
+
+.font-cyber {
+  font-family: var(--font-cyber);
 }
 
 .font-display {
@@ -42,96 +66,138 @@
   font-family: var(--font-mono);
 }
 
-/* High Contrast Outdoor Mode */
-body.high-contrast {
-  background-color: #000000 !important;
-  color: #ffffff !important;
+/* Cyberpunk Chamfered Angle Corners */
+.cyber-card {
+  background: rgba(8, 14, 28, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 20px -5px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(0, 240, 255, 0.03);
+  position: relative;
 }
 
-body.high-contrast .glass-panel {
-  background: #111111 !important;
-  border-color: #444444 !important;
+.cyber-card-yellow {
+  background: rgba(12, 16, 26, 0.88);
+  border: 1px solid rgba(252, 238, 10, 0.35);
+  box-shadow: 0 0 20px -5px rgba(252, 238, 10, 0.2), inset 0 0 15px rgba(252, 238, 10, 0.03);
 }
 
-body.high-contrast .score-digit {
-  color: #00ff88 !important;
-  text-shadow: none !important;
+.cyber-card-pink {
+  background: rgba(16, 10, 24, 0.88);
+  border: 1px solid rgba(255, 0, 85, 0.35);
+  box-shadow: 0 0 20px -5px rgba(255, 0, 85, 0.2), inset 0 0 15px rgba(255, 0, 85, 0.03);
 }
 
-/* Glassmorphism styling */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Cyberpunk Angled Corner Clip */
+.cyber-clip {
+  clip-path: polygon(
+    0 0, 
+    calc(100% - 12px) 0, 
+    100% 12px, 
+    100% 100%, 
+    12px 100%, 
+    0 calc(100% - 12px)
+  );
 }
 
-.glass-panel-subtle {
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+.cyber-clip-tr {
+  clip-path: polygon(
+    0 0, 
+    calc(100% - 16px) 0, 
+    100% 16px, 
+    100% 100%, 
+    0 100%
+  );
 }
 
-.glass-card-interactive {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.glass-card-interactive:hover {
-  background: rgba(30, 41, 59, 0.7);
-  border-color: rgba(52, 211, 153, 0.3);
-  transform: translateY(-2px);
+.cyber-clip-bl {
+  clip-path: polygon(
+    0 0, 
+    100% 0, 
+    100% 100%, 
+    16px 100%, 
+    0 calc(100% - 16px)
+  );
 }
 
-/* Score button active push effect */
+/* Cyber Glow Utilities */
+.glow-cyan {
+  box-shadow: 0 0 25px -2px rgba(0, 240, 255, 0.45);
+}
+
+.glow-yellow {
+  box-shadow: 0 0 25px -2px rgba(252, 238, 10, 0.45);
+}
+
+.glow-pink {
+  box-shadow: 0 0 25px -2px rgba(255, 0, 85, 0.45);
+}
+
+.glow-green {
+  box-shadow: 0 0 25px -2px rgba(57, 255, 20, 0.45);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.7);
+}
+
+.text-glow-yellow {
+  text-shadow: 0 0 12px rgba(252, 238, 10, 0.7);
+}
+
+.text-glow-pink {
+  text-shadow: 0 0 12px rgba(255, 0, 85, 0.7);
+}
+
+/* Score Button Tactile Feedback */
 .score-btn {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   transition: transform 0.08s ease, background-color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
 }
+
 .score-btn:active {
-  transform: scale(0.94);
+  transform: scale(0.95);
 }
 
-/* Custom glow effects */
-.glow-emerald {
-  box-shadow: 0 0 24px -4px rgba(16, 185, 129, 0.35);
+/* Scanline Effect */
+.scanlines {
+  position: relative;
 }
-.glow-amber {
-  box-shadow: 0 0 24px -4px rgba(245, 158, 11, 0.35);
-}
-.glow-red {
-  box-shadow: 0 0 24px -4px rgba(239, 68, 68, 0.35);
-}
-.glow-blue {
-  box-shadow: 0 0 24px -4px rgba(59, 130, 246, 0.35);
-}
-
-/* Radar pulse animation */
-@keyframes radar-pulse {
-  0% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.5); opacity: 0; }
-  100% { transform: scale(1); opacity: 0; }
+.scanlines::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  z-index: 20;
+  background-size: 100% 3px, 4px 100%;
+  pointer-events: none;
+  opacity: 0.6;
 }
 
-.animate-radar {
-  animation: radar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+/* High Contrast Outdoor Mode */
+body.high-contrast {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+body.high-contrast .cyber-card {
+  background: #090909 !important;
+  border-color: #00f0ff !important;
 }
 
-/* Print scorecard stylesheet */
+/* Print Styles */
 @media print {
   body {
-    background-color: #ffffff !important;
+    background: #ffffff !important;
     color: #000000 !important;
   }
   .no-print {
     display: none !important;
   }
-  .print-only {
-    display: block !important;
-  }
-  .glass-panel, .glass-card-interactive {
+  .cyber-card, .cyber-card-yellow, .cyber-card-pink {
     background: #ffffff !important;
     border: 1px solid #cccccc !important;
     color: #000000 !important;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCw, X, Shield, Check, Flame, AlertCircle } from 'lucide-react';
+import { RefreshCw, X, Shield, Check } from 'lucide-react';
 import { formatOvers, calculateEconomy } from '../../lib/cricketEngine';
 
 export default function BowlerSelectModal({
@@ -34,20 +34,20 @@ export default function BowlerSelectModal({
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 15 }}
-          className="w-full max-w-lg max-h-[85vh] bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col relative overflow-hidden"
+          className="w-full max-w-lg max-h-[85vh] cyber-card border-2 border-[#00f0ff]/40 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col relative overflow-hidden"
         >
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800 shrink-0">
+          <div className="flex items-center justify-between pb-4 border-b border-[#00f0ff]/20 shrink-0">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <div className="p-2.5 rounded-xl bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff]/30">
                 <RefreshCw className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-100 font-display">
-                  {isOverEnd ? 'Over Completed! Select Next Bowler' : 'Change Current Bowler'}
+                <h3 className="text-xl font-bold text-white font-cyber text-glow-cyan">
+                  {isOverEnd ? 'OVER_COMPLETE // NEXT_BOWLER' : 'ASSIGN_NEW_BOWLER'}
                 </h3>
-                <p className="text-xs text-slate-400">
-                  {currentInnings.bowlingTeamName} Bowling Roster
+                <p className="text-xs font-mono text-slate-400">
+                  {currentInnings.bowlingTeamName} Bowling Spell
                 </p>
               </div>
             </div>
@@ -62,7 +62,7 @@ export default function BowlerSelectModal({
           </div>
 
           {/* Bowler List */}
-          <div className="flex-1 overflow-y-auto mt-4 space-y-2 pr-1">
+          <div className="flex-1 overflow-y-auto mt-4 space-y-2 pr-1 font-mono">
             {bowlers.map((b) => {
               const isConsecutive = b.id === lastBowlerId && isOverEnd;
               const isSelected = selectedId === b.id;
@@ -75,27 +75,27 @@ export default function BowlerSelectModal({
                   onClick={() => !isConsecutive && setSelectedId(b.id)}
                   className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
                     isConsecutive
-                      ? 'opacity-40 bg-slate-950/40 border-slate-800/40 cursor-not-allowed'
+                      ? 'opacity-30 bg-[#050814] border-slate-800 cursor-not-allowed'
                       : isSelected
-                      ? 'bg-emerald-950/60 border-emerald-500 text-white shadow-md ring-1 ring-emerald-500/50 cursor-pointer'
-                      : 'bg-slate-950/80 border-slate-800/80 hover:border-slate-700 text-slate-300 cursor-pointer'
+                      ? 'bg-[#00f0ff]/15 border-[#00f0ff] text-white shadow-md shadow-[#00f0ff]/20 ring-1 ring-[#00f0ff] cursor-pointer'
+                      : 'bg-[#050814] border-[#00f0ff]/20 hover:border-[#00f0ff]/60 text-slate-300 cursor-pointer'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center font-bold text-xs text-slate-200">
+                    <div className="w-9 h-9 rounded-xl bg-[#090e1f] border border-[#00f0ff]/30 flex items-center justify-center font-bold text-xs text-[#00f0ff] font-cyber">
                       {b.name.charAt(0)}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-bold text-sm text-slate-100">{b.name}</h4>
+                        <h4 className="font-bold text-sm text-slate-100 font-cyber">{b.name}</h4>
                         {b.id === currentBowlerId && !isOverEnd && (
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">
-                            Current
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#fcee0a]/20 text-[#fcee0a] border border-[#fcee0a]/40 font-mono">
+                            CURRENT
                           </span>
                         )}
                         {isConsecutive && (
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-red-950 text-red-400 border border-red-800">
-                            Just Bowled
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#ff0055]/20 text-[#ff0055] border border-[#ff0055]/40 font-mono">
+                            CONSECUTIVE_LOCK
                           </span>
                         )}
                       </div>
@@ -106,7 +106,7 @@ export default function BowlerSelectModal({
                   </div>
 
                   {isSelected && !isConsecutive && (
-                    <div className="w-6 h-6 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-[#00f0ff] text-black flex items-center justify-center shrink-0 shadow-md shadow-[#00f0ff]/40">
                       <Check className="w-4 h-4 stroke-[3]" />
                     </div>
                   )}
@@ -116,28 +116,28 @@ export default function BowlerSelectModal({
           </div>
 
           {/* Footer */}
-          <div className="pt-4 border-t border-slate-800 shrink-0 flex items-center justify-between">
+          <div className="pt-4 border-t border-[#00f0ff]/20 shrink-0 flex items-center justify-between font-cyber">
             {!isOverEnd ? (
               <button
                 type="button"
                 onClick={onClose}
                 className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800"
               >
-                Cancel
+                CANCEL
               </button>
             ) : (
-              <span className="text-xs text-slate-400">
-                Strike rotated automatically for the new over.
+              <span className="text-xs text-slate-400 font-mono">
+                // Strike rotated automatically for the new over.
               </span>
             )}
 
             <button
               type="button"
               onClick={handleConfirm}
-              className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-950 active:scale-95 ml-auto"
+              className="px-6 py-2.5 rounded-xl bg-[#00f0ff] hover:bg-[#38f4ff] text-black font-black text-xs flex items-center gap-2 shadow-lg shadow-[#00f0ff]/30 active:scale-95 ml-auto border border-[#00f0ff]"
             >
               <Check className="w-4 h-4" />
-              Set Active Bowler
+              LOCK_BOWLER
             </button>
           </div>
         </motion.div>

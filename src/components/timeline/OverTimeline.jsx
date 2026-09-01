@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { getBallLabel } from '../../lib/cricketEngine';
-import { Edit3, Clock } from 'lucide-react';
+import { Edit3, Clock, Activity } from 'lucide-react';
 
 export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
   if (!currentInnings) return null;
@@ -12,44 +12,44 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
 
   const getBadgeStyle = (ball) => {
     if (ball.isWicket) {
-      return 'bg-red-600 text-white border-red-400 font-black shadow-lg shadow-red-950/60 ring-2 ring-red-500/50';
+      return 'bg-[#2b000a] text-[#ff0055] border-2 border-[#ff0055] font-black shadow-lg shadow-[#ff0055]/40 text-glow-pink animate-pulse';
     }
     if (ball.extraType) {
-      return 'bg-amber-600 text-white border-amber-400 font-bold shadow-md shadow-amber-950/40';
+      return 'bg-[#291e00] text-[#fcee0a] border border-[#fcee0a] font-bold shadow-md shadow-[#fcee0a]/20';
     }
     if (ball.runsScored === 4) {
-      return 'bg-cyan-600 text-white border-cyan-300 font-black shadow-lg shadow-cyan-950/60';
+      return 'bg-[#1a1700] text-[#fcee0a] border-2 border-[#fcee0a] font-black shadow-lg shadow-[#fcee0a]/30 text-glow-yellow';
     }
     if (ball.runsScored === 6) {
-      return 'bg-gradient-to-tr from-purple-600 to-pink-600 text-white border-pink-300 font-black shadow-lg shadow-pink-950/60';
+      return 'bg-[#240011] text-[#ff0055] border-2 border-[#ff0055] font-black shadow-lg shadow-[#ff0055]/30 text-glow-pink';
     }
     if (ball.runsScored > 0) {
-      return 'bg-emerald-700 text-white border-emerald-400 font-bold';
+      return 'bg-[#00242b] text-[#00f0ff] border border-[#00f0ff] font-bold shadow-sm shadow-[#00f0ff]/20';
     }
     // Dot ball (0)
-    return 'bg-slate-800 text-slate-300 border-slate-700 font-medium';
+    return 'bg-[#050814] text-slate-400 border border-[#00f0ff]/25 font-semibold';
   };
 
   return (
-    <div className="p-5 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-xl space-y-4">
+    <div className="p-5 rounded-3xl cyber-card border border-[#00f0ff]/25 shadow-xl space-y-4">
       {/* Current Over Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <Clock className="w-4 h-4 text-emerald-400" />
-          <h3 className="text-sm font-extrabold uppercase tracking-wider text-slate-200 font-display">
-            Current Over Timeline
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#00f0ff]/15">
+        <div className="flex items-center gap-2 font-cyber">
+          <Activity className="w-4 h-4 text-[#00f0ff]" />
+          <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white">
+            DELIVERY_FEED // CURRENT_OVER
           </h3>
         </div>
-        <span className="text-xs text-slate-400">
-          Click any ball badge to edit or correct score
+        <span className="text-[11px] font-mono text-slate-400">
+          [ TAP_BALL_TO_EDIT_SCORE ]
         </span>
       </div>
 
       {/* Current Over Ball Badges Strip */}
       <div className="flex items-center gap-2 overflow-x-auto py-2 pr-2">
         {currentOverBalls.length === 0 ? (
-          <div className="text-xs text-slate-500 italic py-2">
-            No deliveries bowled yet in this over. Click a scoring button below.
+          <div className="text-xs font-mono text-slate-500 italic py-2">
+            // NO_DELIVERIES_RECORDED_THIS_OVER. INITIATE SCORING VIA MATRIX BELOW.
           </div>
         ) : (
           currentOverBalls.map((ball, idx) => (
@@ -73,12 +73,12 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
 
       {/* Recent Match Deliveries Roll */}
       {recentBalls.length > 0 && (
-        <div className="pt-3 border-t border-slate-800/80">
-          <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-            <span>Recent Match Deliveries (Last 12 Balls)</span>
-            <span className="text-emerald-400 flex items-center gap-1 font-semibold">
+        <div className="pt-3 border-t border-[#00f0ff]/15">
+          <div className="flex items-center justify-between text-[10px] font-bold font-mono uppercase tracking-wider text-slate-400 mb-2">
+            <span>PACKET_LOG // LAST 12 DELIVERIES</span>
+            <span className="text-[#00f0ff] flex items-center gap-1 font-semibold">
               <Edit3 className="w-3 h-3" />
-              Editable
+              EDITABLE
             </span>
           </div>
 

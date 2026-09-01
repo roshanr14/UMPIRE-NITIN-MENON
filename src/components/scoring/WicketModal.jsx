@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertOctagon, X, UserMinus, UserCheck, ShieldAlert, Check } from 'lucide-react';
+import { AlertOctagon, X, Check } from 'lucide-react';
 import { DISMISSAL_TYPES } from '../../lib/cricketEngine';
 
 export default function WicketModal({
@@ -53,20 +53,20 @@ export default function WicketModal({
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 15 }}
-          className="w-full max-w-xl max-h-[90vh] bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col relative overflow-hidden"
+          className="w-full max-w-xl max-h-[90vh] cyber-card border-2 border-[#ff0055]/50 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col relative overflow-hidden"
         >
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800 shrink-0">
+          <div className="flex items-center justify-between pb-4 border-b border-[#ff0055]/20 shrink-0">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20">
+              <div className="p-2.5 rounded-xl bg-[#ff0055]/10 text-[#ff0055] border border-[#ff0055]/30">
                 <AlertOctagon className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-100 font-display">
-                  Wicket Dismissal
+                <h3 className="text-xl font-bold text-white font-cyber text-glow-pink">
+                  WICKET // ELIMINATION
                 </h3>
-                <p className="text-xs text-slate-400">
-                  Select dismissal mode, batter dismissed, and incoming batsman
+                <p className="text-xs font-mono text-slate-400">
+                  Select dismissal protocol, player eliminated & incoming batter
                 </p>
               </div>
             </div>
@@ -78,11 +78,11 @@ export default function WicketModal({
             </button>
           </div>
 
-          <form id="wicket-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto mt-4 space-y-4 pr-1">
+          <form id="wicket-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto mt-4 space-y-4 pr-1 font-mono">
             {/* Batter Out Selector */}
             <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                Batter Dismissed (Out)
+              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2 font-mono">
+                BATTER_ELIMINATED (OUT)
               </label>
               <div className="grid grid-cols-2 gap-2.5">
                 <button
@@ -90,14 +90,14 @@ export default function WicketModal({
                   onClick={() => setPlayerOutId(striker.id)}
                   className={`p-3 rounded-2xl border text-left transition-all ${
                     playerOutId === striker.id
-                      ? 'bg-red-950/80 text-white border-red-500 shadow-md ring-1 ring-red-500'
-                      : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800'
+                      ? 'bg-[#2b000a] text-white border-[#ff0055] shadow-lg shadow-[#ff0055]/30 ring-1 ring-[#ff0055]'
+                      : 'bg-[#050814] text-slate-300 border-[#ff0055]/20 hover:border-[#ff0055]'
                   }`}
                 >
-                  <p className="text-[10px] uppercase tracking-wider font-extrabold text-red-400">
-                    Striker (On Strike)
+                  <p className="text-[10px] uppercase tracking-wider font-extrabold text-[#ff0055] font-mono">
+                    STRIKER (ON_DECK)
                   </p>
-                  <p className="text-sm font-bold mt-0.5">{striker.name}</p>
+                  <p className="text-sm font-bold font-cyber mt-0.5">{striker.name}</p>
                 </button>
 
                 <button
@@ -105,22 +105,22 @@ export default function WicketModal({
                   onClick={() => setPlayerOutId(nonStriker.id)}
                   className={`p-3 rounded-2xl border text-left transition-all ${
                     playerOutId === nonStriker.id
-                      ? 'bg-red-950/80 text-white border-red-500 shadow-md ring-1 ring-red-500'
-                      : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800'
+                      ? 'bg-[#2b000a] text-white border-[#ff0055] shadow-lg shadow-[#ff0055]/30 ring-1 ring-[#ff0055]'
+                      : 'bg-[#050814] text-slate-300 border-[#ff0055]/20 hover:border-[#ff0055]'
                   }`}
                 >
-                  <p className="text-[10px] uppercase tracking-wider font-extrabold text-red-400">
-                    Non-Striker
+                  <p className="text-[10px] uppercase tracking-wider font-extrabold text-[#ff0055] font-mono">
+                    NON_STRIKER
                   </p>
-                  <p className="text-sm font-bold mt-0.5">{nonStriker.name}</p>
+                  <p className="text-sm font-bold font-cyber mt-0.5">{nonStriker.name}</p>
                 </button>
               </div>
             </div>
 
             {/* Dismissal Type Selector */}
             <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                Method of Dismissal
+              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2">
+                DISMISSAL_METHOD
               </label>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                 {DISMISSAL_TYPES.map((d) => (
@@ -130,8 +130,8 @@ export default function WicketModal({
                     onClick={() => setDismissalType(d.id)}
                     className={`py-2.5 px-2 rounded-xl text-xs font-bold border transition-all text-center ${
                       dismissalType === d.id
-                        ? 'bg-red-600 text-white border-red-400 shadow-md scale-102'
-                        : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800'
+                        ? 'bg-[#ff0055] text-white border-[#ff0055] shadow-md shadow-[#ff0055]/30 font-black'
+                        : 'bg-[#050814] text-slate-300 border-[#ff0055]/20 hover:border-[#ff0055]'
                     }`}
                   >
                     {d.label}
@@ -140,104 +140,101 @@ export default function WicketModal({
               </div>
             </div>
 
-            {/* Fielder Name (If caught, run out, stumped) */}
+            {/* Fielder Name if needed */}
             {selectedDismissal?.needsFielder && (
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                  {selectedDismissal.fielderRole || 'Fielder'} Name (Optional)
+                <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-1.5">
+                  FIELDER_NAME (CATCHER / RUN_OUT)
                 </label>
                 <input
                   type="text"
                   value={fielderName}
                   onChange={(e) => setFielderName(e.target.value)}
-                  placeholder="e.g. Fielder in deep"
-                  className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 focus:border-red-500 rounded-xl text-xs text-slate-100 outline-none"
+                  placeholder="Enter Fielder Name"
+                  className="w-full px-3.5 py-2.5 bg-[#050814] border border-[#ff0055]/30 focus:border-[#ff0055] rounded-xl text-xs text-white outline-none"
+                  autoFocus
                 />
               </div>
             )}
 
-            {/* Incoming Batsman (If not 10th wicket) */}
-            {currentInnings.wickets < 9 && availableNextBatsmen.length > 0 && (
+            {/* Next Incoming Batsman Picker */}
+            {currentInnings.wickets < 9 && (
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center justify-between">
-                  <span>Next Incoming Batter</span>
-                  <span className="text-[10px] text-emerald-400 font-normal">
-                    {availableNextBatsmen.length} batters remaining
-                  </span>
+                <label className="block text-[10px] font-bold text-[#00f0ff] uppercase tracking-widest mb-1.5">
+                  INCOMING_BATTER (NEXT IN LINE)
                 </label>
-                <select
-                  value={newBatterId}
-                  onChange={(e) => setNewBatterId(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-xs text-slate-100 outline-none font-semibold"
-                  required
-                >
-                  {availableNextBatsmen.map((b) => (
-                    <option key={b.id} value={b.id}>
-                      {b.name}
-                    </option>
-                  ))}
-                </select>
+                {availableNextBatsmen.length > 0 ? (
+                  <select
+                    value={newBatterId}
+                    onChange={(e) => setNewBatterId(e.target.value)}
+                    className="w-full px-3.5 py-2.5 bg-[#050814] border border-[#00f0ff]/40 focus:border-[#00f0ff] rounded-xl text-xs text-[#00f0ff] outline-none font-bold"
+                  >
+                    {availableNextBatsmen.map((b) => (
+                      <option key={b.id} value={b.id}>
+                        {b.name} ({b.role})
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <p className="text-xs text-slate-500 italic p-2 bg-[#050814] rounded-xl border border-slate-800">
+                    No further players available in roster. Innings will close automatically.
+                  </p>
+                )}
               </div>
             )}
 
-            {/* Optional Runs on Wicket (e.g. Run out on 2nd run) */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
+            {/* Runs scored on the delivery */}
+            <div className="grid grid-cols-2 gap-3 pt-1">
               <div>
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                  Runs Completed
+                <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-1">
+                  RUNS_COMPLETED
                 </label>
-                <div className="flex items-center gap-1">
-                  {[0, 1, 2, 3].map((r) => (
-                    <button
-                      key={r}
-                      type="button"
-                      onClick={() => setRunsScored(r)}
-                      className={`flex-1 py-1.5 rounded-lg text-xs font-digit font-bold border ${
-                        runsScored === r
-                          ? 'bg-slate-700 text-white border-slate-500'
-                          : 'bg-slate-950 text-slate-400 border-slate-800'
-                      }`}
-                    >
-                      {r}
-                    </button>
-                  ))}
-                </div>
+                <select
+                  value={runsScored}
+                  onChange={(e) => setRunsScored(e.target.value)}
+                  className="w-full px-3 py-2 bg-[#050814] border border-slate-800 rounded-xl text-xs text-slate-100 outline-none"
+                >
+                  <option value="0">0 (No Runs)</option>
+                  <option value="1">1 Run</option>
+                  <option value="2">2 Runs</option>
+                  <option value="3">3 Runs</option>
+                </select>
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                  Delivery Type
+                <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-1">
+                  EXTRA_TYPE
                 </label>
                 <select
                   value={extraType}
                   onChange={(e) => setExtraType(e.target.value)}
-                  className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-slate-300 outline-none"
+                  className="w-full px-3 py-2 bg-[#050814] border border-slate-800 rounded-xl text-xs text-slate-100 outline-none"
                 >
-                  <option value="none">Legal Ball</option>
-                  <option value="wide">Wide (Run Out)</option>
-                  <option value="no_ball">No Ball (Run Out)</option>
+                  <option value="none">None (Legal Ball)</option>
+                  <option value="wide">Wide Ball (+1)</option>
+                  <option value="no_ball">No Ball (+1)</option>
                 </select>
               </div>
             </div>
           </form>
 
           {/* Footer */}
-          <div className="pt-4 border-t border-slate-800 shrink-0 flex items-center justify-between">
+          <div className="pt-4 border-t border-[#ff0055]/20 shrink-0 flex items-center justify-between font-cyber">
             <button
               type="button"
               onClick={onClose}
               className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800"
             >
-              Cancel
+              CANCEL
             </button>
 
             <button
               type="submit"
               form="wicket-form"
-              className="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black text-xs flex items-center gap-2 shadow-lg shadow-red-950 active:scale-95 border border-red-500"
+              className="px-6 py-2.5 rounded-xl bg-[#ff0055] hover:bg-[#ff2470] text-white font-black text-xs flex items-center gap-2 shadow-lg shadow-[#ff0055]/40 active:scale-95 border border-[#ff0055]"
             >
               <Check className="w-4 h-4" />
-              Confirm Wicket
+              CONFIRM_DISMISSAL
             </button>
           </div>
         </motion.div>

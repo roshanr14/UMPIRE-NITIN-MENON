@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Target, TrendingUp, Users, AlertCircle, Clock, Award } from 'lucide-react';
+import { Target, TrendingUp, Clock, Zap, Activity } from 'lucide-react';
 import { formatOvers, calculateCRR, calculateRRR } from '../../lib/cricketEngine';
 
 export default function ScoreboardBanner({ match, currentInnings }) {
@@ -8,7 +8,6 @@ export default function ScoreboardBanner({ match, currentInnings }) {
 
   const is2ndInnings = match.currentInningsNumber === 2;
   const battingTeam = currentInnings.battingTeamName;
-  const bowlingTeam = currentInnings.bowlingTeamName;
 
   const totalRuns = currentInnings.totalRuns;
   const wickets = currentInnings.wickets;
@@ -27,157 +26,135 @@ export default function ScoreboardBanner({ match, currentInnings }) {
   const progressPercent = Math.min(100, (validBalls / totalBalls) * 100);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 p-5 sm:p-7 shadow-2xl">
-      {/* Top Accent Strip */}
-      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500" />
+    <div className="relative overflow-hidden rounded-3xl cyber-card border-2 border-[#00f0ff]/30 p-5 sm:p-7 shadow-2xl">
+      {/* Top Cyber Accent Strip */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00f0ff] via-[#fcee0a] to-[#ff0055]" />
 
       {/* Match Header info */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800/80">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-[#00f0ff]/20">
         <div className="flex items-center gap-2.5">
-          <span className="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-emerald-950 text-emerald-300 border border-emerald-800/60">
-            Innings {match.currentInningsNumber}
+          <span className="px-2.5 py-0.5 rounded-lg text-xs font-black uppercase tracking-wider bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff]/40 font-mono flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff] animate-ping" />
+            INN_{match.currentInningsNumber} // LIVE_FEED
           </span>
-          <span className="text-xs text-slate-400 font-medium">
+          <span className="text-xs text-slate-400 font-mono">
             {match.format} • {match.venue}
           </span>
         </div>
 
         {/* Match state indicator */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-cyber text-xs">
           {match.status === 'live' && (
-            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-950/70 text-red-400 border border-red-800/50">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-              LIVE MATCH
+            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full font-black bg-[#ff0055]/15 text-[#ff0055] border border-[#ff0055]/50 shadow-md shadow-[#ff0055]/20">
+              <span className="w-2 h-2 rounded-full bg-[#ff0055] animate-ping" />
+              LIVE_COMBAT
             </span>
           )}
           {match.status === 'paused' && (
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-950/70 text-amber-400 border border-amber-800/50">
-              PAUSED
+            <span className="px-3 py-1 rounded-full font-bold bg-[#fcee0a]/15 text-[#fcee0a] border border-[#fcee0a]/50">
+              HUD // PAUSED
             </span>
           )}
           {match.status === 'innings_break' && (
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-sky-950/70 text-sky-400 border border-sky-800/50">
-              INNINGS BREAK
+            <span className="px-3 py-1 rounded-full font-bold bg-[#00f0ff]/15 text-[#00f0ff] border border-[#00f0ff]/50">
+              INTERVAL // BREAK
             </span>
           )}
           {match.status === 'completed' && (
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/70 text-emerald-400 border border-emerald-800/50">
-              MATCH COMPLETED
+            <span className="px-3 py-1 rounded-full font-bold bg-[#39ff14]/15 text-[#39ff14] border border-[#39ff14]/50">
+              MATCH_CONCLUDED
             </span>
           )}
         </div>
       </div>
 
-      {/* Main Scoreboard Numbers */}
-      <div className="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      {/* Main Scoreboard Display */}
+      <div className="py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-3">
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-100 font-display tracking-tight uppercase">
+            <h2 className="text-2xl sm:text-3xl font-black text-white font-cyber tracking-wider uppercase text-glow-cyan">
               {battingTeam}
             </h2>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-              Batting
+            <span className="text-[10px] font-black px-2 py-0.5 rounded bg-[#fcee0a]/20 text-[#fcee0a] border border-[#fcee0a]/40 font-mono uppercase">
+              ON_STRIKE
             </span>
           </div>
 
-          <div className="flex items-baseline gap-3 mt-2">
+          <div className="flex items-baseline gap-3 mt-1.5">
             <motion.span
               key={`${totalRuns}-${wickets}`}
-              initial={{ scale: 1.1, color: '#34d399' }}
+              initial={{ scale: 1.15, color: '#fcee0a' }}
               animate={{ scale: 1, color: '#ffffff' }}
-              transition={{ duration: 0.25 }}
-              className="text-5xl sm:text-7xl font-black text-white font-digit tracking-tighter"
+              transition={{ duration: 0.2 }}
+              className="text-5xl sm:text-7xl font-black text-white font-digit tracking-tight"
             >
-              {totalRuns}<span className="text-emerald-500 font-light">/</span>{wickets}
+              {totalRuns}
+              <span className="text-[#ff0055] font-light">/</span>
+              <span className="text-[#fcee0a]">{wickets}</span>
             </motion.span>
 
             <span className="text-xl sm:text-2xl font-bold text-slate-400 font-digit">
-              ({oversStr} <span className="text-xs text-slate-500 font-normal">/ {totalOvers} ov</span>)
+              ({oversStr} <span className="text-xs text-[#00f0ff] font-mono">/ {totalOvers} ov</span>)
             </span>
           </div>
         </div>
 
         {/* Target & Run Rates Box */}
-        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto font-mono">
           {is2ndInnings && target && (
-            <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 min-w-[140px]">
-              <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold">
-                <Target className="w-3.5 h-3.5 text-amber-400" />
-                <span>Target</span>
+            <div className="p-3.5 rounded-2xl bg-[#050814] border border-[#fcee0a]/40 min-w-[140px] shadow-lg shadow-[#fcee0a]/10">
+              <div className="flex items-center gap-1.5 text-xs text-slate-400 font-bold">
+                <Target className="w-3.5 h-3.5 text-[#fcee0a]" />
+                <span>TARGET_SCORE</span>
               </div>
-              <p className="text-2xl font-black text-amber-400 font-digit mt-0.5">
+              <p className="text-2xl font-black text-[#fcee0a] font-digit mt-0.5 text-glow-yellow">
                 {target}
               </p>
-              <p className="text-[11px] text-slate-400 font-medium">
-                Need {Math.max(0, runsRemaining)} in {Math.max(0, ballsRemaining)}b
+              <p className="text-[10px] text-slate-300">
+                Need <strong className="text-[#00f0ff]">{Math.max(0, runsRemaining)}</strong> off <strong className="text-[#fcee0a]">{Math.max(0, ballsRemaining)}b</strong>
               </p>
             </div>
           )}
 
-          <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 min-w-[110px]">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold">
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Current RR</span>
+          <div className="p-3.5 rounded-2xl bg-[#050814] border border-[#00f0ff]/30 min-w-[110px]">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-bold">
+              <TrendingUp className="w-3.5 h-3.5 text-[#00f0ff]" />
+              <span>CRR</span>
             </div>
-            <p className="text-2xl font-black text-emerald-400 font-digit mt-0.5">
+            <p className="text-2xl font-black text-[#00f0ff] font-digit mt-0.5 text-glow-cyan">
               {crr}
             </p>
-            <p className="text-[11px] text-slate-500">runs / over</p>
+            <p className="text-[10px] text-slate-500 font-mono">runs/ov</p>
           </div>
 
           {is2ndInnings && rrr && (
-            <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 min-w-[110px]">
-              <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold">
-                <Clock className="w-3.5 h-3.5 text-sky-400" />
-                <span>Required RR</span>
+            <div className="p-3.5 rounded-2xl bg-[#050814] border border-[#ff0055]/30 min-w-[110px]">
+              <div className="flex items-center gap-1.5 text-xs text-slate-400 font-bold">
+                <Clock className="w-3.5 h-3.5 text-[#ff0055]" />
+                <span>REQ_RR</span>
               </div>
-              <p className="text-2xl font-black text-sky-400 font-digit mt-0.5">
+              <p className="text-2xl font-black text-[#ff0055] font-digit mt-0.5 text-glow-pink">
                 {rrr}
               </p>
-              <p className="text-[11px] text-slate-500">runs / over</p>
+              <p className="text-[10px] text-slate-500 font-mono">req/ov</p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Progress & Extras Footer */}
-      <div className="space-y-3 pt-4 border-t border-slate-800/80">
-        {/* Progress Bar */}
-        <div>
-          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400 mb-1">
-            <span>Overs Progress: {oversStr} of {totalOvers} Overs</span>
-            <span>{Math.round(progressPercent)}%</span>
-          </div>
-          <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
-            <div
-              className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
+      {/* Innings Overs Progress Bar */}
+      <div className="mt-2 space-y-1.5">
+        <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
+          <span>OVERS_GAUGE: {oversStr} / {totalOvers}.0</span>
+          <span className="text-[#00f0ff] font-bold">{progressPercent.toFixed(1)}% COMPLETE</span>
         </div>
-
-        {/* Partnership & Extras strip */}
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-300">
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4 text-emerald-400" />
-            <span>
-              Current Partnership:{' '}
-              <strong className="text-white font-digit">
-                {currentInnings.currentPartnership?.runs || 0}
-              </strong>{' '}
-              runs ({currentInnings.currentPartnership?.balls || 0} balls)
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400">
-            <span>
-              Extras:{' '}
-              <strong className="text-slate-200">
-                {currentInnings.extras?.total || 0}
-              </strong>
-            </span>
-            <span>(WD: {currentInnings.extras?.wides || 0}, NB: {currentInnings.extras?.noBalls || 0}, B: {currentInnings.extras?.byes || 0}, LB: {currentInnings.extras?.legByes || 0})</span>
-          </div>
+        <div className="h-2 w-full bg-[#050814] rounded-full overflow-hidden border border-[#00f0ff]/20">
+          <motion.div
+            className="h-full bg-gradient-to-r from-[#00f0ff] via-[#fcee0a] to-[#ff0055]"
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercent}%` }}
+            transition={{ duration: 0.4 }}
+          />
         </div>
       </div>
     </div>
