@@ -199,12 +199,12 @@ class StorageManager {
         hapticsEnabled: true,
         highContrast: false,
         voiceEnabled: true,
-        scorerName: 'Umpire In-Charge',
-        scorerRole: 'Lead Umpire',
+        scorerName: 'Nitin Menon',
+        scorerRole: 'ICC Elite Panel Umpire',
         theme: 'dark',
       };
     } catch {
-      return { soundEnabled: true, hapticsEnabled: true, highContrast: false, voiceEnabled: true, scorerName: 'Umpire', scorerRole: 'Lead Umpire', theme: 'dark' };
+      return { soundEnabled: true, hapticsEnabled: true, highContrast: false, voiceEnabled: true, scorerName: 'Nitin Menon', scorerRole: 'ICC Elite Panel Umpire', theme: 'dark' };
     }
   }
 

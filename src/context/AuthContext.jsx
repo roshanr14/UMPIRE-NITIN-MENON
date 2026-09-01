@@ -22,10 +22,10 @@ export function AuthProvider({ children }) {
           const settings = storage.getSettings();
           setUser({
             id: 'guest_umpire',
-            email: 'umpire@cricketground.org',
+            email: 'nitin.menon@icc-cricket.com',
             user_metadata: {
-              name: settings.scorerName || 'Official Umpire',
-              role: settings.scorerRole || 'Lead Match Umpire',
+              name: settings.scorerName || 'Nitin Menon',
+              role: settings.scorerRole || 'ICC Elite Panel Umpire',
             },
             isGuest: true,
           });
@@ -61,10 +61,10 @@ export function AuthProvider({ children }) {
     await supabaseManager.signOut();
     setUser({
       id: 'guest_umpire',
-      email: 'umpire@cricketground.org',
+      email: 'nitin.menon@icc-cricket.com',
       user_metadata: {
-        name: 'Official Umpire',
-        role: 'Lead Match Umpire',
+        name: 'Nitin Menon',
+        role: 'ICC Elite Panel Umpire',
       },
       isGuest: true,
     });

@@ -47,10 +47,10 @@ export default function Header({
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="text-base sm:text-lg font-black tracking-wider text-white font-cyber">
-                  CRIC<span className="text-[#00f0ff] text-glow-cyan">//</span><span className="text-[#fcee0a] text-glow-yellow">2077</span>
+                  UMPIRE <span className="text-[#00f0ff] text-glow-cyan">NITIN </span><span className="text-[#fcee0a] text-glow-yellow">MENON</span>
                 </span>
                 <span className="text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-[#fcee0a]/10 text-[#fcee0a] border border-[#fcee0a]/40 font-mono">
-                  HUD
+                  ICC
                 </span>
               </div>
               <p className="text-[10px] text-[#00f0ff]/70 font-mono tracking-tight flex items-center gap-1">

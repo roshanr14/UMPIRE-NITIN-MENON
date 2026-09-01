@@ -72,7 +72,7 @@ export default function Dashboard({
               </span>
             </div>
             <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white font-cyber">
-              CRIC<span className="text-[#00f0ff] text-glow-cyan">//</span>UMPIRE <span className="text-[#fcee0a] text-glow-yellow">2077</span>
+              UMPIRE <span className="text-[#00f0ff] text-glow-cyan">NITIN </span><span className="text-[#fcee0a] text-glow-yellow">MENON</span>
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-slate-300 max-w-2xl font-mono">
               Live ball-by-ball scoring, instant statistics recalculations, offline storage, and cloud synchronization.
