@@ -26,7 +26,7 @@ export default function BowlerCard({ currentInnings, onOpenChangeBowler }) {
         <div className="flex items-center gap-2 font-cyber">
           <Shield className="w-4 h-4 text-[#00f0ff]" />
           <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white">
-            BOWLER // ACTIVE_SPELL
+            CURRENT BOWLER
           </h3>
         </div>
 
@@ -36,7 +36,7 @@ export default function BowlerCard({ currentInnings, onOpenChangeBowler }) {
           className="px-3 py-1.5 rounded-xl bg-[#050814] hover:bg-[#fcee0a]/20 text-[#fcee0a] font-mono text-xs font-bold flex items-center gap-1.5 border border-[#fcee0a]/30 transition-all active:scale-95 shadow-sm"
         >
           <RotateCw className="w-3.5 h-3.5" />
-          <span>CHANGE_BOWLER</span>
+          <span>Change Bowler</span>
         </button>
       </div>
 

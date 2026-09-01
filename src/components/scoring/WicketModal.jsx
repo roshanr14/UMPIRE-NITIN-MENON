@@ -63,10 +63,10 @@ export default function WicketModal({
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white font-cyber text-glow-pink">
-                  WICKET // ELIMINATION
+                  WICKET DISMISSAL
                 </h3>
                 <p className="text-xs font-mono text-slate-400">
-                  Select dismissal protocol, player eliminated & incoming batter
+                  Select dismissal type, player out, and incoming batsman
                 </p>
               </div>
             </div>
@@ -81,8 +81,8 @@ export default function WicketModal({
           <form id="wicket-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto mt-4 space-y-4 pr-1 font-mono">
             {/* Batter Out Selector */}
             <div>
-              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2 font-mono">
-                BATTER_ELIMINATED (OUT)
+              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                Batter Dismissed (Out)
               </label>
               <div className="grid grid-cols-2 gap-2.5">
                 <button
@@ -94,8 +94,8 @@ export default function WicketModal({
                       : 'bg-[#050814] text-slate-300 border-[#ff0055]/20 hover:border-[#ff0055]'
                   }`}
                 >
-                  <p className="text-[10px] uppercase tracking-wider font-extrabold text-[#ff0055] font-mono">
-                    STRIKER (ON_DECK)
+                  <p className="text-[10px] uppercase tracking-wider font-extrabold text-[#ff0055]">
+                    Striker
                   </p>
                   <p className="text-sm font-bold font-cyber mt-0.5">{striker.name}</p>
                 </button>
@@ -109,8 +109,8 @@ export default function WicketModal({
                       : 'bg-[#050814] text-slate-300 border-[#ff0055]/20 hover:border-[#ff0055]'
                   }`}
                 >
-                  <p className="text-[10px] uppercase tracking-wider font-extrabold text-[#ff0055] font-mono">
-                    NON_STRIKER
+                  <p className="text-[10px] uppercase tracking-wider font-extrabold text-[#ff0055]">
+                    Non-Striker
                   </p>
                   <p className="text-sm font-bold font-cyber mt-0.5">{nonStriker.name}</p>
                 </button>
@@ -119,8 +119,8 @@ export default function WicketModal({
 
             {/* Dismissal Type Selector */}
             <div>
-              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2">
-                DISMISSAL_METHOD
+              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                Method of Dismissal
               </label>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                 {DISMISSAL_TYPES.map((d) => (
@@ -143,8 +143,8 @@ export default function WicketModal({
             {/* Fielder Name if needed */}
             {selectedDismissal?.needsFielder && (
               <div>
-                <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-1.5">
-                  FIELDER_NAME (CATCHER / RUN_OUT)
+                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                  Fielder Name
                 </label>
                 <input
                   type="text"
@@ -160,8 +160,8 @@ export default function WicketModal({
             {/* Next Incoming Batsman Picker */}
             {currentInnings.wickets < 9 && (
               <div>
-                <label className="block text-[10px] font-bold text-[#00f0ff] uppercase tracking-widest mb-1.5">
-                  INCOMING_BATTER (NEXT IN LINE)
+                <label className="block text-xs font-bold text-[#00f0ff] uppercase tracking-wider mb-1.5">
+                  Incoming Batter
                 </label>
                 {availableNextBatsmen.length > 0 ? (
                   <select
@@ -186,8 +186,8 @@ export default function WicketModal({
             {/* Runs scored on the delivery */}
             <div className="grid grid-cols-2 gap-3 pt-1">
               <div>
-                <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-1">
-                  RUNS_COMPLETED
+                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                  Runs Scored
                 </label>
                 <select
                   value={runsScored}
@@ -202,8 +202,8 @@ export default function WicketModal({
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-1">
-                  EXTRA_TYPE
+                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                  Extra Type
                 </label>
                 <select
                   value={extraType}
@@ -225,7 +225,7 @@ export default function WicketModal({
               onClick={onClose}
               className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800"
             >
-              CANCEL
+              Cancel
             </button>
 
             <button
@@ -234,7 +234,7 @@ export default function WicketModal({
               className="px-6 py-2.5 rounded-xl bg-[#ff0055] hover:bg-[#ff2470] text-white font-black text-xs flex items-center gap-2 shadow-lg shadow-[#ff0055]/40 active:scale-95 border border-[#ff0055]"
             >
               <Check className="w-4 h-4" />
-              CONFIRM_DISMISSAL
+              Confirm Wicket
             </button>
           </div>
         </motion.div>

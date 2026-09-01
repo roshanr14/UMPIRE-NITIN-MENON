@@ -35,7 +35,7 @@ export default function ScoreboardBanner({ match, currentInnings }) {
         <div className="flex items-center gap-2.5">
           <span className="px-2.5 py-0.5 rounded-lg text-xs font-black uppercase tracking-wider bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff]/40 font-mono flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff] animate-ping" />
-            INN_{match.currentInningsNumber} // LIVE_FEED
+            Innings {match.currentInningsNumber}
           </span>
           <span className="text-xs text-slate-400 font-mono">
             {match.format} • {match.venue}
@@ -47,22 +47,22 @@ export default function ScoreboardBanner({ match, currentInnings }) {
           {match.status === 'live' && (
             <span className="flex items-center gap-1.5 px-3 py-1 rounded-full font-black bg-[#ff0055]/15 text-[#ff0055] border border-[#ff0055]/50 shadow-md shadow-[#ff0055]/20">
               <span className="w-2 h-2 rounded-full bg-[#ff0055] animate-ping" />
-              LIVE_COMBAT
+              LIVE
             </span>
           )}
           {match.status === 'paused' && (
             <span className="px-3 py-1 rounded-full font-bold bg-[#fcee0a]/15 text-[#fcee0a] border border-[#fcee0a]/50">
-              HUD // PAUSED
+              PAUSED
             </span>
           )}
           {match.status === 'innings_break' && (
             <span className="px-3 py-1 rounded-full font-bold bg-[#00f0ff]/15 text-[#00f0ff] border border-[#00f0ff]/50">
-              INTERVAL // BREAK
+              INNINGS BREAK
             </span>
           )}
           {match.status === 'completed' && (
             <span className="px-3 py-1 rounded-full font-bold bg-[#39ff14]/15 text-[#39ff14] border border-[#39ff14]/50">
-              MATCH_CONCLUDED
+              MATCH COMPLETED
             </span>
           )}
         </div>
@@ -76,7 +76,7 @@ export default function ScoreboardBanner({ match, currentInnings }) {
               {battingTeam}
             </h2>
             <span className="text-[10px] font-black px-2 py-0.5 rounded bg-[#fcee0a]/20 text-[#fcee0a] border border-[#fcee0a]/40 font-mono uppercase">
-              ON_STRIKE
+              BATTING
             </span>
           </div>
 
@@ -105,7 +105,7 @@ export default function ScoreboardBanner({ match, currentInnings }) {
             <div className="p-3.5 rounded-2xl bg-[#050814] border border-[#fcee0a]/40 min-w-[140px] shadow-lg shadow-[#fcee0a]/10">
               <div className="flex items-center gap-1.5 text-xs text-slate-400 font-bold">
                 <Target className="w-3.5 h-3.5 text-[#fcee0a]" />
-                <span>TARGET_SCORE</span>
+                <span>TARGET</span>
               </div>
               <p className="text-2xl font-black text-[#fcee0a] font-digit mt-0.5 text-glow-yellow">
                 {target}
@@ -131,7 +131,7 @@ export default function ScoreboardBanner({ match, currentInnings }) {
             <div className="p-3.5 rounded-2xl bg-[#050814] border border-[#ff0055]/30 min-w-[110px]">
               <div className="flex items-center gap-1.5 text-xs text-slate-400 font-bold">
                 <Clock className="w-3.5 h-3.5 text-[#ff0055]" />
-                <span>REQ_RR</span>
+                <span>REQ RR</span>
               </div>
               <p className="text-2xl font-black text-[#ff0055] font-digit mt-0.5 text-glow-pink">
                 {rrr}
@@ -145,8 +145,8 @@ export default function ScoreboardBanner({ match, currentInnings }) {
       {/* Innings Overs Progress Bar */}
       <div className="mt-2 space-y-1.5">
         <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
-          <span>OVERS_GAUGE: {oversStr} / {totalOvers}.0</span>
-          <span className="text-[#00f0ff] font-bold">{progressPercent.toFixed(1)}% COMPLETE</span>
+          <span>OVERS: {oversStr} / {totalOvers}.0</span>
+          <span className="text-[#00f0ff] font-bold">{progressPercent.toFixed(1)}%</span>
         </div>
         <div className="h-2 w-full bg-[#050814] rounded-full overflow-hidden border border-[#00f0ff]/20">
           <motion.div

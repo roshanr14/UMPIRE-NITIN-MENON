@@ -44,10 +44,10 @@ export default function BowlerSelectModal({
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white font-cyber text-glow-cyan">
-                  {isOverEnd ? 'OVER_COMPLETE // NEXT_BOWLER' : 'ASSIGN_NEW_BOWLER'}
+                  {isOverEnd ? 'Over Completed - Select Next Bowler' : 'Select Bowler'}
                 </h3>
                 <p className="text-xs font-mono text-slate-400">
-                  {currentInnings.bowlingTeamName} Bowling Spell
+                  {currentInnings.bowlingTeamName} Bowlers
                 </p>
               </div>
             </div>
@@ -90,12 +90,12 @@ export default function BowlerSelectModal({
                         <h4 className="font-bold text-sm text-slate-100 font-cyber">{b.name}</h4>
                         {b.id === currentBowlerId && !isOverEnd && (
                           <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#fcee0a]/20 text-[#fcee0a] border border-[#fcee0a]/40 font-mono">
-                            CURRENT
+                            Current Bowler
                           </span>
                         )}
                         {isConsecutive && (
                           <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#ff0055]/20 text-[#ff0055] border border-[#ff0055]/40 font-mono">
-                            CONSECUTIVE_LOCK
+                            Just Bowled
                           </span>
                         )}
                       </div>
@@ -127,7 +127,7 @@ export default function BowlerSelectModal({
               </button>
             ) : (
               <span className="text-xs text-slate-400 font-mono">
-                // Strike rotated automatically for the new over.
+                Strike rotated automatically for the new over.
               </span>
             )}
 
@@ -137,7 +137,7 @@ export default function BowlerSelectModal({
               className="px-6 py-2.5 rounded-xl bg-[#00f0ff] hover:bg-[#38f4ff] text-black font-black text-xs flex items-center gap-2 shadow-lg shadow-[#00f0ff]/30 active:scale-95 ml-auto border border-[#00f0ff]"
             >
               <Check className="w-4 h-4" />
-              LOCK_BOWLER
+              Set Bowler
             </button>
           </div>
         </motion.div>

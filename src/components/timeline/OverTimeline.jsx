@@ -37,11 +37,11 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
         <div className="flex items-center gap-2 font-cyber">
           <Activity className="w-4 h-4 text-[#00f0ff]" />
           <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white">
-            DELIVERY_FEED // CURRENT_OVER
+            CURRENT OVER DELIVERIES
           </h3>
         </div>
-        <span className="text-[11px] font-mono text-slate-400">
-          [ TAP_BALL_TO_EDIT_SCORE ]
+        <span className="text-xs font-mono text-slate-400">
+          Click any ball to edit score
         </span>
       </div>
 
@@ -49,7 +49,7 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
       <div className="flex items-center gap-2 overflow-x-auto py-2 pr-2">
         {currentOverBalls.length === 0 ? (
           <div className="text-xs font-mono text-slate-500 italic py-2">
-            // NO_DELIVERIES_RECORDED_THIS_OVER. INITIATE SCORING VIA MATRIX BELOW.
+            No deliveries bowled yet in this over. Click a score button below.
           </div>
         ) : (
           currentOverBalls.map((ball, idx) => (
@@ -74,11 +74,11 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
       {/* Recent Match Deliveries Roll */}
       {recentBalls.length > 0 && (
         <div className="pt-3 border-t border-[#00f0ff]/15">
-          <div className="flex items-center justify-between text-[10px] font-bold font-mono uppercase tracking-wider text-slate-400 mb-2">
-            <span>PACKET_LOG // LAST 12 DELIVERIES</span>
+          <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">
+            <span>Recent Match Deliveries (Last 12 Balls)</span>
             <span className="text-[#00f0ff] flex items-center gap-1 font-semibold">
               <Edit3 className="w-3 h-3" />
-              EDITABLE
+              Editable
             </span>
           </div>
 

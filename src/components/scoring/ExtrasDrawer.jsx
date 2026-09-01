@@ -36,7 +36,7 @@ export default function ExtrasDrawer({
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white font-cyber text-glow-yellow">
-                  EXTRAS // PROTOCOL
+                  RECORD EXTRAS
                 </h3>
                 <p className="text-xs font-mono text-slate-400">
                   Wide, No-Ball, Byes, Leg Byes & Penalties
@@ -54,8 +54,8 @@ export default function ExtrasDrawer({
           <form onSubmit={handleSubmit} className="mt-6 space-y-4 font-mono">
             {/* Extra Type Selector */}
             <div>
-              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2 font-mono">
-                EXTRA_CATEGORY
+              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                Extra Delivery Type
               </label>
               <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                 {[
@@ -87,8 +87,8 @@ export default function ExtrasDrawer({
 
             {/* Extra Runs Count */}
             <div>
-              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2">
-                {extraType === 'wide' ? 'TOTAL_WIDE_RUNS (1 + RUNNING/BOUNDARIES)' : 'EXTRA_RUNS'}
+              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                {extraType === 'wide' ? 'Total Wide Runs (1 default + running/boundaries)' : 'Extra Runs'}
               </label>
               <div className="grid grid-cols-5 gap-2">
                 {(extraType === 'penalty' ? [5, 10] : [1, 2, 3, 4, 5]).map((r) => (
@@ -116,10 +116,10 @@ export default function ExtrasDrawer({
                 className="p-3.5 rounded-2xl bg-[#050814] border border-[#00f0ff]/30 space-y-2"
               >
                 <div className="flex items-center justify-between">
-                  <label className="text-[10px] font-bold text-[#00f0ff] uppercase tracking-widest font-mono">
-                    RUNS_OFF_BAT (NO-BALL)
+                  <label className="text-xs font-bold text-[#00f0ff] uppercase tracking-wider">
+                    Runs Scored Off Bat (No-Ball)
                   </label>
-                  <span className="text-[10px] text-slate-400 font-mono">
+                  <span className="text-[10px] text-slate-400">
                     Credited to batter
                   </span>
                 </div>
@@ -140,7 +140,7 @@ export default function ExtrasDrawer({
                   ))}
                 </div>
                 <p className="text-[10px] text-[#fcee0a] font-mono mt-1">
-                  ⚡ Total: {runs + runsOffBat} runs (+1 NB extra + {runsOffBat} off bat) + FREE_HIT
+                  ⚡ Total: {runs + runsOffBat} runs (+1 NB extra + {runsOffBat} off bat) + Free Hit awarded
                 </p>
               </motion.div>
             )}
@@ -151,7 +151,7 @@ export default function ExtrasDrawer({
                 onClick={onClose}
                 className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800"
               >
-                CANCEL
+                Cancel
               </button>
 
               <button
@@ -159,7 +159,7 @@ export default function ExtrasDrawer({
                 className="px-6 py-2.5 rounded-xl bg-[#fcee0a] hover:bg-[#fff033] text-black font-black text-xs flex items-center gap-2 shadow-lg shadow-[#fcee0a]/30 active:scale-95 border border-[#fcee0a]"
               >
                 <Check className="w-4 h-4" />
-                ADD_EXTRA (+{runs + runsOffBat})
+                Add Extras (+{runs + runsOffBat})
               </button>
             </div>
           </form>

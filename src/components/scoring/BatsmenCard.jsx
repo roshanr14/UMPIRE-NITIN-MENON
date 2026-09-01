@@ -35,7 +35,7 @@ export default function BatsmenCard({ currentInnings, onSwitchStrike }) {
         <div className="flex items-center gap-2 font-cyber">
           <Zap className="w-4 h-4 text-[#fcee0a]" />
           <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white">
-            BATTERS // LIVE_MATRIX
+            CURRENT BATSMEN
           </h3>
         </div>
 
@@ -46,7 +46,7 @@ export default function BatsmenCard({ currentInnings, onSwitchStrike }) {
           title="Manual Strike Rotation (Hotkey: S)"
         >
           <ArrowLeftRight className="w-3.5 h-3.5" />
-          <span>SWAP (S)</span>
+          <span>Switch Strike (S)</span>
         </button>
       </div>
 

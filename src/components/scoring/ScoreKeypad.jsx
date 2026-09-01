@@ -9,10 +9,7 @@ import {
   ArrowLeftRight,
   Flag,
   RotateCw,
-  RefreshCcw,
-  Sparkles,
   Zap,
-  Terminal,
 } from 'lucide-react';
 
 export default function ScoreKeypad({
@@ -28,7 +25,6 @@ export default function ScoreKeypad({
   onTogglePause,
   onConfirmEndInnings,
   onConfirmEndMatch,
-  onConfirmReset,
 }) {
   const isLive = match?.status === 'live';
   const isPaused = match?.status === 'paused';
@@ -37,37 +33,37 @@ export default function ScoreKeypad({
     {
       runs: 0,
       label: '0',
-      sub: 'DOT_BALL',
+      sub: 'Dot Ball',
       style: 'bg-[#050814] text-slate-300 border-[#00f0ff]/30 hover:border-[#00f0ff] hover:text-[#00f0ff]',
     },
     {
       runs: 1,
       label: '1',
-      sub: 'SINGLE',
+      sub: '1 Run',
       style: 'bg-[#050814] text-[#00f0ff] border-[#00f0ff]/40 hover:bg-[#00f0ff]/10 hover:border-[#00f0ff]',
     },
     {
       runs: 2,
       label: '2',
-      sub: 'DOUBLE',
+      sub: '2 Runs',
       style: 'bg-[#050814] text-[#00f0ff] border-[#00f0ff]/40 hover:bg-[#00f0ff]/10 hover:border-[#00f0ff]',
     },
     {
       runs: 3,
       label: '3',
-      sub: 'TRIPLE',
+      sub: '3 Runs',
       style: 'bg-[#050814] text-[#00f0ff] border-[#00f0ff]/40 hover:bg-[#00f0ff]/10 hover:border-[#00f0ff]',
     },
     {
       runs: 4,
       label: '4',
-      sub: 'BOUNDARY',
+      sub: 'FOUR (4)',
       style: 'bg-gradient-to-br from-[#1a1700] to-[#0a0800] text-[#fcee0a] border-[#fcee0a] hover:bg-[#fcee0a]/20 shadow-lg shadow-[#fcee0a]/20 text-glow-yellow font-black',
     },
     {
       runs: 6,
       label: '6',
-      sub: 'MAXIMUM',
+      sub: 'SIX (6)',
       style: 'bg-gradient-to-br from-[#240011] to-[#0a0005] text-[#ff0055] border-[#ff0055] hover:bg-[#ff0055]/20 shadow-lg shadow-[#ff0055]/30 text-glow-pink font-black',
     },
   ];
@@ -80,7 +76,7 @@ export default function ScoreKeypad({
           <div className="flex items-center gap-2 font-cyber">
             <Zap className="w-5 h-5 text-[#fcee0a]" />
             <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white">
-              HUD // SCORING_MATRIX_2077
+              SCORING CONSOLE
             </h3>
           </div>
 
@@ -97,7 +93,7 @@ export default function ScoreKeypad({
             title="Undo Last Ball (Ctrl+Z)"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>ROLLBACK</span>
+            <span>Undo Ball</span>
             {undoCount > 0 && (
               <span className="px-1.5 py-0.5 rounded bg-[#fcee0a] text-black text-[10px] font-black">
                 {undoCount}
@@ -142,7 +138,7 @@ export default function ScoreKeypad({
             <Plus className="w-6 h-6 stroke-[3] text-[#fcee0a]" />
             <div className="text-left">
               <p className="text-base sm:text-lg font-black font-cyber uppercase tracking-wider text-glow-yellow">
-                EXTRAS // PROTOCOL
+                EXTRAS
               </p>
               <p className="text-[10px] font-mono text-slate-300">
                 Wide • No Ball • Bye • Leg Bye • Penalty
@@ -162,7 +158,7 @@ export default function ScoreKeypad({
             <AlertOctagon className="w-6 h-6 text-[#ff0055] animate-pulse" />
             <div className="text-left">
               <p className="text-base sm:text-lg font-black font-cyber uppercase tracking-wider text-[#ff0055] text-glow-pink">
-                WICKET // ELIMINATED
+                WICKET (OUT)
               </p>
               <p className="text-[10px] font-mono text-slate-300">
                 Bowled • Caught • LBW • Run Out • Stumped
@@ -181,7 +177,7 @@ export default function ScoreKeypad({
             className="py-2.5 px-3 rounded-xl bg-[#050814] hover:bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff]/30 font-bold flex items-center justify-center gap-1.5 transition-all disabled:opacity-40"
           >
             <ArrowLeftRight className="w-3.5 h-3.5" />
-            <span>SWAP_STRIKE</span>
+            <span>Switch Strike</span>
           </button>
 
           {/* Change Bowler */}
@@ -192,7 +188,7 @@ export default function ScoreKeypad({
             className="py-2.5 px-3 rounded-xl bg-[#050814] hover:bg-[#fcee0a]/10 text-[#fcee0a] border border-[#fcee0a]/30 font-bold flex items-center justify-center gap-1.5 transition-all disabled:opacity-40"
           >
             <RotateCw className="w-3.5 h-3.5" />
-            <span>BOWLER_SWAP</span>
+            <span>Change Bowler</span>
           </button>
 
           {/* Pause / Resume Match */}
@@ -206,7 +202,7 @@ export default function ScoreKeypad({
             }`}
           >
             {isPaused ? <Play className="w-3.5 h-3.5 text-[#39ff14]" /> : <Pause className="w-3.5 h-3.5 text-[#fcee0a]" />}
-            <span>{isPaused ? 'RESUME_HUD' : 'PAUSE_HUD'}</span>
+            <span>{isPaused ? 'Resume Match' : 'Pause Match'}</span>
           </button>
 
           {/* End Match / Innings */}
@@ -217,7 +213,7 @@ export default function ScoreKeypad({
               className="py-2.5 px-3 rounded-xl bg-[#050814] hover:bg-[#ff0055]/20 text-[#ff0055] border border-[#ff0055]/40 font-bold flex items-center justify-center gap-1.5 transition-all"
             >
               <Flag className="w-3.5 h-3.5" />
-              <span>END_INN_1</span>
+              <span>End 1st Innings</span>
             </button>
           ) : (
             <button
@@ -226,7 +222,7 @@ export default function ScoreKeypad({
               className="py-2.5 px-3 rounded-xl bg-[#050814] hover:bg-[#ff0055]/20 text-[#ff0055] border border-[#ff0055]/40 font-bold flex items-center justify-center gap-1.5 transition-all"
             >
               <Flag className="w-3.5 h-3.5" />
-              <span>FINISH_MATCH</span>
+              <span>End Match</span>
             </button>
           )}
         </div>

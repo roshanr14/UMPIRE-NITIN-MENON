@@ -65,17 +65,17 @@ export default function Dashboard({
             <div className="flex items-center gap-2 mb-2">
               <span className="px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff]/40 flex items-center gap-1 font-mono">
                 <Terminal className="w-3 h-3 text-[#00f0ff]" />
-                SYS_CORE // UMPIRE_COMMAND
+                UMPIRE DASHBOARD
               </span>
               <span className="text-xs text-slate-400 font-mono">
-                OPERATOR: <strong className="text-[#fcee0a]">{user?.user_metadata?.name || 'Official Umpire'}</strong>
+                Scorer: <strong className="text-[#fcee0a]">{user?.user_metadata?.name || 'Official Umpire'}</strong>
               </span>
             </div>
             <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white font-cyber">
               CRIC<span className="text-[#00f0ff] text-glow-cyan">//</span>UMPIRE <span className="text-[#fcee0a] text-glow-yellow">2077</span>
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-slate-300 max-w-2xl font-mono">
-              High-frequency live delivery telemetry, instant run rate analytics, and fault-tolerant local cache.
+              Live ball-by-ball scoring, instant statistics recalculations, offline storage, and cloud synchronization.
             </p>
           </div>
 
@@ -84,40 +84,40 @@ export default function Dashboard({
             className="px-6 py-3.5 rounded-2xl bg-[#fcee0a] hover:bg-[#fff033] text-black font-black font-cyber text-xs sm:text-sm flex items-center gap-2.5 shadow-xl shadow-[#fcee0a]/30 transition-all transform hover:-translate-y-0.5 active:scale-95 shrink-0 border border-[#fcee0a]"
           >
             <PlusCircle className="w-5 h-5 text-black" />
-            <span>CREATE_NEW_MATCH</span>
+            <span>CREATE NEW MATCH</span>
           </button>
         </div>
 
         {/* Cyber Stat Counter Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 mt-6 pt-6 border-t border-[#00f0ff]/15 font-mono">
           <div className="p-3.5 rounded-2xl bg-[#050814] border border-[#00f0ff]/20">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">TOTAL_MATCHES</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">TOTAL MATCHES</p>
             <p className="text-2xl font-black text-white font-digit mt-1 text-glow-cyan">{matchList.length}</p>
           </div>
           <div className="p-3.5 rounded-2xl bg-[#050814] border border-[#ff0055]/30">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">ACTIVE_COMBAT</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">ACTIVE LIVE MATCHES</p>
             <p className="text-2xl font-black text-[#ff0055] font-digit mt-1 text-glow-pink">
               {matchList.filter((m) => m.status === 'live' || m.status === 'innings_break').length}
             </p>
           </div>
           <div className="p-3.5 rounded-2xl bg-[#050814] border border-[#00f0ff]/20">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">SYNC_MATRIX</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">CLOUD SYNC</p>
             <div className="flex items-center gap-1.5 mt-1 text-xs font-bold">
               {isOnline ? (
                 <>
                   <Wifi className="w-4 h-4 text-[#39ff14]" />
-                  <span className="text-[#39ff14]">ONLINE_READY</span>
+                  <span className="text-[#39ff14]">ONLINE READY</span>
                 </>
               ) : (
                 <>
                   <WifiOff className="w-4 h-4 text-[#fcee0a]" />
-                  <span className="text-[#fcee0a]">OFFLINE_ACTIVE</span>
+                  <span className="text-[#fcee0a]">OFFLINE READY</span>
                 </>
               )}
             </div>
           </div>
           <div className="p-3.5 rounded-2xl bg-[#050814] border border-[#00f0ff]/20">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">SCORER_ID</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">SCORER IN-CHARGE</p>
             <p className="text-xs font-bold text-slate-200 truncate mt-2 font-cyber">
               {user?.user_metadata?.name || 'Umpire'}
             </p>
@@ -137,7 +137,7 @@ export default function Dashboard({
               <div className="flex items-center gap-2">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#ff0055]/20 text-[#ff0055] border border-[#ff0055]/40 animate-pulse">
                   <span className="w-2 h-2 rounded-full bg-[#ff0055]" />
-                  ACTIVE_FEED // LIVE
+                  LIVE MATCH
                 </span>
                 <span className="text-xs text-slate-400 font-mono">• {match.format} ({match.totalOvers} Overs)</span>
               </div>
@@ -158,7 +158,7 @@ export default function Dashboard({
                 className="flex-1 md:flex-none px-6 py-3 rounded-xl bg-[#fcee0a] hover:bg-[#fff033] text-black font-black flex items-center justify-center gap-2 shadow-lg shadow-[#fcee0a]/30 transition-all active:scale-95"
               >
                 <Activity className="w-4 h-4 text-black" />
-                <span>RESUME_SCORING</span>
+                <span>RESUME SCORING</span>
               </button>
               <button
                 onClick={onNavigateToSummary}
@@ -177,7 +177,7 @@ export default function Dashboard({
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <h3 className="text-lg sm:text-xl font-black text-white font-cyber">
-              MATCH_ARCHIVE // LOGS
+              MATCH ARCHIVE
             </h3>
             <p className="text-xs text-slate-400 font-mono">
               Select recorded matches to resume scoring or download official PDF report
@@ -221,7 +221,7 @@ export default function Dashboard({
         {filteredMatches.length === 0 ? (
           <div className="text-center py-12 px-4 rounded-3xl cyber-card border border-[#00f0ff]/20 font-mono">
             <Trophy className="w-12 h-12 mx-auto mb-3 text-slate-600" />
-            <p className="text-sm font-bold text-slate-300">// NO_MATCH_RECORDS_FOUND</p>
+            <p className="text-sm font-bold text-slate-300">No Match Records Found</p>
             <p className="text-xs text-slate-500 mt-1">Initiate a match using the button above.</p>
           </div>
         ) : (
@@ -278,7 +278,7 @@ export default function Dashboard({
                     onClick={(e) => handleOpenScorecard(m.id, e)}
                     className="text-[#00f0ff] hover:text-[#fcee0a] font-bold flex items-center gap-1"
                   >
-                    <span>VIEW_REPORT</span>
+                    <span>VIEW SCORECARD</span>
                     <ChevronRight className="w-3 h-3" />
                   </button>
                 </div>
@@ -290,9 +290,9 @@ export default function Dashboard({
 
       <ConfirmModal
         isOpen={Boolean(matchToDelete)}
-        title="DELETE_MATCH_RECORD?"
+        title="DELETE MATCH RECORD?"
         message="Are you sure you want to delete this match? All scorecard records will be erased."
-        confirmText="ERASE"
+        confirmText="DELETE"
         onConfirm={confirmDelete}
         onCancel={() => setMatchToDelete(null)}
       />

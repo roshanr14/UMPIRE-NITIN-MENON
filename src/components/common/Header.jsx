@@ -55,7 +55,7 @@ export default function Header({
               </div>
               <p className="text-[10px] text-[#00f0ff]/70 font-mono tracking-tight flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff] animate-ping" />
-                SYS_ONLINE // UMPIRE_CORE
+                LIVE UMPIRE SCORING
               </p>
             </div>
           </div>
@@ -66,18 +66,18 @@ export default function Header({
               syncStatus === 'syncing' ? (
                 <span className="flex items-center gap-1.5 text-[#00f0ff]">
                   <Cloud className="w-3.5 h-3.5 animate-spin" />
-                  <span>SYNCING_PACKETS...</span>
+                  <span>SYNCING...</span>
                 </span>
               ) : (
                 <span className="flex items-center gap-1.5 text-[#39ff14]">
                   <Wifi className="w-3.5 h-3.5" />
-                  <span>NET_SYNC // ACTIVE</span>
+                  <span>SYNCED</span>
                 </span>
               )
             ) : (
               <span className="flex items-center gap-1.5 text-[#fcee0a]">
                 <WifiOff className="w-3.5 h-3.5" />
-                <span>OFFLINE_CACHE // READY</span>
+                <span>OFFLINE READY</span>
               </span>
             )}
           </div>
@@ -135,7 +135,7 @@ export default function Header({
           <button
             type="button"
             onClick={onToggleVoice}
-            title={isListeningVoice ? 'Voice Active (Mute)' : 'Enable Cyber Voice'}
+            title={isListeningVoice ? 'Voice Active (Mute)' : 'Enable Voice'}
             className={`p-2 rounded-xl border text-xs font-mono font-bold flex items-center gap-1.5 transition-all ${
               isListeningVoice
                 ? 'bg-[#ff0055] text-white border-[#ff0055] shadow-lg shadow-[#ff0055]/50 animate-pulse'
@@ -143,7 +143,7 @@ export default function Header({
             }`}
           >
             {isListeningVoice ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4 text-slate-400" />}
-            <span className="hidden xl:inline">{isListeningVoice ? 'VOX_REC' : 'VOX'}</span>
+            <span className="hidden xl:inline">{isListeningVoice ? 'VOICE ON' : 'VOICE'}</span>
           </button>
 
           {/* Outdoor High Contrast Mode */}
