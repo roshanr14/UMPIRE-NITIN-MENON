@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Outfit', 'Inter', sans-serif;
+    --font-digit: 'Chakra Petch', 'JetBrains Mono', monospace;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #070a12;
+    color: #f1f5f9;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0b1120;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-digit {
+  font-family: var(--font-digit);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* High Contrast Outdoor Mode */
+body.high-contrast {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.high-contrast .glass-panel {
+  background: #111111 !important;
+  border-color: #444444 !important;
+}
+
+body.high-contrast .score-digit {
+  color: #00ff88 !important;
+  text-shadow: none !important;
+}
+
+/* Glassmorphism styling */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-subtle {
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card-interactive {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card-interactive:hover {
+  background: rgba(30, 41, 59, 0.7);
+  border-color: rgba(52, 211, 153, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Score button active push effect */
+.score-btn {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.08s ease, background-color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.score-btn:active {
+  transform: scale(0.94);
+}
+
+/* Custom glow effects */
+.glow-emerald {
+  box-shadow: 0 0 24px -4px rgba(16, 185, 129, 0.35);
+}
+.glow-amber {
+  box-shadow: 0 0 24px -4px rgba(245, 158, 11, 0.35);
+}
+.glow-red {
+  box-shadow: 0 0 24px -4px rgba(239, 68, 68, 0.35);
+}
+.glow-blue {
+  box-shadow: 0 0 24px -4px rgba(59, 130, 246, 0.35);
+}
+
+/* Radar pulse animation */
+@keyframes radar-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.animate-radar {
+  animation: radar-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Print scorecard stylesheet */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .glass-panel, .glass-card-interactive {
+    background: #ffffff !important;
+    border: 1px solid #cccccc !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+  }
+}
