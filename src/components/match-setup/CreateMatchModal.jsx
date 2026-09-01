@@ -55,33 +55,19 @@ const PRESETS = [
   },
 ];
 
-const DEFAULT_TEAM_A_PLAYERS = [
-  { name: 'Rohit Sharma', role: 'Batsman', isCaptain: true, isKeeper: false },
-  { name: 'Shubman Gill', role: 'Batsman', isCaptain: false, isKeeper: false },
-  { name: 'Virat Kohli', role: 'Batsman', isCaptain: false, isKeeper: false },
-  { name: 'Suryakumar Yadav', role: 'Batsman', isCaptain: false, isKeeper: false },
-  { name: 'Rishabh Pant', role: 'Batsman', isCaptain: false, isKeeper: true },
-  { name: 'Hardik Pandya', role: 'All-Rounder', isCaptain: false, isKeeper: false },
-  { name: 'Ravindra Jadeja', role: 'All-Rounder', isCaptain: false, isKeeper: false },
-  { name: 'Axar Patel', role: 'All-Rounder', isCaptain: false, isKeeper: false },
-  { name: 'Jasprit Bumrah', role: 'Bowler', isCaptain: false, isKeeper: false },
-  { name: 'Mohammed Shami', role: 'Bowler', isCaptain: false, isKeeper: false },
-  { name: 'Kuldeep Yadav', role: 'Bowler', isCaptain: false, isKeeper: false },
-];
+const DEFAULT_TEAM_A_PLAYERS = Array.from({ length: 11 }, (_, i) => ({
+  name: '',
+  role: i < 5 ? 'Batsman' : i < 8 ? 'All-Rounder' : 'Bowler',
+  isCaptain: i === 0,
+  isKeeper: i === 4,
+}));
 
-const DEFAULT_TEAM_B_PLAYERS = [
-  { name: 'Travis Head', role: 'Batsman', isCaptain: false, isKeeper: false },
-  { name: 'David Warner', role: 'Batsman', isCaptain: false, isKeeper: false },
-  { name: 'Mitchell Marsh', role: 'All-Rounder', isCaptain: true, isKeeper: false },
-  { name: 'Glenn Maxwell', role: 'All-Rounder', isCaptain: false, isKeeper: false },
-  { name: 'Marcus Stoinis', role: 'All-Rounder', isCaptain: false, isKeeper: false },
-  { name: 'Alex Carey', role: 'Batsman', isCaptain: false, isKeeper: true },
-  { name: 'Tim David', role: 'Batsman', isCaptain: false, isKeeper: false },
-  { name: 'Pat Cummins', role: 'Bowler', isCaptain: false, isKeeper: false },
-  { name: 'Mitchell Starc', role: 'Bowler', isCaptain: false, isKeeper: false },
-  { name: 'Adam Zampa', role: 'Bowler', isCaptain: false, isKeeper: false },
-  { name: 'Josh Hazlewood', role: 'Bowler', isCaptain: false, isKeeper: false },
-];
+const DEFAULT_TEAM_B_PLAYERS = Array.from({ length: 11 }, (_, i) => ({
+  name: '',
+  role: i < 5 ? 'Batsman' : i < 8 ? 'All-Rounder' : 'Bowler',
+  isCaptain: i === 0,
+  isKeeper: i === 4,
+}));
 
 export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
   const [tab, setTab] = useState('custom'); // 'quick' | 'custom'
@@ -95,14 +81,14 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
   const [time, setTime] = useState('14:30');
 
   // Team 1 Info & Playing XI
-  const [teamAName, setTeamAName] = useState('Falcons CC');
-  const [teamAShort, setTeamAShort] = useState('FAL');
+  const [teamAName, setTeamAName] = useState('');
+  const [teamAShort, setTeamAShort] = useState('');
   const [teamAColor, setTeamAColor] = useState('#10b981');
   const [teamAPlayers, setTeamAPlayers] = useState(DEFAULT_TEAM_A_PLAYERS);
 
   // Team 2 Info & Playing XI
-  const [teamBName, setTeamBName] = useState('Warriors XI');
-  const [teamBShort, setTeamBShort] = useState('WAR');
+  const [teamBName, setTeamBName] = useState('');
+  const [teamBShort, setTeamBShort] = useState('');
   const [teamBColor, setTeamBColor] = useState('#3b82f6');
   const [teamBPlayers, setTeamBPlayers] = useState(DEFAULT_TEAM_B_PLAYERS);
 
@@ -655,9 +641,8 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                               type="text"
                               value={player.name}
                               onChange={(e) => handleUpdatePlayer(idx, 'name', e.target.value)}
-                              placeholder={`Player ${idx + 1} Name`}
-                              className="w-full px-3 py-1.5 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-xs font-semibold text-slate-100 outline-none transition-all placeholder:text-slate-600"
-                              required
+                              placeholder={`Enter player ${idx + 1} name...`}
+                              className="w-full px-3 py-1.5 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-xs font-semibold text-slate-100 outline-none transition-all placeholder:text-slate-500"
                             />
                           </div>
 
