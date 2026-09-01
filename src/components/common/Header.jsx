@@ -3,7 +3,6 @@ import {
   Wifi,
   WifiOff,
   Cloud,
-  CloudOff,
   Volume2,
   VolumeX,
   Sun,
@@ -11,8 +10,6 @@ import {
   Mic,
   MicOff,
   Keyboard,
-  Database,
-  User,
   Activity,
   History,
   FileText,
@@ -25,13 +22,12 @@ export default function Header({
   activeTab,
   setActiveTab,
   onOpenShortcuts,
-  onOpenSupabase,
   onOpenAuth,
   isListeningVoice,
   onToggleVoice,
 }) {
-  const { match, isOnline, syncStatus, syncMessage, settings, updateSettings } = useMatch();
-  const { user, isConfigured } = useAuth();
+  const { match, isOnline, syncStatus, settings, updateSettings } = useMatch();
+  const { user } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3 transition-colors">
@@ -191,23 +187,6 @@ export default function Header({
             className="p-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 hover:text-white transition-all hidden md:flex items-center"
           >
             <Keyboard className="w-4 h-4" />
-          </button>
-
-          {/* Supabase Cloud Connection Status */}
-          <button
-            type="button"
-            onClick={onOpenSupabase}
-            title="Supabase Database Configuration"
-            className={`p-2 rounded-xl border transition-all flex items-center gap-1.5 ${
-              isConfigured
-                ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/50'
-                : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
-            }`}
-          >
-            <Database className="w-4 h-4" />
-            <span className="text-[11px] font-semibold hidden lg:inline">
-              {isConfigured ? 'Supabase Connected' : 'DB Setup'}
-            </span>
           </button>
 
           {/* User Account / Scorer Profile */}

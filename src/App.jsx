@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import { MatchProvider, useMatch } from './context/MatchContext';
 import Header from './components/common/Header';
 import Dashboard from './components/dashboard/Dashboard';
@@ -8,7 +8,6 @@ import MatchSummary from './components/summary/MatchSummary';
 import AuditLogViewer from './components/audit/AuditLogViewer';
 import CreateMatchModal from './components/match-setup/CreateMatchModal';
 import ShortcutsModal from './components/common/ShortcutsModal';
-import SupabaseModal from './components/common/SupabaseModal';
 import AuthModal from './components/auth/AuthModal';
 import VoiceAssistantBadge from './components/voice/VoiceAssistantBadge';
 import { voiceEngine } from './lib/speech';
@@ -22,7 +21,6 @@ function MainApp() {
   // Global Dialogs
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
-  const [isSupabaseOpen, setIsSupabaseOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   // Voice Assistant state
@@ -79,7 +77,7 @@ function MainApp() {
   const handleToggleVoice = () => {
     const active = voiceEngine.toggle(
       handleVoiceCommand,
-      (listening, msg) => {
+      (listening) => {
         setIsListeningVoice(listening);
       },
       (transcript) => {
@@ -101,7 +99,6 @@ function MainApp() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
-        onOpenSupabase={() => setIsSupabaseOpen(true)}
         onOpenAuth={() => setIsAuthOpen(true)}
         isListeningVoice={isListeningVoice}
         onToggleVoice={handleToggleVoice}
@@ -158,11 +155,6 @@ function MainApp() {
       <ShortcutsModal
         isOpen={isShortcutsOpen}
         onClose={() => setIsShortcutsOpen(false)}
-      />
-
-      <SupabaseModal
-        isOpen={isSupabaseOpen}
-        onClose={() => setIsSupabaseOpen(false)}
       />
 
       <AuthModal

@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isConfigured, setIsConfigured] = useState(supabaseManager.isConfigured);
+  const isConfigured = supabaseManager.isConfigured;
 
   useEffect(() => {
     async function loadSession() {
@@ -89,12 +89,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const updateSupabaseConfig = (url, anonKey) => {
-    const ok = supabaseManager.saveConfig(url, anonKey);
-    setIsConfigured(supabaseManager.isConfigured);
-    return ok;
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -106,7 +100,6 @@ export function AuthProvider({ children }) {
         signup,
         logout,
         updateProfile,
-        updateSupabaseConfig,
       }}
     >
       {children}

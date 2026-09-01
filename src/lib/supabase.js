@@ -4,8 +4,6 @@
  */
 import { createClient } from '@supabase/supabase-js';
 
-const STORAGE_KEY_CONFIG = 'cric_supabase_config';
-
 class SupabaseManager {
   constructor() {
     this.client = null;
@@ -14,25 +12,8 @@ class SupabaseManager {
   }
 
   init() {
-    const DEFAULT_URL = 'https://igtvzmjlhmhhcjgtsrou.supabase.co';
-    const DEFAULT_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlndHZ6bWpsaG1oaGNqZ3Rzcm91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNzUxNjgsImV4cCI6MjEwMzg1MTE2OH0.AYnNxC_mGUFnvdVE0FvP5EiLOn1L0CAs19gmMI1Rli8';
-
-    let url = import.meta.env.VITE_SUPABASE_URL || DEFAULT_URL;
-    let anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || DEFAULT_ANON_KEY;
-
-    // Check user-configured keys in localStorage if env not provided
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY_CONFIG);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed.url && parsed.anonKey) {
-          url = parsed.url;
-          anonKey = parsed.anonKey;
-        }
-      }
-    } catch {
-      // ignore
-    }
+    const url = import.meta.env.VITE_SUPABASE_URL;
+    const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
     if (url && anonKey && url.startsWith('http')) {
       try {
@@ -47,35 +28,6 @@ class SupabaseManager {
       this.client = null;
       this.isConfigured = false;
     }
-  }
-
-  saveConfig(url, anonKey) {
-    try {
-      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify({ url, anonKey }));
-      this.init();
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  getConfig() {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY_CONFIG);
-      if (stored) return JSON.parse(stored);
-    } catch {
-      // ignore
-    }
-    return {
-      url: import.meta.env.VITE_SUPABASE_URL || 'https://igtvzmjlhmhhcjgtsrou.supabase.co',
-      anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlndHZ6bWpsaG1oaGNqZ3Rzcm91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNzUxNjgsImV4cCI6MjEwMzg1MTE2OH0.AYnNxC_mGUFnvdVE0FvP5EiLOn1L0CAs19gmMI1Rli8',
-    };
-  }
-
-  clearConfig() {
-    localStorage.removeItem(STORAGE_KEY_CONFIG);
-    this.client = null;
-    this.isConfigured = false;
   }
 
   /**
@@ -106,7 +58,7 @@ class SupabaseManager {
     }
 
     // Simulated local cloud sync (zero-config out of the box)
-    await new Promise((resolve) => setTimeout(resolve, 450));
+    await new Promise((resolve) => setTimeout(resolve, 350));
     return { success: true, mode: 'offline_first' };
   }
 
