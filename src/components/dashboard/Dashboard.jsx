@@ -77,8 +77,8 @@ export default function Dashboard({
             <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white font-display">
               UMPIRE <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-300">NITIN </span><span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-400">MENON</span>
             </h1>
-            <p className="mt-1.5 text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-              Professional ball-by-ball cricket scoring, dynamic run-rate telemetry, fault-tolerant offline storage, and instant cloud sync.
+            <p className="mt-1.5 text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed font-semibold tracking-wide">
+              NAA THAAN INGA KING UHH ,NAA SOLRATHU THAAN INGA RULES UHH
             </p>
           </div>
 
