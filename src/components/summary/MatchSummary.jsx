@@ -26,8 +26,9 @@ import {
   CheckCircle2,
   X,
   ExternalLink,
+  AlertTriangle,
 } from 'lucide-react';
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 import { jsPDF } from 'jspdf';
 import { useMatch } from '../../context/MatchContext';
 import { useAuth } from '../../context/AuthContext';
@@ -125,9 +126,10 @@ export default function MatchSummary({ onNavigateToScoring }) {
       pdf.save(filename);
 
       // 2. Also open directly in a new browser tab for immediate preview
+      let blobUrl = null;
       try {
         const pdfBlob = pdf.output('blob');
-        const blobUrl = URL.createObjectURL(pdfBlob);
+        blobUrl = URL.createObjectURL(pdfBlob);
         window.open(blobUrl, '_blank');
       } catch (previewErr) {
         console.warn('Could not open preview tab:', previewErr);
@@ -135,16 +137,17 @@ export default function MatchSummary({ onNavigateToScoring }) {
 
       setExportStatus({
         type: 'success',
-        text: `Scorecard PDF created! Click 'Save' in your file manager dialog to save it to your computer, or view it in the opened preview tab.`,
+        text: `Scorecard PDF ready! Click 'Save' in your file manager dialog to save it to your computer, or click the button to view it.`,
+        previewUrl: blobUrl,
       });
-      setTimeout(() => setExportStatus(null), 8000);
+      setTimeout(() => setExportStatus(null), 12000);
     } catch (err) {
       console.error('PDF export error:', err);
       setExportStatus({
         type: 'error',
-        text: 'PDF generation encountered an error. You can also use "Print Sheet" to save directly as PDF.',
+        text: 'Custom canvas rendering was blocked by browser. You can save as PDF directly using Print Sheet.',
       });
-      setTimeout(() => setExportStatus(null), 8000);
+      setTimeout(() => setExportStatus(null), 10000);
     } finally {
       setIsExportingPDF(false);
     }
@@ -277,22 +280,52 @@ Lead Umpire: Nitin Menon`;
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`p-4 rounded-3xl border flex items-center justify-between gap-3 text-xs font-sans font-medium no-print shadow-xl ${
+          className={`p-4 rounded-3xl border flex flex-wrap items-center justify-between gap-3 text-xs font-sans font-medium no-print shadow-xl ${
             exportStatus.type === 'error'
               ? 'bg-rose-500/20 border-rose-400/40 text-rose-200'
               : 'bg-emerald-500/20 border-emerald-400/40 text-emerald-200'
           }`}
         >
-          <div className="flex items-center gap-2.5">
-            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+          <div className="flex items-center gap-2.5 flex-1 min-w-[240px]">
+            {exportStatus.type === 'error' ? (
+              <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0" />
+            ) : (
+              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+            )}
             <span className="leading-relaxed">{exportStatus.text}</span>
           </div>
-          <button
-            onClick={() => setExportStatus(null)}
-            className="liquid-btn-icon w-7 h-7 rounded-xl text-slate-400 hover:text-white shrink-0"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
+
+          <div className="flex items-center gap-2">
+            {exportStatus.previewUrl && (
+              <a
+                href={exportStatus.previewUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="liquid-btn liquid-btn-primary px-3.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 shrink-0"
+              >
+                <span>Open PDF in Tab</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            )}
+
+            {exportStatus.type === 'error' && (
+              <button
+                type="button"
+                onClick={handlePrint}
+                className="liquid-btn liquid-btn-primary px-3.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 shrink-0"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span>Open Print to PDF</span>
+              </button>
+            )}
+
+            <button
+              onClick={() => setExportStatus(null)}
+              className="liquid-btn-icon w-7 h-7 rounded-xl text-slate-400 hover:text-white shrink-0"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </motion.div>
       )}
 
