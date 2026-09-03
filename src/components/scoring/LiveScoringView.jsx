@@ -146,7 +146,7 @@ export default function LiveScoringView({
         </p>
         <button
           onClick={onNavigateToDashboard}
-          className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs"
+          className="liquid-btn liquid-btn-primary px-5 py-2.5 rounded-xl font-bold text-xs"
         >
           Go to Dashboard
         </button>
@@ -168,20 +168,27 @@ export default function LiveScoringView({
         >
           <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10">
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 uppercase tracking-wider">
-              1st Innings Concluded
-            </span>
-            <h3 className="text-2xl font-bold text-white font-display mt-2">
-              Target for {match.innings2?.battingTeamName}: {match.innings2?.target} Runs
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+              <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">
+                1st Innings Concluded
+              </span>
+            </div>
+            <h3 className="text-2xl font-bold text-white font-display mt-1">
+              Target: {match.targetScore} Runs ({match.totalOvers} Overs)
             </h3>
             <p className="text-xs text-slate-300 mt-1">
-              {match.innings1?.battingTeamName} scored {match.innings1?.totalRuns}/{match.innings1?.wickets} in {match.totalOvers} overs.
+              {match.teamB.name} needs {match.targetScore} runs to win at required run rate of{' '}
+              <span className="text-cyan-300 font-bold font-digit">
+                {(match.targetScore / match.totalOvers).toFixed(2)}
+              </span>{' '}
+              RPO.
             </p>
           </div>
 
           <button
             onClick={startInnings2}
-            className="px-6 py-3.5 rounded-2xl glass-btn-primary font-bold text-sm flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition-all active:scale-95 shrink-0 relative z-10"
+            className="liquid-btn liquid-btn-primary px-6 py-3.5 rounded-2xl font-bold text-sm flex items-center gap-2 shrink-0 relative z-10"
           >
             <Play className="w-4 h-4 fill-current" />
             <span>Start 2nd Innings</span>
@@ -214,7 +221,7 @@ export default function LiveScoringView({
 
           <button
             onClick={onNavigateToSummary}
-            className="px-6 py-3.5 rounded-2xl glass-btn-primary font-bold text-sm flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition-all active:scale-95 shrink-0 relative z-10"
+            className="liquid-btn liquid-btn-primary px-6 py-3.5 rounded-2xl font-bold text-sm flex items-center gap-2 shrink-0 relative z-10"
           >
             <span>View Full Scorecard</span>
             <ArrowRight className="w-4 h-4" />

@@ -35,7 +35,7 @@ export default function BowlerCard({ currentInnings, onOpenChangeBowler }) {
         <button
           type="button"
           onClick={onOpenChangeBowler}
-          className="px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-amber-500/15 text-amber-300 hover:text-white font-sans text-xs font-semibold flex items-center gap-1.5 border border-white/[0.08] hover:border-amber-400/30 transition-all active:scale-95 shadow-sm"
+          className="liquid-btn liquid-btn-secondary px-3.5 py-1.5 rounded-xl text-amber-300 hover:text-white font-sans text-xs font-semibold flex items-center gap-1.5"
         >
           <RotateCw className="w-3.5 h-3.5" />
           <span>Change Bowler</span>

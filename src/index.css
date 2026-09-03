@@ -153,88 +153,275 @@
   box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.45), 0 0 25px -8px rgba(52, 211, 153, 0.2), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
 }
 
-/* Liquid Glass Buttons */
+/* ==========================================================================
+   PREMIUM LIQUID GLASS ACTION BUTTON SYSTEM
+   ========================================================================== */
+
+/* Base Liquid Glass Button */
+.liquid-btn,
 .glass-btn {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.03) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 10px 28px -5px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.15);
+  transition: 
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Moving Light Reflection Sheen (Sweep across button on hover) */
+.liquid-btn::after,
+.glass-btn::after,
+.score-btn::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -130%;
+  width: 60%;
+  height: 220%;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.05) 20%, 
+    rgba(255, 255, 255, 0.38) 50%, 
+    rgba(255, 255, 255, 0.05) 80%, 
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  transition: left 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.liquid-btn:hover:not(:disabled)::after,
+.glass-btn:hover:not(:disabled)::after,
+.score-btn:hover:not(:disabled)::after {
+  left: 160%;
+}
+
+/* Fluid Hover Lift */
+.liquid-btn:hover:not(:disabled),
+.glass-btn:hover:not(:disabled) {
+  transform: translateY(-2.5px) scale(1.02);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.06) 100%);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 
+    0 16px 36px -5px rgba(0, 0, 0, 0.48),
+    0 0 25px -5px rgba(255, 255, 255, 0.2),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Tactile Glass-Press Active State */
+.liquid-btn:active:not(:disabled),
+.glass-btn:active:not(:disabled) {
+  transform: translateY(0.5px) scale(0.96);
+  box-shadow: 
+    0 4px 12px -2px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+  transition-duration: 0.1s;
+}
+
+/* Disabled State */
+.liquid-btn:disabled,
+.glass-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Primary Cyan Liquid Glass Button (Submit, Start, Save, Action Leaders) */
+.liquid-btn-primary,
+.glass-btn-primary {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.38) 0%, rgba(14, 165, 233, 0.20) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  box-shadow: 
+    0 12px 32px -5px rgba(14, 165, 233, 0.45),
+    0 0 20px -3px rgba(56, 189, 248, 0.35),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.55);
+  color: #ffffff;
+}
+
+.liquid-btn-primary:hover:not(:disabled),
+.glass-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.52) 0%, rgba(14, 165, 233, 0.32) 100%);
+  border-color: rgba(56, 189, 248, 0.85);
+  box-shadow: 
+    0 18px 42px -5px rgba(14, 165, 233, 0.6),
+    0 0 35px 0 rgba(56, 189, 248, 0.5),
+    inset 0 1px 3px 0 rgba(255, 255, 255, 0.75);
+}
+
+/* Amber/Yellow Liquid Glass Button (Boundaries, Extras, Alerts) */
+.liquid-btn-amber,
+.glass-btn-amber {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.35) 0%, rgba(217, 119, 6, 0.20) 100%);
+  border: 1px solid rgba(251, 191, 36, 0.55);
+  box-shadow: 
+    0 12px 32px -5px rgba(245, 158, 11, 0.45),
+    0 0 20px -3px rgba(251, 191, 36, 0.35),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.55);
+  color: #ffffff;
+}
+
+.liquid-btn-amber:hover:not(:disabled),
+.glass-btn-amber:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.5) 0%, rgba(217, 119, 6, 0.32) 100%);
+  border-color: rgba(251, 191, 36, 0.85);
+  box-shadow: 
+    0 18px 42px -5px rgba(245, 158, 11, 0.6),
+    0 0 35px 0 rgba(251, 191, 36, 0.5),
+    inset 0 1px 3px 0 rgba(255, 255, 255, 0.75);
+}
+
+/* Rose/Pink Liquid Glass Button (Wickets, Out, Delete, Danger) */
+.liquid-btn-rose,
+.glass-btn-rose {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.38) 0%, rgba(225, 29, 72, 0.20) 100%);
+  border: 1px solid rgba(244, 63, 94, 0.55);
+  box-shadow: 
+    0 12px 32px -5px rgba(244, 63, 94, 0.45),
+    0 0 20px -3px rgba(244, 63, 94, 0.35),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.55);
+  color: #ffffff;
+}
+
+.liquid-btn-rose:hover:not(:disabled),
+.glass-btn-rose:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.52) 0%, rgba(225, 29, 72, 0.32) 100%);
+  border-color: rgba(244, 63, 94, 0.85);
+  box-shadow: 
+    0 18px 42px -5px rgba(244, 63, 94, 0.6),
+    0 0 35px 0 rgba(244, 63, 94, 0.5),
+    inset 0 1px 3px 0 rgba(255, 255, 255, 0.75);
+}
+
+/* Emerald Liquid Glass Button (Online, Success, Validated) */
+.liquid-btn-emerald,
+.glass-btn-emerald {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.35) 0%, rgba(16, 185, 129, 0.20) 100%);
+  border: 1px solid rgba(52, 211, 153, 0.55);
+  box-shadow: 
+    0 12px 32px -5px rgba(16, 185, 129, 0.45),
+    0 0 20px -3px rgba(52, 211, 153, 0.35),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.55);
+  color: #ffffff;
+}
+
+.liquid-btn-emerald:hover:not(:disabled),
+.glass-btn-emerald:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.5) 0%, rgba(16, 185, 129, 0.32) 100%);
+  border-color: rgba(52, 211, 153, 0.85);
+  box-shadow: 
+    0 18px 42px -5px rgba(16, 185, 129, 0.6),
+    0 0 35px 0 rgba(52, 211, 153, 0.5),
+    inset 0 1px 3px 0 rgba(255, 255, 255, 0.75);
+}
+
+/* Secondary Crystal Glass Button (Cancel, Share, Print, Back, Secondary Actions) */
+.liquid-btn-secondary,
+.glass-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  box-shadow: 
+    0 8px 20px -4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.liquid-btn-secondary:hover:not(:disabled),
+.glass-btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  box-shadow: 
+    0 12px 28px -4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* Icon Glass Button (Circular or Soft Rounded-2xl Containers) */
+.liquid-btn-icon,
+.glass-btn-icon {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 
-    0 8px 24px -5px rgba(0, 0, 0, 0.3),
+    0 8px 20px -4px rgba(0, 0, 0, 0.3),
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.liquid-btn-icon svg,
+.glass-btn-icon svg {
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.liquid-btn-icon:hover:not(:disabled),
+.glass-btn-icon:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.06);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 12px 28px -4px rgba(0, 0, 0, 0.4),
+    0 0 18px -2px rgba(56, 189, 248, 0.25),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+.liquid-btn-icon:hover:not(:disabled) svg,
+.glass-btn-icon:hover:not(:disabled) svg {
+  transform: scale(1.12) rotate(4deg);
+}
+
+.liquid-btn-icon:active:not(:disabled),
+.glass-btn-icon:active:not(:disabled) {
+  transform: scale(0.92);
+  transition-duration: 0.1s;
+}
+
+/* Tactical Score Button on Console (0, 1, 2, 3, 4, 6) */
+.score-btn {
+  position: relative;
+  overflow: hidden;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  transition: 
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
 }
 
-.glass-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border-color: rgba(255, 255, 255, 0.28);
-  box-shadow: 
-    0 12px 30px -5px rgba(0, 0, 0, 0.45),
-    inset 0 1px 2px 0 rgba(255, 255, 255, 0.35);
-  transform: translateY(-1.5px);
+.score-btn:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.03);
 }
 
-.glass-btn:active:not(:disabled) {
-  transform: scale(0.97) translateY(0);
-  box-shadow: 
-    0 4px 12px -2px rgba(0, 0, 0, 0.3),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-/* Primary Cyan Glass Button */
-.glass-btn-primary {
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(14, 165, 233, 0.15) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.45);
-  box-shadow: 
-    0 10px 28px -5px rgba(14, 165, 233, 0.35),
-    inset 0 1px 2px 0 rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-}
-
-.glass-btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.45) 0%, rgba(14, 165, 233, 0.25) 100%);
-  border-color: rgba(56, 189, 248, 0.7);
-  box-shadow: 
-    0 14px 35px -5px rgba(14, 165, 233, 0.5),
-    inset 0 1px 2px 0 rgba(255, 255, 255, 0.6);
-}
-
-/* Amber/Yellow Liquid Glass Button */
-.glass-btn-amber {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.28) 0%, rgba(217, 119, 6, 0.15) 100%);
-  border: 1px solid rgba(251, 191, 36, 0.45);
-  box-shadow: 
-    0 10px 28px -5px rgba(245, 158, 11, 0.35),
-    inset 0 1px 2px 0 rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-}
-
-.glass-btn-amber:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.4) 0%, rgba(217, 119, 6, 0.25) 100%);
-  border-color: rgba(251, 191, 36, 0.7);
-  box-shadow: 
-    0 14px 35px -5px rgba(245, 158, 11, 0.5),
-    inset 0 1px 2px 0 rgba(255, 255, 255, 0.55);
-}
-
-/* Rose/Pink Liquid Glass Button */
-.glass-btn-rose {
-  background: linear-gradient(135deg, rgba(244, 63, 94, 0.3) 0%, rgba(225, 29, 72, 0.15) 100%);
-  border: 1px solid rgba(244, 63, 94, 0.45);
-  box-shadow: 
-    0 10px 28px -5px rgba(244, 63, 94, 0.35),
-    inset 0 1px 2px 0 rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-}
-
-.glass-btn-rose:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(244, 63, 94, 0.45) 0%, rgba(225, 29, 72, 0.25) 100%);
-  border-color: rgba(244, 63, 94, 0.7);
-  box-shadow: 
-    0 14px 35px -5px rgba(244, 63, 94, 0.5),
-    inset 0 1px 2px 0 rgba(255, 255, 255, 0.6);
+.score-btn:active:not(:disabled) {
+  transform: translateY(1px) scale(0.94);
+  transition-duration: 0.08s;
 }
 
 /* Glass Pills & Inputs */

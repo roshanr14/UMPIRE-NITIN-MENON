@@ -72,9 +72,9 @@ export default function WicketModal({
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/[0.08] transition-colors"
+              className="liquid-btn-icon w-8 h-8 rounded-xl text-slate-400 hover:text-white"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
@@ -88,31 +88,31 @@ export default function WicketModal({
                 <button
                   type="button"
                   onClick={() => setPlayerOutId(striker.id)}
-                  className={`p-3.5 rounded-2xl border text-left transition-all duration-200 ${
+                  className={`liquid-btn p-3.5 rounded-2xl text-left flex-col items-start ${
                     playerOutId === striker.id
-                      ? 'bg-rose-500/25 text-white border-rose-400/80 shadow-lg shadow-rose-500/20'
-                      : 'bg-white/[0.03] text-slate-300 border-white/[0.08] hover:bg-white/[0.06]'
+                      ? 'liquid-btn-rose'
+                      : 'liquid-btn-secondary'
                   }`}
                 >
                   <p className="text-[10px] uppercase tracking-wider font-bold text-rose-300">
                     Striker
                   </p>
-                  <p className="text-sm font-bold mt-0.5">{striker.name}</p>
+                  <p className="text-sm font-bold mt-0.5 text-white">{striker.name}</p>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setPlayerOutId(nonStriker.id)}
-                  className={`p-3.5 rounded-2xl border text-left transition-all duration-200 ${
+                  className={`liquid-btn p-3.5 rounded-2xl text-left flex-col items-start ${
                     playerOutId === nonStriker.id
-                      ? 'bg-rose-500/25 text-white border-rose-400/80 shadow-lg shadow-rose-500/20'
-                      : 'bg-white/[0.03] text-slate-300 border-white/[0.08] hover:bg-white/[0.06]'
+                      ? 'liquid-btn-rose'
+                      : 'liquid-btn-secondary'
                   }`}
                 >
                   <p className="text-[10px] uppercase tracking-wider font-bold text-rose-300">
                     Non-Striker
                   </p>
-                  <p className="text-sm font-bold mt-0.5">{nonStriker.name}</p>
+                  <p className="text-sm font-bold mt-0.5 text-white">{nonStriker.name}</p>
                 </button>
               </div>
             </div>
@@ -128,10 +128,10 @@ export default function WicketModal({
                     key={d.id}
                     type="button"
                     onClick={() => setDismissalType(d.id)}
-                    className={`py-2.5 px-2 rounded-xl text-xs font-semibold border transition-all duration-200 text-center ${
+                    className={`liquid-btn py-2.5 px-2 rounded-xl text-xs font-semibold text-center ${
                       dismissalType === d.id
-                        ? 'bg-rose-500 text-white border-rose-400 shadow-md shadow-rose-500/30 font-bold'
-                        : 'bg-white/[0.04] text-slate-300 border-white/[0.08] hover:bg-white/[0.08]'
+                        ? 'liquid-btn-rose font-bold'
+                        : 'liquid-btn-secondary'
                     }`}
                   >
                     {d.label}
@@ -223,7 +223,7 @@ export default function WicketModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-white/[0.08] transition-colors"
+              className="liquid-btn liquid-btn-secondary px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white"
             >
               Cancel
             </button>
@@ -231,7 +231,7 @@ export default function WicketModal({
             <button
               type="submit"
               form="wicket-form"
-              className="px-6 py-2.5 rounded-xl glass-btn-rose font-bold text-xs flex items-center gap-2 shadow-lg shadow-rose-500/30 active:scale-95"
+              className="liquid-btn liquid-btn-rose px-6 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2"
             >
               <Check className="w-4 h-4" />
               Confirm Wicket

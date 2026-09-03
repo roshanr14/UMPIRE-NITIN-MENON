@@ -85,16 +85,16 @@ export default function Header({
         </div>
 
         {/* View Navigation Tabs (Liquid Glass Pill Bar) */}
-        <nav className="flex items-center gap-1 bg-white/[0.04] p-1 border border-white/[0.08] backdrop-blur-2xl rounded-2xl text-xs font-sans shadow-inner">
+        <nav className="flex items-center gap-1.5 bg-white/[0.04] p-1.5 border border-white/[0.08] backdrop-blur-2xl rounded-2xl text-xs font-sans shadow-inner">
           <button
             onClick={() => setActiveTab('dashboard')}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-semibold transition-all duration-200 ${
+            className={`liquid-btn flex items-center gap-1.5 px-4 py-2 rounded-xl font-semibold transition-all duration-200 ${
               activeTab === 'dashboard'
-                ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-white border border-cyan-400/40 shadow-lg shadow-cyan-500/20'
-                : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
+                ? 'liquid-btn-primary font-bold'
+                : 'liquid-btn-secondary'
             }`}
           >
-            <Home className="w-3.5 h-3.5 text-cyan-400" />
+            <Home className="w-3.5 h-3.5 text-cyan-300" />
             <span className="hidden md:inline">Dashboard</span>
           </button>
 
@@ -102,13 +102,13 @@ export default function Header({
             <>
               <button
                 onClick={() => setActiveTab('scoring')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-bold transition-all duration-200 ${
+                className={`liquid-btn flex items-center gap-1.5 px-4 py-2 rounded-xl font-bold transition-all duration-200 ${
                   activeTab === 'scoring'
-                    ? 'bg-gradient-to-r from-amber-500/30 to-orange-500/30 text-white border border-amber-400/40 shadow-lg shadow-amber-500/20'
-                    : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
+                    ? 'liquid-btn-amber font-extrabold'
+                    : 'liquid-btn-secondary'
                 }`}
               >
-                <Activity className="w-3.5 h-3.5 text-amber-400" />
+                <Activity className="w-3.5 h-3.5 text-amber-300" />
                 <span>Live Scoring</span>
                 {match.status === 'live' && (
                   <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping shadow-[0_0_6px_rgba(244,63,94,0.8)]" />
@@ -117,13 +117,13 @@ export default function Header({
 
               <button
                 onClick={() => setActiveTab('summary')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-semibold transition-all duration-200 ${
+                className={`liquid-btn flex items-center gap-1.5 px-4 py-2 rounded-xl font-semibold transition-all duration-200 ${
                   activeTab === 'summary'
-                    ? 'bg-gradient-to-r from-purple-500/30 to-indigo-500/30 text-white border border-purple-400/40 shadow-lg shadow-purple-500/20'
-                    : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
+                    ? 'liquid-btn-primary font-bold'
+                    : 'liquid-btn-secondary'
                 }`}
               >
-                <FileText className="w-3.5 h-3.5 text-purple-400" />
+                <FileText className="w-3.5 h-3.5 text-purple-300" />
                 <span className="hidden md:inline">Scorecard</span>
               </button>
             </>
@@ -131,19 +131,19 @@ export default function Header({
         </nav>
 
         {/* Quick Tools & Controls (Liquid Glass Buttons) */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-2">
           {/* Voice Input Assistant Button */}
           <button
             type="button"
             onClick={onToggleVoice}
             title={isListeningVoice ? 'Voice Active (Mute)' : 'Enable Voice Assistant'}
-            className={`px-3 py-2 rounded-xl text-xs font-sans font-semibold flex items-center gap-2 transition-all duration-200 ${
+            className={`liquid-btn px-3.5 py-2 rounded-xl text-xs font-sans font-semibold flex items-center gap-2 ${
               isListeningVoice
-                ? 'bg-rose-500/30 text-white border border-rose-400/50 shadow-lg shadow-rose-500/30 animate-pulse'
-                : 'bg-white/[0.04] text-slate-300 border border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/20'
+                ? 'liquid-btn-rose font-bold animate-pulse'
+                : 'liquid-btn-secondary'
             }`}
           >
-            {isListeningVoice ? <Mic className="w-4 h-4 text-rose-400" /> : <MicOff className="w-4 h-4 text-slate-400" />}
+            {isListeningVoice ? <Mic className="w-4 h-4 text-rose-300" /> : <MicOff className="w-4 h-4 text-slate-400" />}
             <span className="hidden xl:inline">{isListeningVoice ? 'Voice Active' : 'Voice'}</span>
           </button>
 
@@ -152,13 +152,13 @@ export default function Header({
             type="button"
             onClick={() => updateSettings({ highContrast: !settings.highContrast })}
             title={settings.highContrast ? 'Disable High-Contrast' : 'Enable High-Contrast'}
-            className={`p-2 rounded-xl border transition-all duration-200 ${
+            className={`liquid-btn-icon w-9 h-9 rounded-xl ${
               settings.highContrast
-                ? 'bg-amber-400 text-slate-950 border-amber-300 font-bold shadow-md'
-                : 'bg-white/[0.04] text-slate-300 border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/20'
+                ? 'liquid-btn-amber text-slate-950 font-bold'
+                : 'liquid-btn-secondary'
             }`}
           >
-            {settings.highContrast ? <Sun className="w-4 h-4 text-slate-950" /> : <Moon className="w-4 h-4 text-slate-400" />}
+            {settings.highContrast ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-slate-400" />}
           </button>
 
           {/* Sound Toggle */}
@@ -166,7 +166,7 @@ export default function Header({
             type="button"
             onClick={() => updateSettings({ soundEnabled: !settings.soundEnabled })}
             title={settings.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
-            className="p-2 rounded-xl bg-white/[0.04] text-slate-300 border border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/20 transition-all duration-200"
+            className="liquid-btn-icon w-9 h-9 rounded-xl liquid-btn-secondary"
           >
             {settings.soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4 text-slate-500" />}
           </button>
@@ -176,16 +176,16 @@ export default function Header({
             type="button"
             onClick={onOpenShortcuts}
             title="Keyboard Hotkeys (Press ? or Space)"
-            className="p-2 rounded-xl bg-white/[0.04] text-slate-300 border border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/20 transition-all duration-200 hidden md:flex items-center"
+            className="liquid-btn-icon w-9 h-9 rounded-xl liquid-btn-secondary hidden md:inline-flex"
           >
-            <Keyboard className="w-4 h-4 text-cyan-400" />
+            <Keyboard className="w-4 h-4 text-cyan-300" />
           </button>
 
-          {/* User Account / Scorer Profile (Liquid Glass Card) */}
+          {/* User Account / Scorer Profile (Liquid Glass Card Button) */}
           <button
             type="button"
             onClick={onOpenAuth}
-            className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.08] transition-all duration-200 text-left"
+            className="liquid-btn pl-2 pr-3 py-1.5 rounded-2xl text-left gap-2.5"
           >
             <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-cyan-400 to-indigo-500 text-slate-950 font-extrabold text-xs flex items-center justify-center shadow-sm">
               {user?.user_metadata?.name?.charAt(0) || 'N'}
@@ -194,7 +194,7 @@ export default function Header({
               <p className="text-xs font-bold text-white truncate max-w-[100px]">
                 {user?.user_metadata?.name || 'Nitin Menon'}
               </p>
-              <p className="text-[10px] text-cyan-400/80 font-medium">
+              <p className="text-[10px] text-cyan-300 font-medium">
                 {user?.user_metadata?.role || 'Elite Umpire'}
               </p>
             </div>

@@ -43,15 +43,15 @@ export default function VoiceAssistantBadge({
           <div className="flex items-center gap-1.5">
             <button
               onClick={onToggle}
-              className="px-3 py-1 rounded-xl text-[10px] font-bold bg-white/[0.06] hover:bg-white/[0.12] text-slate-200 border border-white/[0.1] transition-all"
+              className="liquid-btn liquid-btn-secondary px-3 py-1 rounded-xl text-[10px] font-bold text-slate-200"
             >
               {isListening ? 'Mute' : 'Listen'}
             </button>
             <button
               onClick={onClose}
-              className="p-1 rounded-lg text-slate-400 hover:text-white transition-colors"
+              className="liquid-btn-icon w-6 h-6 rounded-lg text-slate-400 hover:text-white"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

@@ -44,7 +44,7 @@ export default function BatsmenCard({ currentInnings, onSwitchStrike }) {
         <button
           type="button"
           onClick={onSwitchStrike}
-          className="px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-cyan-500/15 text-cyan-300 hover:text-white font-sans text-xs font-semibold flex items-center gap-1.5 border border-white/[0.08] hover:border-cyan-400/30 transition-all active:scale-95 shadow-sm"
+          className="liquid-btn liquid-btn-secondary px-3.5 py-1.5 rounded-xl text-cyan-300 hover:text-white font-sans text-xs font-semibold flex items-center gap-1.5"
           title="Manual Strike Rotation (Hotkey: S)"
         >
           <ArrowLeftRight className="w-3.5 h-3.5" />

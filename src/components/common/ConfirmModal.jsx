@@ -17,12 +17,12 @@ export default function ConfirmModal({
   const getConfirmStyle = () => {
     switch (confirmVariant) {
       case 'danger':
-        return 'glass-btn-rose shadow-lg shadow-rose-500/25';
+        return 'liquid-btn-rose';
       case 'warning':
-        return 'glass-btn-amber shadow-lg shadow-amber-500/25';
+        return 'liquid-btn-amber';
       case 'primary':
       default:
-        return 'glass-btn-primary shadow-lg shadow-cyan-500/25';
+        return 'liquid-btn-primary';
     }
   };
 
@@ -71,9 +71,9 @@ export default function ConfirmModal({
 
             <button
               onClick={onCancel}
-              className="text-slate-400 hover:text-white transition-colors p-1.5 rounded-xl hover:bg-white/[0.08]"
+              className="liquid-btn-icon w-8 h-8 rounded-xl text-slate-400 hover:text-white"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
@@ -81,14 +81,14 @@ export default function ConfirmModal({
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-all"
+              className="liquid-btn liquid-btn-secondary px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white"
             >
               {cancelText}
             </button>
             <button
               type="button"
               onClick={onConfirm}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all active:scale-95 ${getConfirmStyle()}`}
+              className={`liquid-btn px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 ${getConfirmStyle()}`}
             >
               <Check className="w-4 h-4" />
               {confirmText}

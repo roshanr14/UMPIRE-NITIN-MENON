@@ -87,10 +87,10 @@ export default function ScoreKeypad({
             type="button"
             onClick={onUndo}
             disabled={undoCount === 0}
-            className={`px-4 py-2 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all duration-200 active:scale-95 ${
+            className={`liquid-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 ${
               undoCount > 0
-                ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border-amber-400/40 shadow-sm shadow-amber-500/20 cursor-pointer'
-                : 'bg-white/[0.02] text-slate-500 border-white/[0.05] cursor-not-allowed opacity-40'
+                ? 'liquid-btn-amber'
+                : 'liquid-btn-secondary opacity-40 cursor-not-allowed'
             }`}
             title="Undo Last Ball (Ctrl+Z)"
           >
@@ -112,14 +112,20 @@ export default function ScoreKeypad({
               whileTap={{ scale: 0.94 }}
               disabled={!canScore || !isLive}
               onClick={() => onRecordRun(btn.runs)}
-              className={`h-24 sm:h-28 rounded-2xl border backdrop-blur-xl flex flex-col items-center justify-center gap-1 transition-all duration-200 cursor-pointer ${
-                btn.style
+              className={`score-btn liquid-btn h-24 sm:h-28 rounded-2xl flex flex-col items-center justify-center gap-1 ${
+                btn.runs === 4
+                  ? 'liquid-btn-amber font-black'
+                  : btn.runs === 6
+                  ? 'liquid-btn-rose font-black'
+                  : btn.runs > 0
+                  ? 'liquid-btn-primary font-bold'
+                  : 'liquid-btn-secondary font-semibold'
               } ${!canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''}`}
             >
               <span className="text-3xl sm:text-4xl font-black font-digit tracking-tight">
                 {btn.label}
               </span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider opacity-85 font-sans">
+              <span className="text-[10px] font-semibold uppercase tracking-wider opacity-90 font-sans">
                 {btn.sub}
               </span>
             </motion.button>
@@ -133,11 +139,11 @@ export default function ScoreKeypad({
             whileTap={{ scale: 0.96 }}
             disabled={!canScore || !isLive}
             onClick={onOpenExtras}
-            className={`py-4 px-5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-white/[0.03] to-transparent border border-amber-400/40 text-amber-200 flex items-center justify-center gap-3.5 backdrop-blur-xl shadow-lg shadow-amber-500/10 transition-all duration-200 cursor-pointer hover:bg-amber-500/25 ${
+            className={`liquid-btn liquid-btn-amber py-4 px-5 rounded-2xl flex items-center justify-center gap-3.5 ${
               !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
             }`}
           >
-            <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shrink-0">
               <Plus className="w-5 h-5 stroke-[2.5]" />
             </div>
             <div className="text-left">
@@ -155,11 +161,11 @@ export default function ScoreKeypad({
             whileTap={{ scale: 0.96 }}
             disabled={!canScore || !isLive}
             onClick={onOpenWicket}
-            className={`py-4 px-5 rounded-2xl bg-gradient-to-r from-rose-500/20 via-white/[0.03] to-transparent border border-rose-400/50 text-white flex items-center justify-center gap-3.5 backdrop-blur-xl shadow-lg shadow-rose-500/15 transition-all duration-200 cursor-pointer hover:bg-rose-500/30 ${
+            className={`liquid-btn liquid-btn-rose py-4 px-5 rounded-2xl flex items-center justify-center gap-3.5 ${
               !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
             }`}
           >
-            <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-400 animate-pulse">
+            <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 animate-pulse shrink-0">
               <AlertOctagon className="w-5 h-5 stroke-[2.5]" />
             </div>
             <div className="text-left">
@@ -180,7 +186,7 @@ export default function ScoreKeypad({
             type="button"
             onClick={onSwitchStrike}
             disabled={!isLive}
-            className="py-2.5 px-3 rounded-xl bg-white/[0.04] hover:bg-cyan-500/15 text-cyan-300 border border-white/[0.08] hover:border-cyan-400/30 flex items-center justify-center gap-2 transition-all disabled:opacity-35"
+            className="liquid-btn liquid-btn-secondary py-2.5 px-3 rounded-xl text-cyan-300 hover:text-white flex items-center justify-center gap-2"
           >
             <ArrowLeftRight className="w-3.5 h-3.5" />
             <span>Switch Strike</span>
@@ -191,7 +197,7 @@ export default function ScoreKeypad({
             type="button"
             onClick={onOpenChangeBowler}
             disabled={!isLive}
-            className="py-2.5 px-3 rounded-xl bg-white/[0.04] hover:bg-amber-500/15 text-amber-300 border border-white/[0.08] hover:border-amber-400/30 flex items-center justify-center gap-2 transition-all disabled:opacity-35"
+            className="liquid-btn liquid-btn-secondary py-2.5 px-3 rounded-xl text-amber-300 hover:text-white flex items-center justify-center gap-2"
           >
             <RotateCw className="w-3.5 h-3.5" />
             <span>Change Bowler</span>
@@ -201,13 +207,13 @@ export default function ScoreKeypad({
           <button
             type="button"
             onClick={onTogglePause}
-            className={`py-2.5 px-3 rounded-xl border flex items-center justify-center gap-2 transition-all ${
+            className={`liquid-btn py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 ${
               isPaused
-                ? 'bg-emerald-500/25 text-emerald-300 border-emerald-400/40 shadow-sm'
-                : 'bg-white/[0.04] text-slate-300 border-white/[0.08] hover:border-white/20 hover:text-white'
+                ? 'liquid-btn-emerald font-bold'
+                : 'liquid-btn-secondary'
             }`}
           >
-            {isPaused ? <Play className="w-3.5 h-3.5 text-emerald-400" /> : <Pause className="w-3.5 h-3.5 text-amber-400" />}
+            {isPaused ? <Play className="w-3.5 h-3.5 text-emerald-300" /> : <Pause className="w-3.5 h-3.5 text-amber-300" />}
             <span>{isPaused ? 'Resume Match' : 'Pause Match'}</span>
           </button>
 
@@ -216,7 +222,7 @@ export default function ScoreKeypad({
             <button
               type="button"
               onClick={onConfirmEndInnings}
-              className="py-2.5 px-3 rounded-xl bg-white/[0.04] hover:bg-rose-500/20 text-rose-300 border border-white/[0.08] hover:border-rose-400/30 flex items-center justify-center gap-2 transition-all"
+              className="liquid-btn liquid-btn-rose py-2.5 px-3 rounded-xl font-bold flex items-center justify-center gap-2"
             >
               <Flag className="w-3.5 h-3.5" />
               <span>End 1st Innings</span>
@@ -225,7 +231,7 @@ export default function ScoreKeypad({
             <button
               type="button"
               onClick={onConfirmEndMatch}
-              className="py-2.5 px-3 rounded-xl bg-white/[0.04] hover:bg-rose-500/20 text-rose-300 border border-white/[0.08] hover:border-rose-400/30 flex items-center justify-center gap-2 transition-all"
+              className="liquid-btn liquid-btn-rose py-2.5 px-3 rounded-xl font-bold flex items-center justify-center gap-2"
             >
               <Flag className="w-3.5 h-3.5" />
               <span>End Match</span>

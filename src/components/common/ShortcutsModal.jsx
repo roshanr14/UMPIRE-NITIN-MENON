@@ -48,9 +48,9 @@ export default function ShortcutsModal({ isOpen, onClose }) {
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/[0.08] transition-colors"
+              className="liquid-btn-icon w-8 h-8 rounded-xl text-slate-400 hover:text-white"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
@@ -77,7 +77,7 @@ export default function ShortcutsModal({ isOpen, onClose }) {
             </span>
             <button
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl glass-btn-primary font-bold text-xs flex items-center gap-1.5 shadow-md shadow-cyan-500/20 transition-all"
+              className="liquid-btn liquid-btn-primary px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-1.5"
             >
               Got it
               <CornerDownLeft className="w-3.5 h-3.5" />

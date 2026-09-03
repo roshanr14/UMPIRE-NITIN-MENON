@@ -179,7 +179,7 @@ Lead Umpire: Nitin Menon`;
           {match.status === 'live' && (
             <button
               onClick={onNavigateToScoring}
-              className="px-5 py-2 rounded-2xl glass-btn-primary font-bold text-xs flex items-center gap-2 shadow-md shadow-cyan-500/20 transition-all active:scale-95"
+              className="liquid-btn liquid-btn-primary px-5 py-2.5 rounded-2xl font-bold text-xs flex items-center gap-2"
             >
               <Activity className="w-3.5 h-3.5 animate-pulse text-cyan-200" />
               <span>Resume Live Scoring</span>
@@ -190,7 +190,7 @@ Lead Umpire: Nitin Menon`;
         <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
           <button
             onClick={handleShare}
-            className="px-4 py-2 rounded-2xl glass-btn text-slate-200 flex items-center gap-1.5 transition-all active:scale-95"
+            className="liquid-btn liquid-btn-secondary px-4 py-2.5 rounded-2xl flex items-center gap-1.5"
           >
             {copiedShare ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 text-cyan-300" />}
             <span>{copiedShare ? 'Copied!' : 'Share Match'}</span>
@@ -199,7 +199,7 @@ Lead Umpire: Nitin Menon`;
           <button
             onClick={handleExportImage}
             disabled={isExportingImage}
-            className="px-4 py-2 rounded-2xl glass-btn text-slate-200 flex items-center gap-1.5 transition-all active:scale-95 disabled:opacity-40"
+            className="liquid-btn liquid-btn-secondary px-4 py-2.5 rounded-2xl flex items-center gap-1.5 disabled:opacity-40"
           >
             <ImageIcon className="w-3.5 h-3.5 text-sky-400" />
             <span>{isExportingImage ? 'Exporting...' : 'Save PNG'}</span>
@@ -207,7 +207,7 @@ Lead Umpire: Nitin Menon`;
 
           <button
             onClick={handlePrint}
-            className="px-4 py-2 rounded-2xl glass-btn text-slate-200 flex items-center gap-1.5 transition-all"
+            className="liquid-btn liquid-btn-secondary px-4 py-2.5 rounded-2xl flex items-center gap-1.5"
           >
             <Printer className="w-3.5 h-3.5 text-purple-400" />
             <span>Print Sheet</span>
@@ -216,7 +216,7 @@ Lead Umpire: Nitin Menon`;
           <button
             onClick={handleExportPDF}
             disabled={isExportingPDF}
-            className="px-5 py-2 rounded-2xl glass-btn-primary font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition-all active:scale-95 disabled:opacity-40"
+            className="liquid-btn liquid-btn-primary px-5 py-2.5 rounded-2xl font-bold text-xs flex items-center gap-2 disabled:opacity-40"
           >
             <Download className="w-3.5 h-3.5 text-cyan-200" />
             <span>{isExportingPDF ? 'Generating PDF...' : 'Download Scorecard PDF'}</span>
@@ -426,14 +426,14 @@ Lead Umpire: Nitin Menon`;
         <div className="flex items-center gap-2 p-1.5 rounded-2xl glass-panel border border-white/[0.08] no-print">
           <button
             onClick={() => setActiveTab('innings1')}
-            className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
+            className={`liquid-btn flex-1 py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 ${
               activeTab === 'innings1'
-                ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-white border border-cyan-400/40 shadow-md shadow-cyan-500/15'
-                : 'text-slate-400 hover:text-white'
+                ? 'liquid-btn-primary'
+                : 'liquid-btn-secondary'
             }`}
           >
             <span>1st Innings: {innings1?.battingTeamName}</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/[0.06] text-slate-200 font-digit text-[11px]">
+            <span className="px-2 py-0.5 rounded-full bg-white/[0.08] text-slate-200 font-digit text-[11px]">
               {innings1?.totalRuns}/{innings1?.wickets} ({formatOvers(innings1?.validBalls)} ov)
             </span>
           </button>
@@ -441,14 +441,14 @@ Lead Umpire: Nitin Menon`;
           {innings2 && (
             <button
               onClick={() => setActiveTab('innings2')}
-              className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`liquid-btn flex-1 py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 ${
                 activeTab === 'innings2'
-                  ? 'bg-gradient-to-r from-purple-500/30 to-indigo-500/30 text-white border border-purple-400/40 shadow-md shadow-purple-500/15'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'liquid-btn-primary'
+                  : 'liquid-btn-secondary'
               }`}
             >
               <span>2nd Innings: {innings2.battingTeamName}</span>
-              <span className="px-2 py-0.5 rounded-full bg-white/[0.06] text-slate-200 font-digit text-[11px]">
+              <span className="px-2 py-0.5 rounded-full bg-white/[0.08] text-slate-200 font-digit text-[11px]">
                 {innings2.totalRuns}/{innings2.wickets} ({formatOvers(innings2.validBalls)} ov)
               </span>
             </button>
@@ -456,13 +456,13 @@ Lead Umpire: Nitin Menon`;
 
           <button
             onClick={() => setActiveTab('partnerships')}
-            className={`px-5 py-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 ${
+            className={`liquid-btn px-5 py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 ${
               activeTab === 'partnerships'
-                ? 'bg-gradient-to-r from-amber-500/30 to-orange-500/30 text-white border border-amber-400/40 shadow-md shadow-amber-500/15'
-                : 'text-slate-400 hover:text-white'
+                ? 'liquid-btn-amber'
+                : 'liquid-btn-secondary'
             }`}
           >
-            <Users className="w-3.5 h-3.5 text-amber-400" />
+            <Users className="w-3.5 h-3.5 text-amber-300" />
             <span>Partnerships & FoW</span>
           </button>
         </div>

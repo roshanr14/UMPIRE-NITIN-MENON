@@ -45,9 +45,9 @@ export default function ExtrasDrawer({
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/[0.08] transition-colors"
+              className="liquid-btn-icon w-8 h-8 rounded-xl text-slate-400 hover:text-white"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
@@ -73,10 +73,10 @@ export default function ExtrasDrawer({
                       if (item.id === 'penalty') setRuns(5);
                       else setRuns(1);
                     }}
-                    className={`py-2.5 px-2 rounded-xl text-xs font-semibold border transition-all duration-200 text-center ${
+                    className={`liquid-btn py-2.5 px-2 rounded-xl text-xs font-semibold text-center ${
                       extraType === item.id
-                        ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md font-bold'
-                        : 'bg-white/[0.04] text-slate-300 border-white/[0.08] hover:bg-white/[0.08] hover:text-white'
+                        ? 'liquid-btn-amber font-bold'
+                        : 'liquid-btn-secondary'
                     }`}
                   >
                     {item.label}
@@ -96,10 +96,10 @@ export default function ExtrasDrawer({
                     key={r}
                     type="button"
                     onClick={() => setRuns(r)}
-                    className={`py-2.5 rounded-xl font-digit font-bold text-sm border transition-all ${
+                    className={`liquid-btn py-2.5 rounded-xl font-digit font-bold text-sm ${
                       runs === r
-                        ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md font-black'
-                        : 'bg-white/[0.04] text-slate-300 border-white/[0.08] hover:bg-white/[0.08]'
+                        ? 'liquid-btn-amber font-black'
+                        : 'liquid-btn-secondary'
                     }`}
                   >
                     +{r}
@@ -129,10 +129,10 @@ export default function ExtrasDrawer({
                       key={r}
                       type="button"
                       onClick={() => setRunsOffBat(r)}
-                      className={`py-2 rounded-xl font-digit font-bold text-xs border transition-all ${
+                      className={`liquid-btn py-2 rounded-xl font-digit font-bold text-xs ${
                         runsOffBat === r
-                          ? 'bg-cyan-400 text-slate-950 border-cyan-300 font-black'
-                          : 'bg-white/[0.04] text-slate-300 border-white/[0.08] hover:bg-white/[0.08]'
+                          ? 'liquid-btn-primary font-black'
+                          : 'liquid-btn-secondary'
                       }`}
                     >
                       {r}
@@ -149,17 +149,17 @@ export default function ExtrasDrawer({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-white/[0.08] transition-colors"
+                className="liquid-btn liquid-btn-secondary px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white"
               >
                 Cancel
               </button>
 
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-xl glass-btn-amber font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/25 active:scale-95"
+                className="liquid-btn liquid-btn-amber px-6 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2"
               >
-                <Check className="w-4 h-4" />
-                Add Extras (+{runs + runsOffBat})
+                <Plus className="w-4 h-4 stroke-[3]" />
+                Add Extras
               </button>
             </div>
           </form>

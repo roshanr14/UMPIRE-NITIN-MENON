@@ -62,7 +62,7 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
               whileHover={{ scale: 1.12, y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onSelectBallToEdit(ball)}
-              className={`w-11 h-11 rounded-2xl flex items-center justify-center text-sm font-digit border backdrop-blur-xl transition-all cursor-pointer ${getBadgeStyle(
+              className={`liquid-btn w-11 h-11 rounded-2xl flex items-center justify-center text-sm font-digit border backdrop-blur-xl ${getBadgeStyle(
                 ball
               )}`}
               title={`Ball ${idx + 1}: ${ball.strikerName} facing ${ball.bowlerName} - Click to Edit`}
@@ -89,7 +89,7 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
               <button
                 key={ball.id}
                 onClick={() => onSelectBallToEdit(ball)}
-                className={`w-8 h-8 rounded-xl shrink-0 flex items-center justify-center text-xs font-digit border backdrop-blur-xl transition-all hover:scale-110 active:scale-95 ${getBadgeStyle(
+                className={`liquid-btn w-8 h-8 rounded-xl shrink-0 flex items-center justify-center text-xs font-digit border backdrop-blur-xl ${getBadgeStyle(
                   ball
                 )}`}
                 title={`${ball.oversAfter} ov: ${getBallLabel(ball)} - Click to Edit`}

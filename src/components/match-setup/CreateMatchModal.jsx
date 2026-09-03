@@ -168,9 +168,9 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/[0.08] transition-colors"
+              className="liquid-btn-icon w-8 h-8 rounded-xl text-slate-400 hover:text-white"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
@@ -309,10 +309,10 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                     <button
                       type="button"
                       onClick={() => setTossWinner('A')}
-                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                      className={`liquid-btn py-2.5 rounded-xl text-xs font-bold transition-all ${
                         tossWinner === 'A'
-                          ? 'bg-cyan-500/30 text-white border-cyan-400 shadow-md'
-                          : 'bg-white/[0.03] text-slate-300 border-white/[0.08]'
+                          ? 'liquid-btn-primary'
+                          : 'liquid-btn-secondary'
                       }`}
                     >
                       {teamAName || 'Team 1'}
@@ -320,10 +320,10 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                     <button
                       type="button"
                       onClick={() => setTossWinner('B')}
-                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                      className={`liquid-btn py-2.5 rounded-xl text-xs font-bold transition-all ${
                         tossWinner === 'B'
-                          ? 'bg-cyan-500/30 text-white border-cyan-400 shadow-md'
-                          : 'bg-white/[0.03] text-slate-300 border-white/[0.08]'
+                          ? 'liquid-btn-primary'
+                          : 'liquid-btn-secondary'
                       }`}
                     >
                       {teamBName || 'Team 2'}
@@ -339,10 +339,10 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                     <button
                       type="button"
                       onClick={() => setTossDecision('bat')}
-                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                      className={`liquid-btn py-2.5 rounded-xl text-xs font-bold transition-all ${
                         tossDecision === 'bat'
-                          ? 'bg-cyan-500/30 text-white border-cyan-400 shadow-md'
-                          : 'bg-white/[0.03] text-slate-300 border-white/[0.08]'
+                          ? 'liquid-btn-amber'
+                          : 'liquid-btn-secondary'
                       }`}
                     >
                       Elected to Bat 🏏
@@ -350,10 +350,10 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                     <button
                       type="button"
                       onClick={() => setTossDecision('bowl')}
-                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                      className={`liquid-btn py-2.5 rounded-xl text-xs font-bold transition-all ${
                         tossDecision === 'bowl'
-                          ? 'bg-cyan-500/30 text-white border-cyan-400 shadow-md'
-                          : 'bg-white/[0.03] text-slate-300 border-white/[0.08]'
+                          ? 'liquid-btn-primary'
+                          : 'liquid-btn-secondary'
                       }`}
                     >
                       Elected to Bowl ⚾
@@ -377,14 +377,14 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                   </div>
 
                   {/* Team Switcher Buttons */}
-                  <div className="flex items-center gap-1.5 bg-white/[0.04] p-1 rounded-2xl border border-white/[0.08]">
+                  <div className="flex items-center gap-1.5 bg-white/[0.04] p-1.5 rounded-2xl border border-white/[0.08]">
                     <button
                       type="button"
                       onClick={() => setActiveRosterTeam('A')}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
+                      className={`liquid-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${
                         activeRosterTeam === 'A'
-                          ? 'bg-cyan-500/30 text-white border border-cyan-400/40 shadow-sm'
-                          : 'text-slate-400 hover:text-white'
+                          ? 'liquid-btn-primary font-bold'
+                          : 'liquid-btn-secondary'
                       }`}
                     >
                       <span
@@ -397,10 +397,10 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                     <button
                       type="button"
                       onClick={() => setActiveRosterTeam('B')}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
+                      className={`liquid-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 ${
                         activeRosterTeam === 'B'
-                          ? 'bg-cyan-500/30 text-white border border-cyan-400/40 shadow-sm'
-                          : 'text-slate-400 hover:text-white'
+                          ? 'liquid-btn-primary font-bold'
+                          : 'liquid-btn-secondary'
                       }`}
                     >
                       <span
@@ -492,10 +492,10 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                           <button
                             type="button"
                             onClick={() => handleUpdatePlayer(idx, 'isCaptain', !player.isCaptain)}
-                            className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-all ${
+                            className={`liquid-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 ${
                               player.isCaptain
-                                ? 'bg-amber-400 text-slate-950 shadow-md scale-105 border border-amber-300 font-extrabold'
-                                : 'bg-white/[0.04] text-slate-400 hover:text-amber-300 border border-white/[0.08]'
+                                ? 'liquid-btn-amber font-extrabold shadow-md scale-105'
+                                : 'liquid-btn-secondary'
                             }`}
                             title="Toggle Captain"
                           >
@@ -506,10 +506,10 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                           <button
                             type="button"
                             onClick={() => handleUpdatePlayer(idx, 'isKeeper', !player.isKeeper)}
-                            className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-all ${
+                            className={`liquid-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 ${
                               player.isKeeper
-                                ? 'bg-sky-400 text-slate-950 shadow-md scale-105 border border-sky-300 font-extrabold'
-                                : 'bg-white/[0.04] text-slate-400 hover:text-sky-300 border border-white/[0.08]'
+                                ? 'liquid-btn-primary font-extrabold shadow-md scale-105'
+                                : 'liquid-btn-secondary'
                             }`}
                             title="Toggle Wicketkeeper"
                           >
@@ -522,7 +522,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                             <button
                               type="button"
                               onClick={() => handleRemovePlayer(idx)}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                              className="liquid-btn-icon w-7 h-7 rounded-xl text-slate-400 hover:text-rose-400"
                               title="Remove player"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -539,7 +539,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                   <button
                     type="button"
                     onClick={handleAddPlayer}
-                    className="w-full py-2.5 rounded-2xl border border-dashed border-white/20 hover:border-cyan-400/60 bg-white/[0.02] hover:bg-white/[0.05] text-xs font-semibold text-slate-300 hover:text-cyan-300 flex items-center justify-center gap-1.5 transition-all"
+                    className="liquid-btn liquid-btn-secondary w-full py-2.5 rounded-2xl border-dashed border-white/20 hover:border-cyan-400/60 text-xs font-semibold text-slate-300 hover:text-cyan-300 flex items-center justify-center gap-1.5"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Add Extra Player / Substitute (#{currentPlayers.length + 1})</span>
@@ -554,7 +554,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-white/[0.08] transition-all"
+              className="liquid-btn liquid-btn-secondary px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white"
             >
               Cancel
             </button>
@@ -562,7 +562,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
             <button
               type="submit"
               form="custom-match-form"
-              className="px-6 py-2.5 rounded-xl glass-btn-primary font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition-all active:scale-95"
+              className="liquid-btn liquid-btn-primary px-6 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2"
             >
               <Play className="w-4 h-4 fill-current" />
               Start Match Live

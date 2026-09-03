@@ -54,9 +54,9 @@ export default function BowlerSelectModal({
             {!isOverEnd && (
               <button
                 onClick={onClose}
-                className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/[0.08] transition-colors"
+                className="liquid-btn-icon w-8 h-8 rounded-xl text-slate-400 hover:text-white"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             )}
           </div>
@@ -73,21 +73,21 @@ export default function BowlerSelectModal({
                 <div
                   key={b.id}
                   onClick={() => !isConsecutive && setSelectedId(b.id)}
-                  className={`p-3.5 rounded-2xl border transition-all duration-200 flex items-center justify-between gap-3 ${
+                  className={`liquid-btn w-full p-3.5 rounded-2xl flex items-center justify-between gap-3 text-left ${
                     isConsecutive
-                      ? 'opacity-30 bg-white/[0.01] border-white/[0.04] cursor-not-allowed'
+                      ? 'opacity-30 cursor-not-allowed pointer-events-none'
                       : isSelected
-                      ? 'bg-cyan-500/20 border-cyan-400/70 text-white shadow-lg shadow-cyan-500/15 cursor-pointer'
-                      : 'bg-white/[0.03] border-white/[0.08] hover:border-white/20 text-slate-300 cursor-pointer hover:bg-white/[0.06]'
+                      ? 'liquid-btn-primary'
+                      : 'liquid-btn-secondary'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center font-bold text-xs text-cyan-300 font-display">
+                    <div className="w-9 h-9 rounded-xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center font-bold text-xs text-cyan-300 font-display shrink-0">
                       {b.name.charAt(0)}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-bold text-sm text-slate-100 font-display">{b.name}</h4>
+                        <h4 className="font-bold text-sm text-white font-display">{b.name}</h4>
                         {b.id === currentBowlerId && !isOverEnd && (
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">
                             Current Bowler
@@ -99,7 +99,7 @@ export default function BowlerSelectModal({
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-slate-400 font-digit mt-0.5">
+                      <p className="text-xs text-slate-300 font-digit mt-0.5">
                         {overs} ov • {b.runsConceded} runs • {b.wickets} wkts • Econ: {econ}
                       </p>
                     </div>
@@ -121,7 +121,7 @@ export default function BowlerSelectModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-white/[0.08]"
+                className="liquid-btn liquid-btn-secondary px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white"
               >
                 Cancel
               </button>
@@ -134,7 +134,7 @@ export default function BowlerSelectModal({
             <button
               type="button"
               onClick={handleConfirm}
-              className="px-6 py-2.5 rounded-xl glass-btn-primary font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/25 active:scale-95 ml-auto"
+              className="liquid-btn liquid-btn-primary px-6 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 ml-auto"
             >
               <Check className="w-4 h-4" />
               Set Bowler

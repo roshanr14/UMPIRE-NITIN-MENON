@@ -92,9 +92,9 @@ export default function AuthModal({ isOpen, onClose }) {
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/[0.08] transition-colors"
+              className="liquid-btn-icon w-8 h-8 rounded-xl text-slate-400 hover:text-white"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
@@ -170,7 +170,7 @@ export default function AuthModal({ isOpen, onClose }) {
 
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl glass-btn-primary font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
+                  className="liquid-btn liquid-btn-primary px-5 py-2.5 rounded-xl font-bold text-xs"
                 >
                   Save Profile
                 </button>
@@ -226,7 +226,7 @@ export default function AuthModal({ isOpen, onClose }) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2.5 rounded-xl glass-btn-primary font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
+                  className="liquid-btn liquid-btn-primary px-5 py-2.5 rounded-xl font-bold text-xs"
                 >
                   {loading ? 'Authenticating...' : 'Sign In'}
                 </button>
@@ -236,7 +236,7 @@ export default function AuthModal({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={() => setMode('profile')}
-                  className="text-xs text-slate-400 hover:text-white"
+                  className="liquid-btn liquid-btn-secondary px-4 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white"
                 >
                   Continue as Guest Umpire
                 </button>
@@ -300,7 +300,7 @@ export default function AuthModal({ isOpen, onClose }) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2.5 rounded-xl glass-btn-primary font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
+                  className="liquid-btn liquid-btn-primary px-5 py-2.5 rounded-xl font-bold text-xs"
                 >
                   {loading ? 'Registering...' : 'Create Account'}
                 </button>

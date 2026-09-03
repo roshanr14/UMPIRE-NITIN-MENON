@@ -84,7 +84,7 @@ export default function Dashboard({
 
           <button
             onClick={onOpenCreateMatch}
-            className="px-6 py-3.5 rounded-2xl glass-btn-primary font-bold text-xs sm:text-sm flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 active:scale-95 shrink-0 shadow-lg shadow-cyan-500/25"
+            className="liquid-btn liquid-btn-primary px-6 py-3.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2.5 shrink-0"
           >
             <PlusCircle className="w-5 h-5 text-cyan-200" />
             <span>Create New Match</span>
@@ -158,14 +158,14 @@ export default function Dashboard({
             <div className="flex flex-wrap items-center gap-3 w-full md:w-auto text-xs font-semibold">
               <button
                 onClick={onNavigateToScoring}
-                className="flex-1 md:flex-none px-6 py-3 rounded-xl glass-btn-amber text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all active:scale-95"
+                className="liquid-btn liquid-btn-amber flex-1 md:flex-none px-6 py-3 rounded-xl text-white font-bold gap-2"
               >
-                <Activity className="w-4 h-4 text-amber-300" />
+                <Activity className="w-4 h-4 text-amber-200" />
                 <span>Resume Scoring</span>
               </button>
               <button
                 onClick={onNavigateToSummary}
-                className="px-5 py-3 rounded-xl glass-btn text-cyan-300 hover:text-white font-medium flex items-center justify-center gap-2"
+                className="liquid-btn liquid-btn-secondary px-5 py-3 rounded-xl text-cyan-300 hover:text-white font-medium gap-2"
               >
                 <FileText className="w-4 h-4 text-cyan-400" />
                 <span>Scorecard</span>
@@ -187,33 +187,33 @@ export default function Dashboard({
             </p>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-white/[0.04] p-1 rounded-2xl border border-white/[0.08] backdrop-blur-xl text-xs font-medium">
+          <div className="flex items-center gap-1.5 bg-white/[0.04] p-1.5 rounded-2xl border border-white/[0.08] backdrop-blur-xl text-xs font-medium">
             <button
               onClick={() => setFilter('all')}
-              className={`px-3 py-1.5 rounded-xl transition-all duration-200 ${
+              className={`liquid-btn px-3.5 py-1.5 rounded-xl transition-all duration-200 ${
                 filter === 'all'
-                  ? 'bg-gradient-to-r from-cyan-500/40 to-blue-500/40 text-white border border-cyan-400/30 shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'liquid-btn-primary font-bold'
+                  : 'liquid-btn-secondary'
               }`}
             >
               All ({matchList.length})
             </button>
             <button
               onClick={() => setFilter('live')}
-              className={`px-3 py-1.5 rounded-xl transition-all duration-200 ${
+              className={`liquid-btn px-3.5 py-1.5 rounded-xl transition-all duration-200 ${
                 filter === 'live'
-                  ? 'bg-rose-500/40 text-white border border-rose-400/30 shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'liquid-btn-rose font-bold'
+                  : 'liquid-btn-secondary'
               }`}
             >
               Live
             </button>
             <button
               onClick={() => setFilter('completed')}
-              className={`px-3 py-1.5 rounded-xl transition-all duration-200 ${
+              className={`liquid-btn px-3.5 py-1.5 rounded-xl transition-all duration-200 ${
                 filter === 'completed'
-                  ? 'bg-emerald-500/40 text-white border border-emerald-400/30 shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'liquid-btn-emerald font-bold'
+                  : 'liquid-btn-secondary'
               }`}
             >
               Finished
@@ -255,10 +255,10 @@ export default function Dashboard({
                         e.stopPropagation();
                         setMatchToDelete(m.id);
                       }}
-                      className="p-1 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                      className="liquid-btn-icon w-7 h-7 rounded-xl text-slate-400 hover:text-rose-400"
                       title="Delete match"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
@@ -279,7 +279,7 @@ export default function Dashboard({
                   <button
                     type="button"
                     onClick={(e) => handleOpenScorecard(m.id, e)}
-                    className="text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
+                    className="liquid-btn liquid-btn-secondary px-3 py-1 rounded-xl text-cyan-300 hover:text-white font-medium flex items-center gap-1"
                   >
                     <span>View Scorecard</span>
                     <ChevronRight className="w-3.5 h-3.5" />
