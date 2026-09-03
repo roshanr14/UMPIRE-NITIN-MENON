@@ -24,6 +24,8 @@ import {
   Sparkles,
   Image as ImageIcon,
   CheckCircle2,
+  X,
+  ExternalLink,
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -40,6 +42,7 @@ export default function MatchSummary({ onNavigateToScoring }) {
   const [copiedShare, setCopiedShare] = useState(false);
   const [isExportingPDF, setIsExportingPDF] = useState(false);
   const [isExportingImage, setIsExportingImage] = useState(false);
+  const [exportStatus, setExportStatus] = useState(null);
 
   if (!match) {
     return (
@@ -84,12 +87,15 @@ export default function MatchSummary({ onNavigateToScoring }) {
   const handleExportPDF = async () => {
     if (!scorecardRef.current) return;
     setIsExportingPDF(true);
+    setExportStatus(null);
     try {
       const canvas = await html2canvas(scorecardRef.current, {
         scale: 2,
         backgroundColor: '#050713',
         useCORS: true,
         logging: false,
+        windowWidth: 1280,
+        ignoreElements: (element) => element.classList.contains('no-print'),
       });
 
       const imgData = canvas.toDataURL('image/jpeg', 0.95);
@@ -111,10 +117,34 @@ export default function MatchSummary({ onNavigateToScoring }) {
         heightLeft -= pdfHeight;
       }
 
-      const filename = `${match.teamA.name.replace(/\s+/g, '_')}_vs_${match.teamB.name.replace(/\s+/g, '_')}_Official_Scorecard.pdf`;
+      const cleanA = (match.teamA?.name || 'TeamA').replace(/\s+/g, '_');
+      const cleanB = (match.teamB?.name || 'TeamB').replace(/\s+/g, '_');
+      const filename = `${cleanA}_vs_${cleanB}_Official_Scorecard.pdf`;
+
+      // 1. Trigger browser file download (opens Windows File Explorer "Save As" dialog)
       pdf.save(filename);
+
+      // 2. Also open directly in a new browser tab for immediate preview
+      try {
+        const pdfBlob = pdf.output('blob');
+        const blobUrl = URL.createObjectURL(pdfBlob);
+        window.open(blobUrl, '_blank');
+      } catch (previewErr) {
+        console.warn('Could not open preview tab:', previewErr);
+      }
+
+      setExportStatus({
+        type: 'success',
+        text: `Scorecard PDF created! Click 'Save' in your file manager dialog to save it to your computer, or view it in the opened preview tab.`,
+      });
+      setTimeout(() => setExportStatus(null), 8000);
     } catch (err) {
-      console.warn('PDF export error:', err);
+      console.error('PDF export error:', err);
+      setExportStatus({
+        type: 'error',
+        text: 'PDF generation encountered an error. You can also use "Print Sheet" to save directly as PDF.',
+      });
+      setTimeout(() => setExportStatus(null), 8000);
     } finally {
       setIsExportingPDF(false);
     }
@@ -124,20 +154,38 @@ export default function MatchSummary({ onNavigateToScoring }) {
   const handleExportImage = async () => {
     if (!scorecardRef.current) return;
     setIsExportingImage(true);
+    setExportStatus(null);
     try {
       const canvas = await html2canvas(scorecardRef.current, {
         scale: 2,
         backgroundColor: '#050713',
         useCORS: true,
         logging: false,
+        windowWidth: 1280,
+        ignoreElements: (element) => element.classList.contains('no-print'),
       });
 
+      const cleanA = (match.teamA?.name || 'TeamA').replace(/\s+/g, '_');
+      const cleanB = (match.teamB?.name || 'TeamB').replace(/\s+/g, '_');
+      const filename = `${cleanA}_vs_${cleanB}_Scorecard.png`;
+
       const link = document.createElement('a');
-      link.download = `${match.teamA.name.replace(/\s+/g, '_')}_vs_${match.teamB.name.replace(/\s+/g, '_')}_Scorecard.png`;
+      link.download = filename;
       link.href = canvas.toDataURL('image/png');
       link.click();
+
+      setExportStatus({
+        type: 'success',
+        text: `Scorecard PNG image exported! Check your Downloads or Desktop folder.`,
+      });
+      setTimeout(() => setExportStatus(null), 6000);
     } catch (err) {
-      console.warn('Image export error:', err);
+      console.error('Image export error:', err);
+      setExportStatus({
+        type: 'error',
+        text: 'Image export encountered an error.',
+      });
+      setTimeout(() => setExportStatus(null), 6000);
     } finally {
       setIsExportingImage(false);
     }
@@ -223,6 +271,30 @@ Lead Umpire: Nitin Menon`;
           </button>
         </div>
       </div>
+
+      {/* Export Status Feedback Banner */}
+      {exportStatus && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`p-4 rounded-3xl border flex items-center justify-between gap-3 text-xs font-sans font-medium no-print shadow-xl ${
+            exportStatus.type === 'error'
+              ? 'bg-rose-500/20 border-rose-400/40 text-rose-200'
+              : 'bg-emerald-500/20 border-emerald-400/40 text-emerald-200'
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+            <span className="leading-relaxed">{exportStatus.text}</span>
+          </div>
+          <button
+            onClick={() => setExportStatus(null)}
+            className="liquid-btn-icon w-7 h-7 rounded-xl text-slate-400 hover:text-white shrink-0"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </motion.div>
+      )}
 
       {/* Main Printable Scorecard Wrapper */}
       <div ref={scorecardRef} className="space-y-6">
