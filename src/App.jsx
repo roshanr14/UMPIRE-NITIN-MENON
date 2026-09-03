@@ -15,7 +15,19 @@ import { createDefaultTeam } from './lib/cricketEngine';
 function MainApp() {
   const { match, createMatch, recordRun, recordExtra, undoLastAction, switchStrikeManual } = useMatch();
 
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'scoring' | 'summary'
+  // Auto-resume active scoring session if a match is live
+  const [activeTab, setActiveTab] = useState(() => {
+    try {
+      const activeMatch = localStorage.getItem('cric_active_match');
+      if (activeMatch) {
+        const parsed = JSON.parse(activeMatch);
+        if (parsed && (parsed.status === 'live' || parsed.status === 'innings_break')) {
+          return 'scoring';
+        }
+      }
+    } catch {}
+    return 'dashboard';
+  });
 
   // Global Dialogs
   const [isCreateOpen, setIsCreateOpen] = useState(false);
