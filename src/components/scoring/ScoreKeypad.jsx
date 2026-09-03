@@ -34,68 +34,70 @@ export default function ScoreKeypad({
       runs: 0,
       label: '0',
       sub: 'Dot Ball',
-      style: 'bg-[#050814] text-slate-300 border-[#00f0ff]/30 hover:border-[#00f0ff] hover:text-[#00f0ff]',
+      style: 'bg-white/[0.04] text-slate-200 border-white/[0.1] hover:border-cyan-400/50 hover:bg-white/[0.08]',
     },
     {
       runs: 1,
       label: '1',
       sub: '1 Run',
-      style: 'bg-[#050814] text-[#00f0ff] border-[#00f0ff]/40 hover:bg-[#00f0ff]/10 hover:border-[#00f0ff]',
+      style: 'bg-white/[0.04] text-cyan-300 border-white/[0.1] hover:border-cyan-400/60 hover:bg-cyan-500/10',
     },
     {
       runs: 2,
       label: '2',
       sub: '2 Runs',
-      style: 'bg-[#050814] text-[#00f0ff] border-[#00f0ff]/40 hover:bg-[#00f0ff]/10 hover:border-[#00f0ff]',
+      style: 'bg-white/[0.04] text-cyan-300 border-white/[0.1] hover:border-cyan-400/60 hover:bg-cyan-500/10',
     },
     {
       runs: 3,
       label: '3',
       sub: '3 Runs',
-      style: 'bg-[#050814] text-[#00f0ff] border-[#00f0ff]/40 hover:bg-[#00f0ff]/10 hover:border-[#00f0ff]',
+      style: 'bg-white/[0.04] text-cyan-300 border-white/[0.1] hover:border-cyan-400/60 hover:bg-cyan-500/10',
     },
     {
       runs: 4,
       label: '4',
       sub: 'FOUR (4)',
-      style: 'bg-gradient-to-br from-[#1a1700] to-[#0a0800] text-[#fcee0a] border-[#fcee0a] hover:bg-[#fcee0a]/20 shadow-lg shadow-[#fcee0a]/20 text-glow-yellow font-black',
+      style: 'bg-gradient-to-br from-amber-500/25 to-amber-600/10 text-amber-300 border-amber-400/50 hover:bg-amber-500/35 hover:border-amber-400/70 shadow-lg shadow-amber-500/15 font-black',
     },
     {
       runs: 6,
       label: '6',
       sub: 'SIX (6)',
-      style: 'bg-gradient-to-br from-[#240011] to-[#0a0005] text-[#ff0055] border-[#ff0055] hover:bg-[#ff0055]/20 shadow-lg shadow-[#ff0055]/30 text-glow-pink font-black',
+      style: 'bg-gradient-to-br from-rose-500/25 to-purple-600/20 text-rose-300 border-rose-400/50 hover:bg-rose-500/35 hover:border-rose-400/70 shadow-lg shadow-rose-500/20 font-black',
     },
   ];
 
   return (
-    <div className="space-y-4">
-      {/* Primary Cyberpunk Scoring Console */}
-      <div className="p-5 sm:p-7 rounded-3xl cyber-card border-2 border-[#00f0ff]/30 shadow-2xl space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-[#00f0ff]/15">
-          <div className="flex items-center gap-2 font-cyber">
-            <Zap className="w-5 h-5 text-[#fcee0a]" />
-            <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white">
-              SCORING CONSOLE
+    <div className="space-y-4 font-sans">
+      {/* Primary Liquid Glass Scoring Console */}
+      <div className="p-5 sm:p-7 rounded-3xl glass-panel border border-white/[0.14] shadow-2xl space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 rounded-xl bg-cyan-500/15 border border-cyan-400/30 text-cyan-300">
+              <Zap className="w-4 h-4 text-cyan-400" />
+            </div>
+            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white font-display">
+              Scoring Console
             </h3>
           </div>
 
-          {/* Large Undo Button */}
+          {/* Large Undo Button (Frosted Glass Pill) */}
           <button
             type="button"
             onClick={onUndo}
             disabled={undoCount === 0}
-            className={`px-4 py-2 rounded-xl border font-mono text-xs font-bold flex items-center gap-2 transition-all active:scale-95 ${
+            className={`px-4 py-2 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all duration-200 active:scale-95 ${
               undoCount > 0
-                ? 'bg-[#fcee0a]/15 hover:bg-[#fcee0a]/30 text-[#fcee0a] border-[#fcee0a] shadow-md shadow-[#fcee0a]/20 cursor-pointer'
-                : 'bg-[#050814] text-slate-600 border-slate-800 cursor-not-allowed opacity-40'
+                ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border-amber-400/40 shadow-sm shadow-amber-500/20 cursor-pointer'
+                : 'bg-white/[0.02] text-slate-500 border-white/[0.05] cursor-not-allowed opacity-40'
             }`}
             title="Undo Last Ball (Ctrl+Z)"
           >
             <RotateCcw className="w-4 h-4" />
             <span>Undo Ball</span>
             {undoCount > 0 && (
-              <span className="px-1.5 py-0.5 rounded bg-[#fcee0a] text-black text-[10px] font-black">
+              <span className="px-1.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black">
                 {undoCount}
               </span>
             )}
@@ -107,40 +109,42 @@ export default function ScoreKeypad({
           {runButtons.map((btn) => (
             <motion.button
               key={btn.runs}
-              whileTap={{ scale: 0.92 }}
+              whileTap={{ scale: 0.94 }}
               disabled={!canScore || !isLive}
               onClick={() => onRecordRun(btn.runs)}
-              className={`h-24 sm:h-28 rounded-2xl border flex flex-col items-center justify-center gap-1 transition-all score-btn cursor-pointer ${
+              className={`h-24 sm:h-28 rounded-2xl border backdrop-blur-xl flex flex-col items-center justify-center gap-1 transition-all duration-200 cursor-pointer ${
                 btn.style
-              } ${!canScore || !isLive ? 'opacity-40 cursor-not-allowed' : ''}`}
+              } ${!canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''}`}
             >
               <span className="text-3xl sm:text-4xl font-black font-digit tracking-tight">
                 {btn.label}
               </span>
-              <span className="text-[9px] sm:text-[10px] font-black font-mono uppercase tracking-widest">
+              <span className="text-[10px] font-semibold uppercase tracking-wider opacity-85 font-sans">
                 {btn.sub}
               </span>
             </motion.button>
           ))}
         </div>
 
-        {/* Wicket & Extras Row */}
+        {/* Wicket & Extras Row (Frosted Glass Panels) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
           {/* Extras Button */}
           <motion.button
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.96 }}
             disabled={!canScore || !isLive}
             onClick={onOpenExtras}
-            className={`py-4 px-5 rounded-2xl bg-gradient-to-r from-[#1f1600] to-[#0a0800] border-2 border-[#fcee0a]/80 text-[#fcee0a] flex items-center justify-center gap-3.5 shadow-lg shadow-[#fcee0a]/15 transition-all score-btn cursor-pointer ${
-              !canScore || !isLive ? 'opacity-40 cursor-not-allowed' : ''
+            className={`py-4 px-5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-white/[0.03] to-transparent border border-amber-400/40 text-amber-200 flex items-center justify-center gap-3.5 backdrop-blur-xl shadow-lg shadow-amber-500/10 transition-all duration-200 cursor-pointer hover:bg-amber-500/25 ${
+              !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
             }`}
           >
-            <Plus className="w-6 h-6 stroke-[3] text-[#fcee0a]" />
+            <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300">
+              <Plus className="w-5 h-5 stroke-[2.5]" />
+            </div>
             <div className="text-left">
-              <p className="text-base sm:text-lg font-black font-cyber uppercase tracking-wider text-glow-yellow">
-                EXTRAS
+              <p className="text-base sm:text-lg font-bold font-display tracking-tight text-amber-300">
+                Extras
               </p>
-              <p className="text-[10px] font-mono text-slate-300">
+              <p className="text-[11px] text-slate-300">
                 Wide • No Ball • Bye • Leg Bye • Penalty
               </p>
             </div>
@@ -148,19 +152,21 @@ export default function ScoreKeypad({
 
           {/* Wicket Button */}
           <motion.button
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.96 }}
             disabled={!canScore || !isLive}
             onClick={onOpenWicket}
-            className={`py-4 px-5 rounded-2xl bg-gradient-to-r from-[#29000a] to-[#0d0004] border-2 border-[#ff0055] text-white flex items-center justify-center gap-3.5 shadow-xl shadow-[#ff0055]/30 transition-all score-btn cursor-pointer ${
-              !canScore || !isLive ? 'opacity-40 cursor-not-allowed' : ''
+            className={`py-4 px-5 rounded-2xl bg-gradient-to-r from-rose-500/20 via-white/[0.03] to-transparent border border-rose-400/50 text-white flex items-center justify-center gap-3.5 backdrop-blur-xl shadow-lg shadow-rose-500/15 transition-all duration-200 cursor-pointer hover:bg-rose-500/30 ${
+              !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
             }`}
           >
-            <AlertOctagon className="w-6 h-6 text-[#ff0055] animate-pulse" />
+            <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-400 animate-pulse">
+              <AlertOctagon className="w-5 h-5 stroke-[2.5]" />
+            </div>
             <div className="text-left">
-              <p className="text-base sm:text-lg font-black font-cyber uppercase tracking-wider text-[#ff0055] text-glow-pink">
-                WICKET (OUT)
+              <p className="text-base sm:text-lg font-bold font-display tracking-tight text-rose-300">
+                Wicket (OUT)
               </p>
-              <p className="text-[10px] font-mono text-slate-300">
+              <p className="text-[11px] text-slate-300">
                 Bowled • Caught • LBW • Run Out • Stumped
               </p>
             </div>
@@ -168,13 +174,13 @@ export default function ScoreKeypad({
         </div>
 
         {/* Secondary Match Flow Controls Toolbar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3 border-t border-[#00f0ff]/15 font-mono text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3 border-t border-white/[0.08] text-xs font-semibold">
           {/* Switch Strike */}
           <button
             type="button"
             onClick={onSwitchStrike}
             disabled={!isLive}
-            className="py-2.5 px-3 rounded-xl bg-[#050814] hover:bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff]/30 font-bold flex items-center justify-center gap-1.5 transition-all disabled:opacity-40"
+            className="py-2.5 px-3 rounded-xl bg-white/[0.04] hover:bg-cyan-500/15 text-cyan-300 border border-white/[0.08] hover:border-cyan-400/30 flex items-center justify-center gap-2 transition-all disabled:opacity-35"
           >
             <ArrowLeftRight className="w-3.5 h-3.5" />
             <span>Switch Strike</span>
@@ -185,7 +191,7 @@ export default function ScoreKeypad({
             type="button"
             onClick={onOpenChangeBowler}
             disabled={!isLive}
-            className="py-2.5 px-3 rounded-xl bg-[#050814] hover:bg-[#fcee0a]/10 text-[#fcee0a] border border-[#fcee0a]/30 font-bold flex items-center justify-center gap-1.5 transition-all disabled:opacity-40"
+            className="py-2.5 px-3 rounded-xl bg-white/[0.04] hover:bg-amber-500/15 text-amber-300 border border-white/[0.08] hover:border-amber-400/30 flex items-center justify-center gap-2 transition-all disabled:opacity-35"
           >
             <RotateCw className="w-3.5 h-3.5" />
             <span>Change Bowler</span>
@@ -195,13 +201,13 @@ export default function ScoreKeypad({
           <button
             type="button"
             onClick={onTogglePause}
-            className={`py-2.5 px-3 rounded-xl border font-bold flex items-center justify-center gap-1.5 transition-all ${
+            className={`py-2.5 px-3 rounded-xl border flex items-center justify-center gap-2 transition-all ${
               isPaused
-                ? 'bg-[#39ff14]/20 text-[#39ff14] border-[#39ff14]'
-                : 'bg-[#050814] text-slate-300 border-[#00f0ff]/30 hover:border-[#00f0ff]'
+                ? 'bg-emerald-500/25 text-emerald-300 border-emerald-400/40 shadow-sm'
+                : 'bg-white/[0.04] text-slate-300 border-white/[0.08] hover:border-white/20 hover:text-white'
             }`}
           >
-            {isPaused ? <Play className="w-3.5 h-3.5 text-[#39ff14]" /> : <Pause className="w-3.5 h-3.5 text-[#fcee0a]" />}
+            {isPaused ? <Play className="w-3.5 h-3.5 text-emerald-400" /> : <Pause className="w-3.5 h-3.5 text-amber-400" />}
             <span>{isPaused ? 'Resume Match' : 'Pause Match'}</span>
           </button>
 
@@ -210,7 +216,7 @@ export default function ScoreKeypad({
             <button
               type="button"
               onClick={onConfirmEndInnings}
-              className="py-2.5 px-3 rounded-xl bg-[#050814] hover:bg-[#ff0055]/20 text-[#ff0055] border border-[#ff0055]/40 font-bold flex items-center justify-center gap-1.5 transition-all"
+              className="py-2.5 px-3 rounded-xl bg-white/[0.04] hover:bg-rose-500/20 text-rose-300 border border-white/[0.08] hover:border-rose-400/30 flex items-center justify-center gap-2 transition-all"
             >
               <Flag className="w-3.5 h-3.5" />
               <span>End 1st Innings</span>
@@ -219,7 +225,7 @@ export default function ScoreKeypad({
             <button
               type="button"
               onClick={onConfirmEndMatch}
-              className="py-2.5 px-3 rounded-xl bg-[#050814] hover:bg-[#ff0055]/20 text-[#ff0055] border border-[#ff0055]/40 font-bold flex items-center justify-center gap-1.5 transition-all"
+              className="py-2.5 px-3 rounded-xl bg-white/[0.04] hover:bg-rose-500/20 text-rose-300 border border-white/[0.08] hover:border-rose-400/30 flex items-center justify-center gap-2 transition-all"
             >
               <Flag className="w-3.5 h-3.5" />
               <span>End Match</span>

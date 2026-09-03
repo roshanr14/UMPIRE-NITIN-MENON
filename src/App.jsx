@@ -92,8 +92,26 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070a12] text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950">
-      {/* Top Application Header */}
+    <div className="min-h-screen bg-[#050713] text-slate-100 flex flex-col relative selection:bg-cyan-500/30 selection:text-white font-sans">
+      {/* Dynamic Animated Liquid Glass Background Orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10 transform-gpu">
+        {/* Top-Left Fluid Cyan Orb */}
+        <div className="absolute -top-32 -left-32 w-[550px] h-[550px] rounded-full bg-cyan-500/15 blur-[120px] animate-fluid-1" />
+        
+        {/* Top-Right Fluid Violet Orb */}
+        <div className="absolute -top-24 -right-24 w-[650px] h-[650px] rounded-full bg-purple-600/15 blur-[140px] animate-fluid-2" />
+        
+        {/* Center Accent Floating Aqua Orb */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[450px] h-[450px] rounded-full bg-indigo-500/10 blur-[130px] animate-fluid-3" />
+        
+        {/* Bottom-Left Fluid Rose Orb */}
+        <div className="absolute -bottom-32 -left-20 w-[500px] h-[500px] rounded-full bg-rose-500/10 blur-[130px] animate-fluid-2" />
+        
+        {/* Bottom-Right Fluid Emerald Orb */}
+        <div className="absolute -bottom-24 -right-24 w-[550px] h-[550px] rounded-full bg-emerald-500/10 blur-[120px] animate-fluid-1" />
+      </div>
+
+      {/* Top Floating Application Header */}
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -103,8 +121,8 @@ function MainApp() {
         onToggleVoice={handleToggleVoice}
       />
 
-      {/* Main View Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+      {/* Main Liquid Glass View Container */}
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 relative z-10">
         {activeTab === 'dashboard' && (
           <Dashboard
             onOpenCreateMatch={() => setIsCreateOpen(true)}

@@ -9,8 +9,8 @@ export default function AuthModal({ isOpen, onClose }) {
   const [mode, setMode] = useState('profile'); // 'login' | 'signup' | 'profile'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState(user?.user_metadata?.name || 'Official Umpire');
-  const [role, setRole] = useState(user?.user_metadata?.role || 'Lead Match Umpire');
+  const [name, setName] = useState(user?.user_metadata?.name || 'Nitin Menon');
+  const [role, setRole] = useState(user?.user_metadata?.role || 'ICC Elite Panel Umpire');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -62,50 +62,50 @@ export default function AuthModal({ isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden"
+          className="w-full max-w-md glass-panel-elevated border border-white/[0.18] rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden font-sans"
         >
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <div className="p-2.5 rounded-2xl bg-cyan-500/15 text-cyan-300 border border-cyan-400/30">
                 <User className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-100 font-display">
+                <h3 className="text-xl font-bold text-white font-display">
                   {mode === 'profile'
                     ? 'Umpire Profile & Session'
                     : mode === 'login'
                     ? 'Umpire Sign In'
                     : 'Register Scorer Account'}
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-300">
                   {mode === 'profile'
-                    ? 'Manage audit identity and credentials'
-                    : 'Supabase Authentication'}
+                    ? 'Manage official identity and credentials'
+                    : 'Cloud Database Synchronization'}
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800 transition-colors"
+              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/[0.08] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {errorMsg && (
-            <div className="mt-4 p-3 rounded-xl bg-red-950/60 border border-red-800 text-xs text-red-300">
+            <div className="mt-4 p-3 rounded-2xl bg-rose-500/20 border border-rose-400/30 text-xs text-rose-300">
               {errorMsg}
             </div>
           )}
 
           {successMsg && (
-            <div className="mt-4 p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 text-xs text-emerald-300 flex items-center gap-2">
+            <div className="mt-4 p-3 rounded-2xl bg-emerald-500/20 border border-emerald-400/30 text-xs text-emerald-300 flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-emerald-400" />
               {successMsg}
             </div>
@@ -114,46 +114,47 @@ export default function AuthModal({ isOpen, onClose }) {
           {/* Profile Mode */}
           {mode === 'profile' && (
             <form onSubmit={handleUpdateProfile} className="mt-6 space-y-4">
-              <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800">
-                <div className="w-12 h-12 rounded-xl bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-lg">
-                  {name.charAt(0) || 'U'}
+              <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-indigo-500 text-slate-950 font-black text-xl flex items-center justify-center shadow-md">
+                  {name.charAt(0) || 'N'}
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-100 text-sm">{name}</h4>
-                  <p className="text-xs text-slate-400">{user?.email || 'Guest Scorer'}</p>
-                  <span className="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800/40">
+                  <h4 className="font-bold text-white text-sm">{name}</h4>
+                  <p className="text-xs text-slate-400">{user?.email || 'Official Scorer'}</p>
+                  <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
                     {role}
                   </span>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                  Scorer / Umpire Name
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                  Official Scorer / Umpire Name
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm text-slate-100 outline-none"
+                  className="w-full px-4 py-2.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-sm text-slate-100 outline-none backdrop-blur-md"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
                   Official Match Role
                 </label>
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm text-slate-100 outline-none"
+                  className="w-full px-4 py-2.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-sm text-slate-100 outline-none backdrop-blur-md"
                 >
-                  <option value="Lead Match Umpire">Lead Match Umpire</option>
-                  <option value="Leg Umpire">Leg Umpire</option>
-                  <option value="Third Umpire">Third Umpire / TV Umpire</option>
-                  <option value="Official Scorer">Official Match Scorer</option>
-                  <option value="Match Referee">Match Referee</option>
+                  <option value="ICC Elite Panel Umpire" className="bg-slate-900 text-white">ICC Elite Panel Umpire</option>
+                  <option value="Lead Match Umpire" className="bg-slate-900 text-white">Lead Match Umpire</option>
+                  <option value="Leg Umpire" className="bg-slate-900 text-white">Leg Umpire</option>
+                  <option value="Third Umpire" className="bg-slate-900 text-white">Third Umpire / TV Umpire</option>
+                  <option value="Official Scorer" className="bg-slate-900 text-white">Official Match Scorer</option>
+                  <option value="Match Referee" className="bg-slate-900 text-white">Match Referee</option>
                 </select>
               </div>
 
@@ -161,15 +162,15 @@ export default function AuthModal({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={() => setMode('login')}
-                  className="text-xs text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
+                  className="text-xs text-cyan-300 hover:underline flex items-center gap-1 font-semibold"
                 >
-                  Switch / Sign in with Supabase
+                  Switch / Cloud Account
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
 
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-950 transition-all"
+                  className="px-5 py-2.5 rounded-xl glass-btn-primary font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
                 >
                   Save Profile
                 </button>
@@ -181,34 +182,34 @@ export default function AuthModal({ isOpen, onClose }) {
           {mode === 'login' && (
             <form onSubmit={handleLogin} className="mt-6 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="umpire@ground.org"
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm text-slate-100 outline-none"
+                    placeholder="umpire@cricket.org"
+                    className="w-full pl-10 pr-4 py-2.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-sm text-slate-100 outline-none backdrop-blur-md"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm text-slate-100 outline-none"
+                    className="w-full pl-10 pr-4 py-2.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-sm text-slate-100 outline-none backdrop-blur-md"
                     required
                   />
                 </div>
@@ -218,26 +219,26 @@ export default function AuthModal({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={() => setMode('signup')}
-                  className="text-xs text-slate-400 hover:text-emerald-400"
+                  className="text-xs text-slate-400 hover:text-cyan-300"
                 >
                   Need an account? Sign up
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-950 transition-all"
+                  className="px-5 py-2.5 rounded-xl glass-btn-primary font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
                 >
                   {loading ? 'Authenticating...' : 'Sign In'}
                 </button>
               </div>
 
-              <div className="pt-3 border-t border-slate-800 text-center">
+              <div className="pt-3 border-t border-white/[0.08] text-center">
                 <button
                   type="button"
                   onClick={() => setMode('profile')}
                   className="text-xs text-slate-400 hover:text-white"
                 >
-                  Continue as Guest Scorer
+                  Continue as Guest Umpire
                 </button>
               </div>
             </form>
@@ -247,35 +248,35 @@ export default function AuthModal({ isOpen, onClose }) {
           {mode === 'signup' && (
             <form onSubmit={handleSignup} className="mt-6 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
                   Full Name
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Richard Kettleborough"
-                  className="w-full px-4 py-2 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm text-slate-100 outline-none"
+                  placeholder="e.g. Nitin Menon"
+                  className="w-full px-4 py-2.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-sm text-slate-100 outline-none backdrop-blur-md"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
                   Email Address
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="umpire@ground.org"
-                  className="w-full px-4 py-2 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm text-slate-100 outline-none"
+                  placeholder="umpire@cricket.org"
+                  className="w-full px-4 py-2.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-sm text-slate-100 outline-none backdrop-blur-md"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
                   Password
                 </label>
                 <input
@@ -283,7 +284,7 @@ export default function AuthModal({ isOpen, onClose }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Min. 6 characters"
-                  className="w-full px-4 py-2 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-sm text-slate-100 outline-none"
+                  className="w-full px-4 py-2.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-sm text-slate-100 outline-none backdrop-blur-md"
                   required
                 />
               </div>
@@ -292,14 +293,14 @@ export default function AuthModal({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={() => setMode('login')}
-                  className="text-xs text-slate-400 hover:text-emerald-400"
+                  className="text-xs text-slate-400 hover:text-cyan-300"
                 >
                   Already registered? Sign in
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-950 transition-all"
+                  className="px-5 py-2.5 rounded-xl glass-btn-primary font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
                 >
                   {loading ? 'Registering...' : 'Create Account'}
                 </button>

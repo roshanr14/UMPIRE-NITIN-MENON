@@ -25,30 +25,30 @@ export default function ShortcutsModal({ isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden"
+          className="w-full max-w-2xl glass-panel-elevated border border-white/[0.18] rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden font-sans"
         >
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <div className="p-2.5 rounded-2xl bg-cyan-500/15 text-cyan-300 border border-cyan-400/30">
                 <Keyboard className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-100 font-display">
+                <h3 className="text-xl font-bold text-white font-display">
                   Umpire Keyboard Shortcuts
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-300">
                   Operate the live scoreboard at lightning speed with single keypresses
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800 transition-colors"
+              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/[0.08] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -58,26 +58,26 @@ export default function ShortcutsModal({ isOpen, onClose }) {
             {shortcuts.map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-between p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 hover:border-emerald-500/30 transition-all group"
+                className="flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/40 hover:bg-white/[0.06] transition-all group"
               >
-                <span className="text-sm font-medium text-slate-300 group-hover:text-white">
+                <span className="text-sm font-medium text-slate-200 group-hover:text-white">
                   {item.desc}
                 </span>
-                <kbd className="px-2.5 py-1 text-xs font-mono font-bold text-emerald-400 bg-slate-900 border border-slate-700 rounded-lg shadow-sm group-hover:border-emerald-500/50">
+                <kbd className="px-2.5 py-1 text-xs font-mono font-bold text-cyan-300 bg-white/[0.06] border border-white/[0.14] rounded-xl shadow-sm group-hover:border-cyan-400/50">
                   {item.key}
                 </kbd>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
-            <span className="flex items-center gap-1.5 text-emerald-400/90 font-medium">
-              <Sparkles className="w-4 h-4 text-emerald-400" />
+          <div className="mt-6 pt-4 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs text-slate-300">
+            <span className="flex items-center gap-1.5 text-cyan-300 font-medium">
+              <Sparkles className="w-4 h-4 text-cyan-400" />
               Hotkeys active anytime on Live Scoring screen
             </span>
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-950 transition-all"
+              className="px-5 py-2.5 rounded-xl glass-btn-primary font-bold text-xs flex items-center gap-1.5 shadow-md shadow-cyan-500/20 transition-all"
             >
               Got it
               <CornerDownLeft className="w-3.5 h-3.5" />

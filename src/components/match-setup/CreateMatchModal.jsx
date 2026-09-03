@@ -9,6 +9,7 @@ import {
   Trash2,
   Crown,
   Shield,
+  Sparkles,
 } from 'lucide-react';
 
 const DEFAULT_TEAM_A_PLAYERS = Array.from({ length: 11 }, (_, i) => ({
@@ -143,31 +144,31 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md">
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 15 }}
-          className="w-full max-w-4xl max-h-[92vh] bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl flex flex-col relative overflow-hidden"
+          className="w-full max-w-4xl max-h-[92vh] glass-panel-elevated border border-white/[0.18] rounded-3xl p-5 sm:p-7 shadow-2xl flex flex-col relative overflow-hidden font-sans"
         >
           {/* Header */}
-          <div className="flex items-center justify-between pb-3.5 border-b border-slate-800 shrink-0">
+          <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08] shrink-0">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <div className="p-2.5 rounded-2xl bg-cyan-500/15 text-cyan-300 border border-cyan-400/30">
                 <Trophy className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-100 font-display">
+                <h3 className="text-xl font-bold text-white font-display">
                   Create New Match & Playing 11
                 </h3>
-                <p className="text-xs text-slate-400">
-                  Enter match details, custom team names, and player roster
+                <p className="text-xs text-slate-300">
+                  Enter match details, custom team names, and squad roster
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800 transition-colors"
+              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/[0.08] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -179,7 +180,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
               {/* Match Format & Ground Row */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
                     Match Format
                   </label>
                   <select
@@ -191,18 +192,18 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       if (e.target.value === 'T10') setOvers(10);
                       if (e.target.value === 'The Hundred') setOvers(16);
                     }}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-xs text-slate-100 outline-none"
+                    className="w-full px-3 py-2 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs text-slate-100 outline-none backdrop-blur-md"
                   >
-                    <option value="T20">Twenty20 (T20)</option>
-                    <option value="T10">T10 Blitz</option>
-                    <option value="ODI">One Day International (50 Overs)</option>
-                    <option value="Club 15">Club Derby (15 Overs)</option>
-                    <option value="Custom">Custom Overs</option>
+                    <option value="T20" className="bg-slate-900 text-white">Twenty20 (T20)</option>
+                    <option value="T10" className="bg-slate-900 text-white">T10 Blitz</option>
+                    <option value="ODI" className="bg-slate-900 text-white">One Day International (50 Overs)</option>
+                    <option value="Club 15" className="bg-slate-900 text-white">Club Derby (15 Overs)</option>
+                    <option value="Custom" className="bg-slate-900 text-white">Custom Overs</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
                     Overs per Innings
                   </label>
                   <input
@@ -211,13 +212,13 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                     max="100"
                     value={overs}
                     onChange={(e) => setOvers(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-xs text-slate-100 outline-none font-digit font-bold"
+                    className="w-full px-3 py-2 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs text-slate-100 outline-none font-digit font-bold backdrop-blur-md"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
                     Venue / Ground
                   </label>
                   <input
@@ -225,17 +226,17 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                     value={venue}
                     onChange={(e) => setVenue(e.target.value)}
                     placeholder="e.g. City Sports Ground"
-                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-xs text-slate-100 outline-none"
+                    className="w-full px-3 py-2 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs text-slate-100 outline-none backdrop-blur-md"
                     required
                   />
                 </div>
               </div>
 
               {/* Team Names & Colors */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-4 rounded-2xl bg-slate-950/80 border border-slate-800">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl">
                 {/* Team A Info */}
                 <div className="space-y-2">
-                  <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
                     Team 1 (Host Team)
                   </label>
                   <div className="flex items-center gap-2">
@@ -243,7 +244,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       type="color"
                       value={teamAColor}
                       onChange={(e) => setTeamAColor(e.target.value)}
-                      className="w-9 h-9 rounded-xl bg-transparent cursor-pointer shrink-0 border border-slate-700"
+                      className="w-9 h-9 rounded-xl bg-transparent cursor-pointer shrink-0 border border-white/20"
                       title="Choose Team 1 Color"
                     />
                     <input
@@ -251,7 +252,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       value={teamAName}
                       onChange={(e) => setTeamAName(e.target.value)}
                       placeholder="Enter Team 1 Name"
-                      className="flex-1 px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-100 font-bold outline-none"
+                      className="flex-1 px-3 py-2 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs text-slate-100 font-bold outline-none backdrop-blur-md"
                       required
                     />
                     <input
@@ -260,14 +261,14 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       value={teamAShort}
                       onChange={(e) => setTeamAShort(e.target.value.toUpperCase())}
                       placeholder="CODE"
-                      className="w-16 px-2 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-100 font-bold outline-none uppercase text-center"
+                      className="w-16 px-2 py-2 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs text-slate-100 font-bold outline-none uppercase text-center backdrop-blur-md"
                     />
                   </div>
                 </div>
 
                 {/* Team B Info */}
                 <div className="space-y-2">
-                  <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
                     Team 2 (Visiting Team)
                   </label>
                   <div className="flex items-center gap-2">
@@ -275,7 +276,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       type="color"
                       value={teamBColor}
                       onChange={(e) => setTeamBColor(e.target.value)}
-                      className="w-9 h-9 rounded-xl bg-transparent cursor-pointer shrink-0 border border-slate-700"
+                      className="w-9 h-9 rounded-xl bg-transparent cursor-pointer shrink-0 border border-white/20"
                       title="Choose Team 2 Color"
                     />
                     <input
@@ -283,7 +284,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       value={teamBName}
                       onChange={(e) => setTeamBName(e.target.value)}
                       placeholder="Enter Team 2 Name"
-                      className="flex-1 px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-100 font-bold outline-none"
+                      className="flex-1 px-3 py-2 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs text-slate-100 font-bold outline-none backdrop-blur-md"
                       required
                     />
                     <input
@@ -292,16 +293,16 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       value={teamBShort}
                       onChange={(e) => setTeamBShort(e.target.value.toUpperCase())}
                       placeholder="CODE"
-                      className="w-16 px-2 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-100 font-bold outline-none uppercase text-center"
+                      className="w-16 px-2 py-2 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs text-slate-100 font-bold outline-none uppercase text-center backdrop-blur-md"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Toss Picker */}
-              <div className="p-4 rounded-2xl bg-emerald-950/20 border border-emerald-800/40 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-cyan-500/10 via-white/[0.02] to-transparent border border-cyan-400/30 backdrop-blur-xl grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-xs font-bold text-emerald-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-semibold text-cyan-300 uppercase tracking-wider mb-1.5">
                     Toss Winner
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -310,8 +311,8 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       onClick={() => setTossWinner('A')}
                       className={`py-2 rounded-xl text-xs font-bold border transition-all ${
                         tossWinner === 'A'
-                          ? 'bg-emerald-600 text-white border-emerald-400 shadow-md'
-                          : 'bg-slate-900 text-slate-300 border-slate-800'
+                          ? 'bg-cyan-500/30 text-white border-cyan-400 shadow-md'
+                          : 'bg-white/[0.03] text-slate-300 border-white/[0.08]'
                       }`}
                     >
                       {teamAName || 'Team 1'}
@@ -321,8 +322,8 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       onClick={() => setTossWinner('B')}
                       className={`py-2 rounded-xl text-xs font-bold border transition-all ${
                         tossWinner === 'B'
-                          ? 'bg-emerald-600 text-white border-emerald-400 shadow-md'
-                          : 'bg-slate-900 text-slate-300 border-slate-800'
+                          ? 'bg-cyan-500/30 text-white border-cyan-400 shadow-md'
+                          : 'bg-white/[0.03] text-slate-300 border-white/[0.08]'
                       }`}
                     >
                       {teamBName || 'Team 2'}
@@ -331,7 +332,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-emerald-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-semibold text-cyan-300 uppercase tracking-wider mb-1.5">
                     Toss Decision
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -340,8 +341,8 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       onClick={() => setTossDecision('bat')}
                       className={`py-2 rounded-xl text-xs font-bold border transition-all ${
                         tossDecision === 'bat'
-                          ? 'bg-emerald-600 text-white border-emerald-400 shadow-md'
-                          : 'bg-slate-900 text-slate-300 border-slate-800'
+                          ? 'bg-cyan-500/30 text-white border-cyan-400 shadow-md'
+                          : 'bg-white/[0.03] text-slate-300 border-white/[0.08]'
                       }`}
                     >
                       Elected to Bat 🏏
@@ -351,8 +352,8 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                       onClick={() => setTossDecision('bowl')}
                       className={`py-2 rounded-xl text-xs font-bold border transition-all ${
                         tossDecision === 'bowl'
-                          ? 'bg-emerald-600 text-white border-emerald-400 shadow-md'
-                          : 'bg-slate-900 text-slate-300 border-slate-800'
+                          ? 'bg-cyan-500/30 text-white border-cyan-400 shadow-md'
+                          : 'bg-white/[0.03] text-slate-300 border-white/[0.08]'
                       }`}
                     >
                       Elected to Bowl ⚾
@@ -362,27 +363,27 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
               </div>
 
               {/* PLAYING 11 ROSTER BUILDER */}
-              <div className="p-4 sm:p-5 rounded-3xl bg-slate-950/90 border border-slate-800 space-y-4">
+              <div className="p-4 sm:p-5 rounded-3xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl space-y-4">
                 {/* Roster Team Switcher Tab */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/[0.08]">
                   <div>
-                    <h4 className="text-sm font-extrabold uppercase tracking-wider text-slate-100 font-display flex items-center gap-2">
-                      <Users className="w-4 h-4 text-emerald-400" />
+                    <h4 className="text-sm font-bold uppercase tracking-wider text-white font-display flex items-center gap-2">
+                      <Users className="w-4 h-4 text-cyan-400" />
                       Playing 11 Squad Entry
                     </h4>
-                    <p className="text-[11px] text-slate-400">
+                    <p className="text-[11px] text-slate-300">
                       Set batting order, player roles, team captain (C), and wicketkeeper (WK)
                     </p>
                   </div>
 
                   {/* Team Switcher Buttons */}
-                  <div className="flex items-center gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800">
+                  <div className="flex items-center gap-1.5 bg-white/[0.04] p-1 rounded-2xl border border-white/[0.08]">
                     <button
                       type="button"
                       onClick={() => setActiveRosterTeam('A')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
                         activeRosterTeam === 'A'
-                          ? 'bg-emerald-600 text-white shadow-md'
+                          ? 'bg-cyan-500/30 text-white border border-cyan-400/40 shadow-sm'
                           : 'text-slate-400 hover:text-white'
                       }`}
                     >
@@ -396,9 +397,9 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                     <button
                       type="button"
                       onClick={() => setActiveRosterTeam('B')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
                         activeRosterTeam === 'B'
-                          ? 'bg-emerald-600 text-white shadow-md'
+                          ? 'bg-cyan-500/30 text-white border border-cyan-400/40 shadow-sm'
                           : 'text-slate-400 hover:text-white'
                       }`}
                     >
@@ -412,7 +413,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                 </div>
 
                 {/* Squad Summary Pill */}
-                <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-[11px] text-slate-300 font-semibold">
+                <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-xs text-slate-300 font-medium">
                   <div className="flex items-center gap-3">
                     <span>🏏 {batCount} Batsmen</span>
                     <span>⚡ {arCount} All-Rounders</span>
@@ -421,19 +422,19 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
 
                   <div className="flex items-center gap-2">
                     <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                         hasCap
-                          ? 'bg-amber-950 text-amber-300 border border-amber-800/60'
-                          : 'bg-red-950 text-red-400 border border-red-800/60'
+                          ? 'bg-amber-400/20 text-amber-300 border border-amber-400/30'
+                          : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
                       }`}
                     >
                       {hasCap ? '👑 Captain Set' : '⚠️ No Captain'}
                     </span>
                     <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                         hasWk
-                          ? 'bg-sky-950 text-sky-300 border border-sky-800/60'
-                          : 'bg-red-950 text-red-400 border border-red-800/60'
+                          ? 'bg-sky-400/20 text-sky-300 border border-sky-400/30'
+                          : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
                       }`}
                     >
                       {hasWk ? '🧤 Keeper Set' : '⚠️ No Keeper'}
@@ -450,14 +451,14 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                     return (
                       <div
                         key={idx}
-                        className="p-2.5 sm:p-3 rounded-2xl bg-slate-900/80 border border-slate-800/90 hover:border-slate-700 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 transition-all group"
+                        className="p-2.5 sm:p-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 hover:bg-white/[0.06] flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 transition-all group"
                       >
                         {/* Order Number & Tag */}
                         <div className="flex items-center gap-2.5 shrink-0">
-                          <span className="w-7 h-7 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-center font-digit font-black text-xs text-emerald-400">
+                          <span className="w-7 h-7 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center font-digit font-bold text-xs text-cyan-300">
                             #{idx + 1}
                           </span>
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 hidden md:inline w-16">
+                          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 hidden md:inline w-16">
                             {positionTag}
                           </span>
                         </div>
@@ -469,7 +470,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                             value={player.name}
                             onChange={(e) => handleUpdatePlayer(idx, 'name', e.target.value)}
                             placeholder={`Enter player ${idx + 1} name...`}
-                            className="w-full px-3 py-1.5 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-xs font-semibold text-slate-100 outline-none transition-all placeholder:text-slate-500"
+                            className="w-full px-3 py-1.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs font-semibold text-slate-100 outline-none transition-all placeholder:text-slate-500"
                           />
                         </div>
 
@@ -478,11 +479,11 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                           <select
                             value={player.role}
                             onChange={(e) => handleUpdatePlayer(idx, 'role', e.target.value)}
-                            className="w-full px-2 py-1.5 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl text-[11px] font-bold text-slate-300 outline-none"
+                            className="w-full px-2 py-1.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-[11px] font-semibold text-slate-200 outline-none"
                           >
-                            <option value="Batsman">🏏 Batsman</option>
-                            <option value="All-Rounder">⚡ All-Rounder</option>
-                            <option value="Bowler">⚾ Bowler</option>
+                            <option value="Batsman" className="bg-slate-900 text-white">🏏 Batsman</option>
+                            <option value="All-Rounder" className="bg-slate-900 text-white">⚡ All-Rounder</option>
+                            <option value="Bowler" className="bg-slate-900 text-white">⚾ Bowler</option>
                           </select>
                         </div>
 
@@ -491,10 +492,10 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                           <button
                             type="button"
                             onClick={() => handleUpdatePlayer(idx, 'isCaptain', !player.isCaptain)}
-                            className={`px-2.5 py-1.5 rounded-xl text-[11px] font-extrabold flex items-center gap-1 transition-all ${
+                            className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-all ${
                               player.isCaptain
-                                ? 'bg-amber-500 text-black shadow-md shadow-amber-950 scale-105 border border-amber-400'
-                                : 'bg-slate-950 text-slate-400 hover:text-amber-300 border border-slate-800'
+                                ? 'bg-amber-400 text-slate-950 shadow-md scale-105 border border-amber-300 font-extrabold'
+                                : 'bg-white/[0.04] text-slate-400 hover:text-amber-300 border border-white/[0.08]'
                             }`}
                             title="Toggle Captain"
                           >
@@ -505,10 +506,10 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                           <button
                             type="button"
                             onClick={() => handleUpdatePlayer(idx, 'isKeeper', !player.isKeeper)}
-                            className={`px-2.5 py-1.5 rounded-xl text-[11px] font-extrabold flex items-center gap-1 transition-all ${
+                            className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-all ${
                               player.isKeeper
-                                ? 'bg-sky-500 text-black shadow-md shadow-sky-950 scale-105 border border-sky-400'
-                                : 'bg-slate-950 text-slate-400 hover:text-sky-300 border border-slate-800'
+                                ? 'bg-sky-400 text-slate-950 shadow-md scale-105 border border-sky-300 font-extrabold'
+                                : 'bg-white/[0.04] text-slate-400 hover:text-sky-300 border border-white/[0.08]'
                             }`}
                             title="Toggle Wicketkeeper"
                           >
@@ -521,7 +522,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                             <button
                               type="button"
                               onClick={() => handleRemovePlayer(idx)}
-                              className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-slate-800 transition-colors"
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                               title="Remove player"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -538,7 +539,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                   <button
                     type="button"
                     onClick={handleAddPlayer}
-                    className="w-full py-2.5 rounded-2xl border border-dashed border-slate-800 hover:border-emerald-500/60 bg-slate-950/50 hover:bg-slate-900 text-xs font-bold text-slate-400 hover:text-emerald-400 flex items-center justify-center gap-1.5 transition-all"
+                    className="w-full py-2.5 rounded-2xl border border-dashed border-white/20 hover:border-cyan-400/60 bg-white/[0.02] hover:bg-white/[0.05] text-xs font-semibold text-slate-300 hover:text-cyan-300 flex items-center justify-center gap-1.5 transition-all"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Add Extra Player / Substitute (#{currentPlayers.length + 1})</span>
@@ -549,11 +550,11 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
           </div>
 
           {/* Footer */}
-          <div className="pt-3.5 border-t border-slate-800 shrink-0 flex items-center justify-between">
+          <div className="pt-3.5 border-t border-white/[0.08] shrink-0 flex items-center justify-between">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition-all"
+              className="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-white/[0.08] transition-all"
             >
               Cancel
             </button>
@@ -561,7 +562,7 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
             <button
               type="submit"
               form="custom-match-form"
-              className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-950 transition-all active:scale-95"
+              className="px-6 py-2.5 rounded-xl glass-btn-primary font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition-all active:scale-95"
             >
               <Play className="w-4 h-4 fill-current" />
               Start Match Live

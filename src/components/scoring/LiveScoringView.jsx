@@ -155,7 +155,7 @@ export default function LiveScoringView({
   }
 
   return (
-    <div className="space-y-5 max-w-7xl mx-auto pb-16">
+    <div className="space-y-5 max-w-7xl mx-auto pb-16 font-sans">
       {/* Broadcast Header Scorecard Banner */}
       <ScoreboardBanner match={match} currentInnings={currentInnings} />
 
@@ -164,23 +164,24 @@ export default function LiveScoringView({
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-6 rounded-3xl bg-gradient-to-r from-sky-950 via-slate-900 to-indigo-950 border-2 border-sky-500/50 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4"
+          className="p-6 rounded-3xl glass-panel border border-cyan-400/40 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 relative overflow-hidden"
         >
-          <div>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-sky-900 text-sky-300 border border-sky-700">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 uppercase tracking-wider">
               1st Innings Concluded
             </span>
-            <h3 className="text-2xl font-extrabold text-white font-display mt-1">
+            <h3 className="text-2xl font-bold text-white font-display mt-2">
               Target for {match.innings2?.battingTeamName}: {match.innings2?.target} Runs
             </h3>
-            <p className="text-xs text-slate-300 mt-0.5">
+            <p className="text-xs text-slate-300 mt-1">
               {match.innings1?.battingTeamName} scored {match.innings1?.totalRuns}/{match.innings1?.wickets} in {match.totalOvers} overs.
             </p>
           </div>
 
           <button
             onClick={startInnings2}
-            className="px-6 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-extrabold text-sm flex items-center gap-2 shadow-xl shadow-sky-950 transition-all active:scale-95 shrink-0"
+            className="px-6 py-3.5 rounded-2xl glass-btn-primary font-bold text-sm flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition-all active:scale-95 shrink-0 relative z-10"
           >
             <Play className="w-4 h-4 fill-current" />
             <span>Start 2nd Innings</span>
@@ -193,26 +194,27 @@ export default function LiveScoringView({
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-6 rounded-3xl bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 border-2 border-emerald-500 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4"
+          className="p-6 rounded-3xl glass-panel border border-emerald-400/40 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 relative overflow-hidden"
         >
-          <div>
+          <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10">
             <div className="flex items-center gap-2">
               <Trophy className="w-5 h-5 text-emerald-400" />
-              <span className="text-xs font-black uppercase tracking-wider text-emerald-400">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
                 Match Concluded
               </span>
             </div>
-            <h3 className="text-2xl font-extrabold text-white font-display mt-1">
+            <h3 className="text-2xl font-bold text-white font-display mt-1">
               {match.result || 'Match Completed!'}
             </h3>
-            <p className="text-xs text-slate-300 mt-0.5">
+            <p className="text-xs text-slate-300 mt-1">
               Review full batting figures, bowling figures, and fall of wickets.
             </p>
           </div>
 
           <button
             onClick={onNavigateToSummary}
-            className="px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm flex items-center gap-2 shadow-xl shadow-emerald-950 transition-all active:scale-95 shrink-0"
+            className="px-6 py-3.5 rounded-2xl glass-btn-primary font-bold text-sm flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition-all active:scale-95 shrink-0 relative z-10"
           >
             <span>View Full Scorecard</span>
             <ArrowRight className="w-4 h-4" />

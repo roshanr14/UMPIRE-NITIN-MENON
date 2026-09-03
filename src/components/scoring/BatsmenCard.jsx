@@ -30,19 +30,21 @@ export default function BatsmenCard({ currentInnings, onSwitchStrike }) {
   ];
 
   return (
-    <div className="p-5 rounded-3xl cyber-card border border-[#00f0ff]/25 shadow-xl space-y-4">
-      <div className="flex items-center justify-between pb-2 border-b border-[#00f0ff]/15">
-        <div className="flex items-center gap-2 font-cyber">
-          <Zap className="w-4 h-4 text-[#fcee0a]" />
-          <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white">
-            CURRENT BATSMEN
+    <div className="p-5 rounded-3xl glass-panel border border-white/[0.12] shadow-xl space-y-4 font-sans">
+      <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-300">
+            <Zap className="w-4 h-4" />
+          </div>
+          <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white font-display">
+            Current Batsmen
           </h3>
         </div>
 
         <button
           type="button"
           onClick={onSwitchStrike}
-          className="px-3 py-1.5 rounded-xl bg-[#050814] hover:bg-[#00f0ff]/20 text-[#00f0ff] font-mono text-xs font-bold flex items-center gap-1.5 border border-[#00f0ff]/30 transition-all active:scale-95 shadow-sm"
+          className="px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-cyan-500/15 text-cyan-300 hover:text-white font-sans text-xs font-semibold flex items-center gap-1.5 border border-white/[0.08] hover:border-cyan-400/30 transition-all active:scale-95 shadow-sm"
           title="Manual Strike Rotation (Hotkey: S)"
         >
           <ArrowLeftRight className="w-3.5 h-3.5" />
@@ -50,19 +52,19 @@ export default function BatsmenCard({ currentInnings, onSwitchStrike }) {
         </button>
       </div>
 
-      <div className="overflow-x-auto font-mono">
+      <div className="overflow-x-auto">
         <table className="w-full text-left text-xs">
           <thead>
-            <tr className="text-slate-400 border-b border-[#00f0ff]/15 text-[10px] font-bold uppercase tracking-wider">
-              <th className="pb-2 pl-2">BATTER</th>
-              <th className="pb-2 text-right">R</th>
-              <th className="pb-2 text-right">B</th>
-              <th className="pb-2 text-right">4s</th>
-              <th className="pb-2 text-right">6s</th>
-              <th className="pb-2 text-right pr-2">SR</th>
+            <tr className="text-slate-400 border-b border-white/[0.08] text-[11px] font-semibold uppercase tracking-wider">
+              <th className="pb-2.5 pl-2">Batter</th>
+              <th className="pb-2.5 text-right">R</th>
+              <th className="pb-2.5 text-right">B</th>
+              <th className="pb-2.5 text-right">4s</th>
+              <th className="pb-2.5 text-right">6s</th>
+              <th className="pb-2.5 text-right pr-2">SR</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#00f0ff]/10">
+          <tbody className="divide-y divide-white/[0.06]">
             {batsmenList.map((b, idx) => {
               const sr = calculateStrikeRate(b.runs, b.balls);
               return (
@@ -70,21 +72,21 @@ export default function BatsmenCard({ currentInnings, onSwitchStrike }) {
                   key={idx}
                   className={`transition-colors ${
                     b.isStriker
-                      ? 'bg-[#00f0ff]/10 text-white font-bold'
-                      : 'text-slate-300'
+                      ? 'bg-cyan-500/10 text-white font-bold'
+                      : 'text-slate-300 hover:bg-white/[0.02]'
                   }`}
                 >
                   <td className="py-3 pl-2 flex items-center gap-2">
-                    <span className="font-bold text-sm text-slate-100 font-cyber">
+                    <span className="font-bold text-sm text-slate-100 font-display">
                       {b.name}
                     </span>
                     {b.isStriker && (
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-[#fcee0a] text-black font-mono uppercase tracking-widest shadow-sm shadow-[#fcee0a]/40">
-                        ON_STRIKE *
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-400 text-slate-950 uppercase tracking-wide shadow-sm">
+                        Striker *
                       </span>
                     )}
                   </td>
-                  <td className="py-3 text-right font-digit text-lg font-black text-[#fcee0a] text-glow-yellow">
+                  <td className="py-3 text-right font-digit text-lg font-black text-amber-300">
                     {b.runs}
                   </td>
                   <td className="py-3 text-right font-digit text-slate-300">
@@ -96,7 +98,7 @@ export default function BatsmenCard({ currentInnings, onSwitchStrike }) {
                   <td className="py-3 text-right font-digit text-slate-400">
                     {b.sixes}
                   </td>
-                  <td className="py-3 text-right font-digit font-bold text-[#00f0ff] pr-2">
+                  <td className="py-3 text-right font-digit font-bold text-cyan-300 pr-2">
                     {sr}
                   </td>
                 </tr>

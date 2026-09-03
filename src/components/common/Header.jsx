@@ -13,8 +13,8 @@ import {
   Activity,
   FileText,
   Home,
-  Zap,
-  Terminal,
+  Shield,
+  Sparkles,
 } from 'lucide-react';
 import { useMatch } from '../../context/MatchContext';
 import { useAuth } from '../../context/AuthContext';
@@ -31,69 +31,70 @@ export default function Header({
   const { user } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#030712]/95 backdrop-blur-md border-b border-[#00f0ff]/20 px-3 sm:px-6 lg:px-8 py-2.5 transition-colors shadow-lg shadow-[#00f0ff]/5">
+    <header className="sticky top-0 z-40 w-full backdrop-blur-2xl bg-[#060919]/70 border-b border-white/[0.08] px-3 sm:px-6 lg:px-8 py-3 transition-all shadow-[0_8px_32px_rgba(0,0,0,0.35)]">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-        {/* Brand & Cyberpunk HUD Title */}
+        {/* Brand & Glass Logo Title */}
         <div className="flex items-center gap-3">
           <div
             onClick={() => setActiveTab('dashboard')}
-            className="flex items-center gap-2.5 cursor-pointer group select-none"
+            className="flex items-center gap-3 cursor-pointer group select-none"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-[#fcee0a] to-[#ff0055] p-[1.5px] cyber-clip">
-              <div className="w-full h-full bg-[#050814] flex items-center justify-center group-hover:bg-[#00f0ff]/10 transition-colors">
+            {/* Liquid Glass Icon Token */}
+            <div className="w-10 h-10 rounded-2xl p-[1px] bg-gradient-to-br from-cyan-400/40 via-purple-500/30 to-rose-400/40 shadow-lg shadow-cyan-500/10 transition-transform duration-300 group-hover:scale-105">
+              <div className="w-full h-full bg-[#0a0f26]/80 backdrop-blur-xl rounded-[15px] flex items-center justify-center border border-white/10 group-hover:bg-[#0e1638]/90 transition-colors">
                 <span className="text-lg">🏏</span>
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-base sm:text-lg font-black tracking-wider text-white font-cyber">
-                  UMPIRE <span className="text-[#00f0ff] text-glow-cyan">NITIN </span><span className="text-[#fcee0a] text-glow-yellow">MENON</span>
+              <div className="flex items-center gap-2">
+                <span className="text-base sm:text-lg font-black tracking-wide text-white font-sans">
+                  UMPIRE <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-300 text-glass-cyan">NITIN </span><span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-400">MENON</span>
                 </span>
-                <span className="text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-[#fcee0a]/10 text-[#fcee0a] border border-[#fcee0a]/40 font-mono">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-400/30 font-mono shadow-sm">
                   ICC
                 </span>
               </div>
-              <p className="text-[10px] text-[#00f0ff]/70 font-mono tracking-tight flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff] animate-ping" />
-                LIVE UMPIRE SCORING
+              <p className="text-[11px] text-slate-400 font-sans tracking-normal flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                Live Umpire Scoring Console
               </p>
             </div>
           </div>
 
-          {/* Cyber Sync & Network Status Badge */}
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-[#050814] border border-[#00f0ff]/20 rounded-md font-mono text-[11px]">
+          {/* Liquid Glass Sync & Network Status Badge */}
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl rounded-full text-xs font-sans">
             {isOnline ? (
               syncStatus === 'syncing' ? (
-                <span className="flex items-center gap-1.5 text-[#00f0ff]">
+                <span className="flex items-center gap-1.5 text-cyan-400">
                   <Cloud className="w-3.5 h-3.5 animate-spin" />
-                  <span>SYNCING...</span>
+                  <span className="font-medium">Syncing...</span>
                 </span>
               ) : (
-                <span className="flex items-center gap-1.5 text-[#39ff14]">
+                <span className="flex items-center gap-1.5 text-emerald-400">
                   <Wifi className="w-3.5 h-3.5" />
-                  <span>SYNCED</span>
+                  <span className="font-medium">Cloud Synced</span>
                 </span>
               )
             ) : (
-              <span className="flex items-center gap-1.5 text-[#fcee0a]">
+              <span className="flex items-center gap-1.5 text-amber-300">
                 <WifiOff className="w-3.5 h-3.5" />
-                <span>OFFLINE READY</span>
+                <span className="font-medium">Offline Active</span>
               </span>
             )}
           </div>
         </div>
 
-        {/* View Navigation Tabs */}
-        <nav className="flex items-center gap-1 bg-[#050814] p-1 border border-[#00f0ff]/25 rounded-xl font-cyber text-xs">
+        {/* View Navigation Tabs (Liquid Glass Pill Bar) */}
+        <nav className="flex items-center gap-1 bg-white/[0.04] p-1 border border-white/[0.08] backdrop-blur-2xl rounded-2xl text-xs font-sans shadow-inner">
           <button
             onClick={() => setActiveTab('dashboard')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all ${
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-semibold transition-all duration-200 ${
               activeTab === 'dashboard'
-                ? 'bg-[#00f0ff] text-[#030712] shadow-md shadow-[#00f0ff]/40'
-                : 'text-slate-400 hover:text-[#00f0ff] hover:bg-[#00f0ff]/5'
+                ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-white border border-cyan-400/40 shadow-lg shadow-cyan-500/20'
+                : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
-            <Home className="w-3.5 h-3.5" />
+            <Home className="w-3.5 h-3.5 text-cyan-400" />
             <span className="hidden md:inline">Dashboard</span>
           </button>
 
@@ -101,63 +102,63 @@ export default function Header({
             <>
               <button
                 onClick={() => setActiveTab('scoring')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-bold transition-all duration-200 ${
                   activeTab === 'scoring'
-                    ? 'bg-[#fcee0a] text-[#030712] shadow-md shadow-[#fcee0a]/40 font-black'
-                    : 'text-slate-400 hover:text-[#fcee0a] hover:bg-[#fcee0a]/5'
+                    ? 'bg-gradient-to-r from-amber-500/30 to-orange-500/30 text-white border border-amber-400/40 shadow-lg shadow-amber-500/20'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
                 }`}
               >
-                <Activity className="w-3.5 h-3.5 text-[#ff0055]" />
+                <Activity className="w-3.5 h-3.5 text-amber-400" />
                 <span>Live Scoring</span>
                 {match.status === 'live' && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] animate-ping" />
+                  <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping shadow-[0_0_6px_rgba(244,63,94,0.8)]" />
                 )}
               </button>
 
               <button
                 onClick={() => setActiveTab('summary')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-semibold transition-all duration-200 ${
                   activeTab === 'summary'
-                    ? 'bg-[#00f0ff] text-[#030712] shadow-md shadow-[#00f0ff]/40 font-black'
-                    : 'text-slate-400 hover:text-[#00f0ff] hover:bg-[#00f0ff]/5'
+                    ? 'bg-gradient-to-r from-purple-500/30 to-indigo-500/30 text-white border border-purple-400/40 shadow-lg shadow-purple-500/20'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
                 }`}
               >
-                <FileText className="w-3.5 h-3.5" />
+                <FileText className="w-3.5 h-3.5 text-purple-400" />
                 <span className="hidden md:inline">Scorecard</span>
               </button>
             </>
           )}
         </nav>
 
-        {/* Quick Tools & Controls */}
+        {/* Quick Tools & Controls (Liquid Glass Buttons) */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Voice Input Assistant Button */}
           <button
             type="button"
             onClick={onToggleVoice}
-            title={isListeningVoice ? 'Voice Active (Mute)' : 'Enable Voice'}
-            className={`p-2 rounded-xl border text-xs font-mono font-bold flex items-center gap-1.5 transition-all ${
+            title={isListeningVoice ? 'Voice Active (Mute)' : 'Enable Voice Assistant'}
+            className={`px-3 py-2 rounded-xl text-xs font-sans font-semibold flex items-center gap-2 transition-all duration-200 ${
               isListeningVoice
-                ? 'bg-[#ff0055] text-white border-[#ff0055] shadow-lg shadow-[#ff0055]/50 animate-pulse'
-                : 'bg-[#050814] text-[#00f0ff] border-[#00f0ff]/30 hover:border-[#00f0ff]'
+                ? 'bg-rose-500/30 text-white border border-rose-400/50 shadow-lg shadow-rose-500/30 animate-pulse'
+                : 'bg-white/[0.04] text-slate-300 border border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/20'
             }`}
           >
-            {isListeningVoice ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4 text-slate-400" />}
-            <span className="hidden xl:inline">{isListeningVoice ? 'VOICE ON' : 'VOICE'}</span>
+            {isListeningVoice ? <Mic className="w-4 h-4 text-rose-400" /> : <MicOff className="w-4 h-4 text-slate-400" />}
+            <span className="hidden xl:inline">{isListeningVoice ? 'Voice Active' : 'Voice'}</span>
           </button>
 
           {/* Outdoor High Contrast Mode */}
           <button
             type="button"
             onClick={() => updateSettings({ highContrast: !settings.highContrast })}
-            title={settings.highContrast ? 'Disable High-Contrast' : 'Enable High-Contrast HUD'}
-            className={`p-2 rounded-xl border transition-all ${
+            title={settings.highContrast ? 'Disable High-Contrast' : 'Enable High-Contrast'}
+            className={`p-2 rounded-xl border transition-all duration-200 ${
               settings.highContrast
-                ? 'bg-[#fcee0a] text-black border-[#fcee0a] font-black'
-                : 'bg-[#050814] text-slate-300 border-[#00f0ff]/20 hover:border-[#00f0ff]/60'
+                ? 'bg-amber-400 text-slate-950 border-amber-300 font-bold shadow-md'
+                : 'bg-white/[0.04] text-slate-300 border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/20'
             }`}
           >
-            {settings.highContrast ? <Sun className="w-4 h-4 text-black" /> : <Moon className="w-4 h-4 text-[#00f0ff]" />}
+            {settings.highContrast ? <Sun className="w-4 h-4 text-slate-950" /> : <Moon className="w-4 h-4 text-slate-400" />}
           </button>
 
           {/* Sound Toggle */}
@@ -165,9 +166,9 @@ export default function Header({
             type="button"
             onClick={() => updateSettings({ soundEnabled: !settings.soundEnabled })}
             title={settings.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
-            className="p-2 rounded-xl bg-[#050814] text-slate-300 border border-[#00f0ff]/20 hover:border-[#00f0ff]/60 transition-all"
+            className="p-2 rounded-xl bg-white/[0.04] text-slate-300 border border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/20 transition-all duration-200"
           >
-            {settings.soundEnabled ? <Volume2 className="w-4 h-4 text-[#39ff14]" /> : <VolumeX className="w-4 h-4 text-slate-600" />}
+            {settings.soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4 text-slate-500" />}
           </button>
 
           {/* Keyboard Shortcuts Button */}
@@ -175,26 +176,26 @@ export default function Header({
             type="button"
             onClick={onOpenShortcuts}
             title="Keyboard Hotkeys (Press ? or Space)"
-            className="p-2 rounded-xl bg-[#050814] text-[#00f0ff] border border-[#00f0ff]/20 hover:border-[#00f0ff]/60 transition-all hidden md:flex items-center"
+            className="p-2 rounded-xl bg-white/[0.04] text-slate-300 border border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/20 transition-all duration-200 hidden md:flex items-center"
           >
-            <Keyboard className="w-4 h-4" />
+            <Keyboard className="w-4 h-4 text-cyan-400" />
           </button>
 
-          {/* User Account / Scorer Profile */}
+          {/* User Account / Scorer Profile (Liquid Glass Card) */}
           <button
             type="button"
             onClick={onOpenAuth}
-            className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl bg-[#050814] border border-[#00f0ff]/25 hover:border-[#00f0ff] transition-all text-left"
+            className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.08] transition-all duration-200 text-left"
           >
-            <div className="w-7 h-7 bg-gradient-to-br from-[#00f0ff] to-[#b000ff] text-[#030712] font-black font-cyber text-xs flex items-center justify-center rounded-lg">
-              {user?.user_metadata?.name?.charAt(0) || 'U'}
+            <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-cyan-400 to-indigo-500 text-slate-950 font-extrabold text-xs flex items-center justify-center shadow-sm">
+              {user?.user_metadata?.name?.charAt(0) || 'N'}
             </div>
             <div className="hidden lg:block text-left leading-tight">
-              <p className="text-xs font-bold text-white font-cyber truncate max-w-[90px]">
-                {user?.user_metadata?.name || 'Umpire'}
+              <p className="text-xs font-bold text-white truncate max-w-[100px]">
+                {user?.user_metadata?.name || 'Nitin Menon'}
               </p>
-              <p className="text-[9px] text-[#00f0ff] font-mono">
-                {user?.user_metadata?.role || 'Lead Scorer'}
+              <p className="text-[10px] text-cyan-400/80 font-medium">
+                {user?.user_metadata?.role || 'Elite Umpire'}
               </p>
             </div>
           </button>
