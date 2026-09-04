@@ -258,12 +258,12 @@ Lead Umpire: Nitin Menon`;
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-20 font-sans">
       {/* Top Action Toolbar (Liquid Glass Bar) */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-3xl glass-panel border border-white/[0.12] shadow-lg no-print">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl glass-panel border border-white/[0.12] shadow-lg no-print">
         <div className="flex items-center gap-2">
           {match.status === 'live' && (
             <button
               onClick={onNavigateToScoring}
-              className="liquid-btn liquid-btn-primary px-5 py-2.5 rounded-2xl font-bold text-xs flex items-center gap-2"
+              className="liquid-btn liquid-btn-primary w-full sm:w-auto px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs flex items-center justify-center gap-2"
             >
               <Activity className="w-3.5 h-3.5 animate-pulse text-cyan-200" />
               <span>Resume Live Scoring</span>
@@ -271,10 +271,10 @@ Lead Umpire: Nitin Menon`;
           )}
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 text-xs font-semibold w-full sm:w-auto">
           <button
             onClick={handleShare}
-            className="liquid-btn liquid-btn-secondary px-4 py-2.5 rounded-2xl flex items-center gap-1.5"
+            className="liquid-btn liquid-btn-secondary px-3.5 sm:px-4 py-2.5 rounded-xl sm:rounded-2xl flex items-center justify-center gap-1.5"
           >
             {copiedShare ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 text-cyan-300" />}
             <span>{copiedShare ? 'Copied!' : 'Share Match'}</span>
@@ -283,7 +283,7 @@ Lead Umpire: Nitin Menon`;
           <button
             onClick={handleExportImage}
             disabled={isExportingImage}
-            className="liquid-btn liquid-btn-secondary px-4 py-2.5 rounded-2xl flex items-center gap-1.5 disabled:opacity-40"
+            className="liquid-btn liquid-btn-secondary px-3.5 sm:px-4 py-2.5 rounded-xl sm:rounded-2xl flex items-center justify-center gap-1.5 disabled:opacity-40"
           >
             <ImageIcon className="w-3.5 h-3.5 text-sky-400" />
             <span>{isExportingImage ? 'Exporting...' : 'Save PNG'}</span>
@@ -291,7 +291,7 @@ Lead Umpire: Nitin Menon`;
 
           <button
             onClick={handlePrint}
-            className="liquid-btn liquid-btn-secondary px-4 py-2.5 rounded-2xl flex items-center gap-1.5"
+            className="liquid-btn liquid-btn-secondary px-3.5 sm:px-4 py-2.5 rounded-xl sm:rounded-2xl flex items-center justify-center gap-1.5"
           >
             <Printer className="w-3.5 h-3.5 text-purple-400" />
             <span>Print Sheet</span>
@@ -300,7 +300,7 @@ Lead Umpire: Nitin Menon`;
           <button
             onClick={handleExportPDF}
             disabled={isExportingPDF}
-            className="liquid-btn liquid-btn-primary px-5 py-2.5 rounded-2xl font-bold text-xs flex items-center gap-2 disabled:opacity-40"
+            className="liquid-btn liquid-btn-primary col-span-2 sm:col-span-1 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs flex items-center justify-center gap-2 disabled:opacity-40"
           >
             <Download className="w-3.5 h-3.5 text-cyan-200" />
             <span>{isExportingPDF ? 'Generating PDF...' : 'Download Scorecard PDF'}</span>
@@ -561,59 +561,59 @@ Lead Umpire: Nitin Menon`;
         </div>
 
         {/* INNINGS TABS NAVIGATION (Liquid Glass Pill Bar) */}
-        <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl glass-panel border border-white/[0.08] no-print">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 p-1.5 rounded-2xl glass-panel border border-white/[0.08] no-print">
           <button
             onClick={() => setActiveTab('full')}
-            className={`liquid-btn flex-1 py-3 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 min-w-[150px] ${
+            className={`liquid-btn flex-1 py-2 sm:py-3 px-2.5 sm:px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 min-w-[110px] sm:min-w-[140px] ${
               activeTab === 'full'
                 ? 'liquid-btn-primary'
                 : 'liquid-btn-secondary'
             }`}
           >
-            <FileText className="w-4 h-4" />
-            <span>Full Scorecard (Both Innings)</span>
+            <FileText className="w-3.5 h-3.5 shrink-0" />
+            <span>Both Innings</span>
           </button>
 
           <button
             onClick={() => setActiveTab('innings1')}
-            className={`liquid-btn flex-1 py-3 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 min-w-[140px] ${
+            className={`liquid-btn flex-1 py-2 sm:py-3 px-2.5 sm:px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 min-w-[110px] sm:min-w-[140px] ${
               activeTab === 'innings1'
                 ? 'liquid-btn-primary'
                 : 'liquid-btn-secondary'
             }`}
           >
-            <span>1st Innings: {innings1?.battingTeamName}</span>
-            <span className="px-2 py-0.5 rounded-full bg-white/[0.08] text-slate-200 font-digit text-[11px]">
-              {innings1?.totalRuns}/{innings1?.wickets} ({formatOvers(innings1?.validBalls)} ov)
+            <span className="truncate">1st: {innings1?.battingTeamName}</span>
+            <span className="px-1.5 py-0.5 rounded-full bg-white/[0.08] text-slate-200 font-digit text-[10px] sm:text-[11px] shrink-0">
+              {innings1?.totalRuns}/{innings1?.wickets}
             </span>
           </button>
 
           {innings2 && (
             <button
               onClick={() => setActiveTab('innings2')}
-              className={`liquid-btn flex-1 py-3 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 min-w-[140px] ${
+              className={`liquid-btn flex-1 py-2 sm:py-3 px-2.5 sm:px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 min-w-[110px] sm:min-w-[140px] ${
                 activeTab === 'innings2'
                   ? 'liquid-btn-primary'
                   : 'liquid-btn-secondary'
               }`}
             >
-              <span>2nd Innings: {innings2.battingTeamName}</span>
-              <span className="px-2 py-0.5 rounded-full bg-white/[0.08] text-slate-200 font-digit text-[11px]">
-                {innings2.totalRuns}/{innings2.wickets} ({formatOvers(innings2.validBalls)} ov)
+              <span className="truncate">2nd: {innings2.battingTeamName}</span>
+              <span className="px-1.5 py-0.5 rounded-full bg-white/[0.08] text-slate-200 font-digit text-[10px] sm:text-[11px] shrink-0">
+                {innings2.totalRuns}/{innings2.wickets}
               </span>
             </button>
           )}
 
           <button
             onClick={() => setActiveTab('partnerships')}
-            className={`liquid-btn px-5 py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 ${
+            className={`liquid-btn px-3.5 sm:px-5 py-2 sm:py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 ${
               activeTab === 'partnerships'
                 ? 'liquid-btn-amber'
                 : 'liquid-btn-secondary'
             }`}
           >
             <Users className="w-3.5 h-3.5 text-amber-300" />
-            <span>Fall of Wickets</span>
+            <span>Wickets</span>
           </button>
         </div>
 
@@ -718,11 +718,11 @@ function InningsScorecardSection({ innings, inningsNumber }) {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+        <div className="overflow-x-auto scrollbar-thin -mx-2 px-2 sm:mx-0 sm:px-0">
+          <table className="w-full text-left text-xs min-w-[500px]">
             <thead>
               <tr className="text-slate-300 border-b border-white/[0.12] text-[11px] font-bold uppercase tracking-wider bg-white/[0.02]">
-                <th className="py-2.5 pl-3">Batter</th>
+                <th className="py-2.5 pl-3 sticky left-0 bg-[#060919]/95 backdrop-blur-md z-10">Batter</th>
                 <th className="py-2.5">Dismissal</th>
                 <th className="py-2.5 text-right font-digit">R</th>
                 <th className="py-2.5 text-right font-digit">B</th>
@@ -754,9 +754,9 @@ function InningsScorecardSection({ innings, inningsNumber }) {
 
                 return (
                   <tr key={idx} className="hover:bg-white/[0.04] transition-colors">
-                    <td className="py-3 pl-3">
+                    <td className="py-3 pl-3 sticky left-0 bg-[#060919]/95 backdrop-blur-md z-10 min-w-[140px]">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-sm text-white font-display">{b.name}</span>
+                        <span className="font-bold text-sm text-white font-display truncate">{b.name}</span>
                         {b.isBatting && (
                           <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-cyan-400 text-slate-950">
                             NOT OUT *
@@ -832,11 +832,11 @@ function InningsScorecardSection({ innings, inningsNumber }) {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+        <div className="overflow-x-auto scrollbar-thin -mx-2 px-2 sm:mx-0 sm:px-0">
+          <table className="w-full text-left text-xs min-w-[420px]">
             <thead>
               <tr className="text-slate-300 border-b border-white/[0.12] text-[11px] font-bold uppercase tracking-wider bg-white/[0.02]">
-                <th className="py-2.5 pl-3">Bowler</th>
+                <th className="py-2.5 pl-3 sticky left-0 bg-[#060919]/95 backdrop-blur-md z-10">Bowler</th>
                 <th className="py-2.5 text-right">O</th>
                 <th className="py-2.5 text-right">M</th>
                 <th className="py-2.5 text-right">R</th>
@@ -855,7 +855,7 @@ function InningsScorecardSection({ innings, inningsNumber }) {
 
                   return (
                     <tr key={idx} className="hover:bg-white/[0.04] transition-colors">
-                      <td className="py-3 pl-3 font-bold text-sm text-white font-display">
+                      <td className="py-3 pl-3 font-bold text-sm text-white font-display sticky left-0 bg-[#060919]/95 backdrop-blur-md z-10 min-w-[120px] truncate">
                         {bw.name}
                       </td>
                       <td className="py-3 text-right font-digit text-slate-100 text-sm font-semibold">

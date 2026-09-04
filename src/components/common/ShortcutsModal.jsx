@@ -25,20 +25,20 @@ export default function ShortcutsModal({ isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="w-full max-w-2xl glass-panel-elevated border border-white/[0.18] rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden font-sans"
+          className="w-full max-w-2xl max-h-[88vh] flex flex-col glass-panel-elevated border border-white/[0.18] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl relative overflow-hidden font-sans"
         >
-          <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-2xl bg-cyan-500/15 text-cyan-300 border border-cyan-400/30">
-                <Keyboard className="w-6 h-6" />
+          <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08] shrink-0">
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <div className="p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-cyan-500/15 text-cyan-300 border border-cyan-400/30">
+                <Keyboard className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white font-display">
+                <h3 className="text-lg sm:text-xl font-bold text-white font-display">
                   Umpire Keyboard Shortcuts
                 </h3>
                 <p className="text-xs text-slate-300">

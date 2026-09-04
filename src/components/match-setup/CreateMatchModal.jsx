@@ -442,97 +442,89 @@ export default function CreateMatchModal({ isOpen, onClose, onCreateMatch }) {
                   </div>
                 </div>
 
-                {/* Player Cards Grid */}
-                <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
-                  {currentPlayers.map((player, idx) => {
-                    const positionTag =
-                      idx < 2 ? 'Opener' : idx < 4 ? 'Top Order' : idx < 7 ? 'Middle Order' : 'Lower Order';
+                  {/* Player Cards Grid */}
+                  <div className="space-y-2 max-h-72 overflow-y-auto scrollbar-thin pr-1">
+                    {currentPlayers.map((player, idx) => {
+                      const positionTag =
+                        idx < 2 ? 'Opener' : idx < 4 ? 'Top Order' : idx < 7 ? 'Middle Order' : 'Lower Order';
 
-                    return (
-                      <div
-                        key={idx}
-                        className="p-2.5 sm:p-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 hover:bg-white/[0.06] flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 transition-all group"
-                      >
-                        {/* Order Number & Tag */}
-                        <div className="flex items-center gap-2.5 shrink-0">
-                          <span className="w-7 h-7 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center font-digit font-bold text-xs text-cyan-300">
-                            #{idx + 1}
-                          </span>
-                          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 hidden md:inline w-16">
-                            {positionTag}
-                          </span>
-                        </div>
+                      return (
+                        <div
+                          key={idx}
+                          className="p-2.5 sm:p-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-cyan-400/30 hover:bg-white/[0.06] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-2.5 transition-all group"
+                        >
+                          {/* Row 1 on mobile: Order Number, Tag & Player Name */}
+                          <div className="flex items-center gap-2 flex-1 min-w-0">
+                            <span className="w-7 h-7 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center font-digit font-bold text-xs text-cyan-300 shrink-0">
+                              #{idx + 1}
+                            </span>
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 hidden md:inline w-16 shrink-0">
+                              {positionTag}
+                            </span>
+                            <input
+                              type="text"
+                              value={player.name}
+                              onChange={(e) => handleUpdatePlayer(idx, 'name', e.target.value)}
+                              placeholder={`Enter player ${idx + 1} name...`}
+                              className="flex-1 px-3 py-1.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs font-semibold text-slate-100 outline-none transition-all placeholder:text-slate-500 min-w-0"
+                            />
+                          </div>
 
-                        {/* Player Name Input */}
-                        <div className="flex-1 min-w-[140px]">
-                          <input
-                            type="text"
-                            value={player.name}
-                            onChange={(e) => handleUpdatePlayer(idx, 'name', e.target.value)}
-                            placeholder={`Enter player ${idx + 1} name...`}
-                            className="w-full px-3 py-1.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-xs font-semibold text-slate-100 outline-none transition-all placeholder:text-slate-500"
-                          />
-                        </div>
+                          {/* Row 2 on mobile: Role, Captain, Keeper, and Delete */}
+                          <div className="flex items-center justify-between sm:justify-end gap-1.5 shrink-0 pl-9 sm:pl-0">
+                            <select
+                              value={player.role}
+                              onChange={(e) => handleUpdatePlayer(idx, 'role', e.target.value)}
+                              className="flex-1 sm:flex-none sm:w-28 px-2 py-1.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-[11px] font-semibold text-slate-200 outline-none"
+                            >
+                              <option value="Batsman" className="bg-slate-900 text-white">🏏 Batsman</option>
+                              <option value="All-Rounder" className="bg-slate-900 text-white">⚡ All-Rounder</option>
+                              <option value="Bowler" className="bg-slate-900 text-white">⚾ Bowler</option>
+                            </select>
 
-                        {/* Role Selector */}
-                        <div className="w-28 shrink-0">
-                          <select
-                            value={player.role}
-                            onChange={(e) => handleUpdatePlayer(idx, 'role', e.target.value)}
-                            className="w-full px-2 py-1.5 bg-slate-900/90 border border-white/[0.12] focus:border-cyan-400 rounded-xl text-[11px] font-semibold text-slate-200 outline-none"
-                          >
-                            <option value="Batsman" className="bg-slate-900 text-white">🏏 Batsman</option>
-                            <option value="All-Rounder" className="bg-slate-900 text-white">⚡ All-Rounder</option>
-                            <option value="Bowler" className="bg-slate-900 text-white">⚾ Bowler</option>
-                          </select>
-                        </div>
-
-                        {/* Captain (C) & Wicketkeeper (WK) Action Badges */}
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          <button
-                            type="button"
-                            onClick={() => handleUpdatePlayer(idx, 'isCaptain', !player.isCaptain)}
-                            className={`liquid-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 ${
-                              player.isCaptain
-                                ? 'liquid-btn-amber font-extrabold shadow-md scale-105'
-                                : 'liquid-btn-secondary'
-                            }`}
-                            title="Toggle Captain"
-                          >
-                            <Crown className="w-3.5 h-3.5" />
-                            <span>(C)</span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => handleUpdatePlayer(idx, 'isKeeper', !player.isKeeper)}
-                            className={`liquid-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 ${
-                              player.isKeeper
-                                ? 'liquid-btn-primary font-extrabold shadow-md scale-105'
-                                : 'liquid-btn-secondary'
-                            }`}
-                            title="Toggle Wicketkeeper"
-                          >
-                            <Shield className="w-3.5 h-3.5" />
-                            <span>(WK)</span>
-                          </button>
-
-                          {/* Delete Player from XI */}
-                          {currentPlayers.length > 2 && (
                             <button
                               type="button"
-                              onClick={() => handleRemovePlayer(idx)}
-                              className="liquid-btn-icon w-7 h-7 rounded-xl text-slate-400 hover:text-rose-400"
-                              title="Remove player"
+                              onClick={() => handleUpdatePlayer(idx, 'isCaptain', !player.isCaptain)}
+                              className={`liquid-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 shrink-0 ${
+                                player.isCaptain
+                                  ? 'liquid-btn-amber font-extrabold shadow-md scale-105'
+                                  : 'liquid-btn-secondary'
+                              }`}
+                              title="Toggle Captain"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <Crown className="w-3.5 h-3.5" />
+                              <span>(C)</span>
                             </button>
-                          )}
+
+                            <button
+                              type="button"
+                              onClick={() => handleUpdatePlayer(idx, 'isKeeper', !player.isKeeper)}
+                              className={`liquid-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 shrink-0 ${
+                                player.isKeeper
+                                  ? 'liquid-btn-primary font-extrabold shadow-md scale-105'
+                                  : 'liquid-btn-secondary'
+                              }`}
+                              title="Toggle Wicketkeeper"
+                            >
+                              <Shield className="w-3.5 h-3.5" />
+                              <span>(WK)</span>
+                            </button>
+
+                            {currentPlayers.length > 2 && (
+                              <button
+                                type="button"
+                                onClick={() => handleRemovePlayer(idx)}
+                                className="liquid-btn-icon w-7 h-7 rounded-xl text-slate-400 hover:text-rose-400 shrink-0"
+                                title="Remove player"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                      );
+                    })}
+                  </div>
 
                 {/* Add Player button */}
                 {currentPlayers.length < 15 && (

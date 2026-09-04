@@ -31,24 +31,24 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
   };
 
   return (
-    <div className="p-5 rounded-3xl glass-panel border border-white/[0.12] shadow-xl space-y-4 font-sans">
+    <div className="p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl glass-panel border border-white/[0.12] shadow-xl space-y-3 sm:space-y-4 font-sans">
       {/* Current Over Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/[0.08]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 pb-2.5 sm:pb-3 border-b border-white/[0.08]">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 rounded-xl bg-cyan-500/15 border border-cyan-400/30 text-cyan-300">
-            <Activity className="w-4 h-4" />
+          <div className="p-1 sm:p-1.5 rounded-lg sm:rounded-xl bg-cyan-500/15 border border-cyan-400/30 text-cyan-300">
+            <Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
           <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white font-display">
             Current Over Deliveries
           </h3>
         </div>
-        <span className="text-xs text-slate-400">
+        <span className="text-[11px] sm:text-xs text-slate-400">
           Click any ball to edit score
         </span>
       </div>
 
       {/* Current Over Ball Badges Strip */}
-      <div className="flex items-center gap-2.5 overflow-x-auto py-2 pr-2">
+      <div className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto scrollbar-thin py-1.5 pr-2">
         {currentOverBalls.length === 0 ? (
           <div className="text-xs text-slate-400 italic py-2">
             No deliveries bowled yet in this over. Click a scoring button below.
@@ -62,7 +62,7 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
               whileHover={{ scale: 1.12, y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onSelectBallToEdit(ball)}
-              className={`liquid-btn w-11 h-11 rounded-2xl flex items-center justify-center text-sm font-digit border backdrop-blur-xl ${getBadgeStyle(
+              className={`liquid-btn w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center text-xs sm:text-sm font-digit border backdrop-blur-xl shrink-0 ${getBadgeStyle(
                 ball
               )}`}
               title={`Ball ${idx + 1}: ${ball.strikerName} facing ${ball.bowlerName} - Click to Edit`}
@@ -75,21 +75,21 @@ export default function OverTimeline({ currentInnings, onSelectBallToEdit }) {
 
       {/* Recent Match Deliveries Roll */}
       {recentBalls.length > 0 && (
-        <div className="pt-3 border-t border-white/[0.08]">
-          <div className="flex items-center justify-between text-xs uppercase tracking-wider text-slate-400 mb-2.5 font-medium">
-            <span>Recent Match Deliveries (Last 12 Balls)</span>
+        <div className="pt-2.5 sm:pt-3 border-t border-white/[0.08]">
+          <div className="flex items-center justify-between text-[11px] sm:text-xs uppercase tracking-wider text-slate-400 mb-2 font-medium">
+            <span>Recent Deliveries (Last 12)</span>
             <span className="text-cyan-300 flex items-center gap-1 font-semibold">
               <Edit3 className="w-3 h-3" />
               Editable
             </span>
           </div>
 
-          <div className="flex items-center gap-2 overflow-x-auto py-1">
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-thin py-1">
             {recentBalls.map((ball) => (
               <button
                 key={ball.id}
                 onClick={() => onSelectBallToEdit(ball)}
-                className={`liquid-btn w-8 h-8 rounded-xl shrink-0 flex items-center justify-center text-xs font-digit border backdrop-blur-xl ${getBadgeStyle(
+                className={`liquid-btn w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl shrink-0 flex items-center justify-center text-[10px] sm:text-xs font-digit border backdrop-blur-xl ${getBadgeStyle(
                   ball
                 )}`}
                 title={`${ball.oversAfter} ov: ${getBallLabel(ball)} - Click to Edit`}

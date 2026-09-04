@@ -15,6 +15,16 @@
     --liquid-rose: #f43f5e;
     --liquid-emerald: #34d399;
     --liquid-amber: #fbbf24;
+    /* Safe Area Insets for modern devices with notches/bars */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
@@ -28,12 +38,21 @@
       linear-gradient(180deg, #050713 0%, #080b1e 50%, #050713 100%);
     background-attachment: fixed;
     overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-left: var(--safe-left);
+    padding-right: var(--safe-right);
+  }
+
+  /* Optimize touch responsiveness on buttons (eliminate 300ms tap delay) */
+  button, [role="button"] {
+    touch-action: manipulation;
   }
 
   /* Liquid Glass Custom Scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
     background: rgba(5, 7, 19, 0.6);
@@ -42,7 +61,7 @@
   ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.18);
     border-radius: 9999px;
-    border: 2px solid rgba(5, 7, 19, 0.6);
+    border: 1px solid rgba(5, 7, 19, 0.6);
     backdrop-filter: blur(10px);
   }
   ::-webkit-scrollbar-thumb:hover {
@@ -600,6 +619,51 @@ body.high-contrast .glass-panel,
 body.high-contrast .cyber-card {
   background: #090b14 !important;
   border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Responsive Layout & Table Utilities */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+.responsive-table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+.table-sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: rgba(6, 9, 25, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Fluid Touch Targets for Small Screens */
+@media (max-width: 640px) {
+  .score-btn {
+    min-height: 4.25rem;
+  }
+  .liquid-btn-icon {
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+  }
 }
 
 /* Print Styles */

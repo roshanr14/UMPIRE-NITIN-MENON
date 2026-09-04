@@ -48,12 +48,12 @@ export default function WicketModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md">
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 15 }}
-          className="w-full max-w-xl max-h-[90vh] glass-panel-elevated border border-white/[0.18] rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col relative overflow-hidden font-sans"
+          className="w-full max-w-xl max-h-[90vh] glass-panel-elevated border border-white/[0.18] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl flex flex-col relative overflow-hidden font-sans"
         >
           {/* Header */}
           <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] shrink-0">
@@ -122,7 +122,7 @@ export default function WicketModal({
               <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
                 Method of Dismissal
               </label>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-2">
                 {DISMISSAL_TYPES.map((d) => (
                   <button
                     key={d.id}

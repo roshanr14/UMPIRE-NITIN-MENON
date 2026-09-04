@@ -17,7 +17,7 @@ export default function VoiceAssistantBadge({
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-40 max-w-sm w-full p-4 rounded-3xl glass-panel-elevated border border-white/[0.18] shadow-2xl text-slate-100 space-y-2.5 font-sans"
+        className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 z-40 sm:max-w-sm p-3.5 sm:p-4 rounded-2xl sm:rounded-3xl glass-panel-elevated border border-white/[0.18] shadow-2xl text-slate-100 space-y-2.5 font-sans"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">

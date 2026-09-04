@@ -28,13 +28,13 @@ export default function ConfirmModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md">
         <motion.div
           initial={{ opacity: 0, scale: 0.92, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 15 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          className="w-full max-w-md glass-panel-elevated border border-white/[0.18] rounded-3xl p-6 shadow-2xl relative overflow-hidden font-sans"
+          className="w-full max-w-md glass-panel-elevated border border-white/[0.18] rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden font-sans"
         >
           {/* Accent top gradient */}
           <div
