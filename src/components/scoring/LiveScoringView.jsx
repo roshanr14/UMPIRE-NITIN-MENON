@@ -26,6 +26,10 @@ export default function LiveScoringView({
   onNavigateToSummary,
   onNavigateToDashboard,
   onOpenShortcuts,
+  isListeningVoice,
+  onToggleVoice,
+  lastVoiceTranscript,
+  lastVoiceCommand,
 }) {
   const {
     match,
@@ -262,6 +266,10 @@ export default function LiveScoringView({
         onConfirmEndInnings={() => setConfirmEndInnings(true)}
         onConfirmEndMatch={() => setConfirmEndMatch(true)}
         onConfirmReset={() => setConfirmReset(true)}
+        isListeningVoice={isListeningVoice}
+        onToggleVoice={onToggleVoice}
+        lastVoiceTranscript={lastVoiceTranscript}
+        lastVoiceCommand={lastVoiceCommand}
       />
 
       {/* Modals */}

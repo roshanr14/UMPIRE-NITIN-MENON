@@ -9,11 +9,20 @@ import CreateMatchModal from './components/match-setup/CreateMatchModal';
 import ShortcutsModal from './components/common/ShortcutsModal';
 import AuthModal from './components/auth/AuthModal';
 import VoiceAssistantBadge from './components/voice/VoiceAssistantBadge';
-import { voiceEngine } from './lib/speech';
+import { voiceEngine, speakConfirmation } from './lib/speech';
 import { createDefaultTeam } from './lib/cricketEngine';
 
 function MainApp() {
-  const { match, createMatch, recordRun, recordExtra, undoLastAction, switchStrikeManual } = useMatch();
+  const {
+    match,
+    createMatch,
+    recordRun,
+    recordExtra,
+    recordWicket,
+    undoLastAction,
+    switchStrikeManual,
+    setPendingOverChange,
+  } = useMatch();
 
   // Auto-resume active scoring session if a match is live
   const [activeTab, setActiveTab] = useState(() => {
@@ -62,28 +71,66 @@ function MainApp() {
     }
   }, [match, createMatch]);
 
-  // Voice Command Dispatcher
+  // Voice Command Dispatcher (Handles live scorecard updates)
   const handleVoiceCommand = useCallback((cmd) => {
-    setLastCommand(cmd);
     if (!cmd) return;
+    setLastCommand(cmd);
+
+    // If match is not currently live, notify user
+    if (!match || (match.status !== 'live' && match.status !== 'innings_break')) {
+      speakConfirmation('No live match in progress');
+      return;
+    }
 
     switch (cmd.type) {
       case 'run':
         recordRun(cmd.value);
+        if (cmd.value === 4) speakConfirmation('Four runs added');
+        else if (cmd.value === 6) speakConfirmation('Sixer added');
+        else if (cmd.value === 0) speakConfirmation('Dot ball');
+        else speakConfirmation(`${cmd.value} run added`);
         break;
       case 'extra':
         recordExtra(cmd.extraType, cmd.runs || 1);
+        if (cmd.extraType === 'wide') speakConfirmation('Wide ball recorded');
+        else if (cmd.extraType === 'no_ball') speakConfirmation('No ball recorded');
+        else if (cmd.extraType === 'leg_bye') speakConfirmation('Leg bye recorded');
+        else if (cmd.extraType === 'bye') speakConfirmation('Bye recorded');
+        break;
+      case 'wicket':
+        recordWicket({ dismissalType: cmd.dismissalType || 'bowled' });
+        speakConfirmation('Wicket recorded');
         break;
       case 'undo':
         undoLastAction();
+        speakConfirmation('Last ball undone');
         break;
       case 'switch_strike':
         switchStrikeManual();
+        speakConfirmation('Strike switched');
+        break;
+      case 'end_over':
+        setPendingOverChange(true);
+        speakConfirmation('Over complete');
         break;
       default:
         break;
     }
-  }, [recordRun, recordExtra, undoLastAction, switchStrikeManual]);
+  }, [match, recordRun, recordExtra, recordWicket, undoLastAction, switchStrikeManual, setPendingOverChange]);
+
+  // Continuously sync fresh command handler to VoiceScoringEngine (eliminates stale closures)
+  useEffect(() => {
+    voiceEngine.setCommandHandler(handleVoiceCommand);
+  }, [handleVoiceCommand]);
+
+  useEffect(() => {
+    voiceEngine.setStatusHandler((listening) => {
+      setIsListeningVoice(listening);
+    });
+    voiceEngine.setTranscriptHandler((transcript) => {
+      setLastTranscript(transcript);
+    });
+  }, []);
 
   const handleToggleVoice = () => {
     const active = voiceEngine.toggle(
@@ -148,6 +195,10 @@ function MainApp() {
             onNavigateToSummary={() => setActiveTab('summary')}
             onNavigateToDashboard={() => setActiveTab('dashboard')}
             onOpenShortcuts={() => setIsShortcutsOpen(true)}
+            isListeningVoice={isListeningVoice}
+            onToggleVoice={handleToggleVoice}
+            lastVoiceTranscript={lastTranscript}
+            lastVoiceCommand={lastCommand}
           />
         )}
 

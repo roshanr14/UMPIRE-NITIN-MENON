@@ -10,6 +10,10 @@ import {
   Flag,
   RotateCw,
   Zap,
+  Mic,
+  MicOff,
+  Sparkles,
+  Volume2,
 } from 'lucide-react';
 
 export default function ScoreKeypad({
@@ -25,6 +29,10 @@ export default function ScoreKeypad({
   onTogglePause,
   onConfirmEndInnings,
   onConfirmEndMatch,
+  isListeningVoice,
+  onToggleVoice,
+  lastVoiceTranscript,
+  lastVoiceCommand,
 }) {
   const isLive = match?.status === 'live';
   const isPaused = match?.status === 'paused';
@@ -82,27 +90,74 @@ export default function ScoreKeypad({
             </h3>
           </div>
 
-          {/* Large Undo Button (Frosted Glass Pill) */}
-          <button
-            type="button"
-            onClick={onUndo}
-            disabled={undoCount === 0}
-            className={`liquid-btn px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 sm:gap-2 ${
-              undoCount > 0
-                ? 'liquid-btn-amber'
-                : 'liquid-btn-secondary opacity-40 cursor-not-allowed'
-            }`}
-            title="Undo Last Ball (Ctrl+Z)"
+          {/* Console Action Tools */}
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {/* Voice Assistant Toggle in Console */}
+            {onToggleVoice && (
+              <button
+                type="button"
+                onClick={onToggleVoice}
+                title={isListeningVoice ? 'Voice Assistant Active (Click to Mute)' : 'Enable Voice Assistant (Speak "four", "single", "six", etc.)'}
+                className={`liquid-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 sm:gap-2 ${
+                  isListeningVoice
+                    ? 'liquid-btn-rose text-white font-bold animate-pulse shadow-md shadow-rose-500/20'
+                    : 'liquid-btn-secondary text-slate-300'
+                }`}
+              >
+                {isListeningVoice ? <Mic className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-300" /> : <MicOff className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400" />}
+                <span className="hidden xs:inline">{isListeningVoice ? 'Voice Active' : 'Voice Assistant'}</span>
+              </button>
+            )}
+
+            {/* Large Undo Button (Frosted Glass Pill) */}
+            <button
+              type="button"
+              onClick={onUndo}
+              disabled={undoCount === 0}
+              className={`liquid-btn px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 sm:gap-2 ${
+                undoCount > 0
+                  ? 'liquid-btn-amber'
+                  : 'liquid-btn-secondary opacity-40 cursor-not-allowed'
+              }`}
+              title="Undo Last Ball (Ctrl+Z)"
+            >
+              <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Undo Ball</span>
+              {undoCount > 0 && (
+                <span className="px-1.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black">
+                  {undoCount}
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Live Voice Assistant Status Bar (when voice is listening or executed) */}
+        {isListeningVoice && (
+          <motion.div
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="px-3 py-2 rounded-xl bg-gradient-to-r from-rose-500/15 via-purple-500/10 to-cyan-500/15 border border-rose-500/30 flex items-center justify-between text-xs text-slate-200"
           >
-            <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span>Undo Ball</span>
-            {undoCount > 0 && (
-              <span className="px-1.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black">
-                {undoCount}
+            <div className="flex items-center gap-2 truncate">
+              <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping shrink-0" />
+              <div className="truncate">
+                {lastVoiceTranscript ? (
+                  <span className="italic text-cyan-300 truncate">Heard: "{lastVoiceTranscript}"</span>
+                ) : (
+                  <span className="text-slate-300 text-[11px] truncate">
+                    Listening for voice calls: say <strong className="text-amber-300">"four"</strong>, <strong className="text-rose-300">"six"</strong>, <strong className="text-cyan-300">"single"</strong>, <strong className="text-purple-300">"wide"</strong>, <strong className="text-rose-400">"wicket"</strong>
+                  </span>
+                )}
+              </div>
+            </div>
+            {lastVoiceCommand && (
+              <span className="shrink-0 ml-2 px-2 py-0.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 text-[10px] font-bold">
+                ⚡ {lastVoiceCommand.text}
               </span>
             )}
-          </button>
-        </div>
+          </motion.div>
+        )}
 
         {/* Big Large Score Buttons */}
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3.5">

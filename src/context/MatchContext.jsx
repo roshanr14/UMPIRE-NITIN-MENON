@@ -483,7 +483,7 @@ export function MatchProvider({ children }) {
   }, [match, currentInnings, persistMatchState, checkInningsAndMatchProgression]);
 
   // Record Wicket
-  const recordWicket = useCallback((wicketData) => {
+  const recordWicket = useCallback((wicketData = {}) => {
     if (!match || match.status !== 'live' || !currentInnings) return;
 
     setUndoStack((prev) => [...prev, JSON.parse(JSON.stringify(match))]);
@@ -492,15 +492,24 @@ export function MatchProvider({ children }) {
     const m = JSON.parse(JSON.stringify(match));
     const inn = m.currentInningsNumber === 2 ? m.innings2 : m.innings1;
 
-    const {
-      dismissalType, // 'bowled', 'caught', 'lbw', 'run_out', 'stumped', etc.
-      playerOutId, // striker or non-striker
-      fielderName,
-      newBatterId,
-      runsScored = 0,
-      extraType = null,
-      extraRuns = 0,
-    } = wicketData;
+    const normalizedData = typeof wicketData === 'string' ? { dismissalType: wicketData } : (wicketData || {});
+    const dismissalType = normalizedData.dismissalType || 'bowled'; // 'bowled', 'caught', 'lbw', 'run_out', 'stumped', etc.
+    const playerOutId = normalizedData.playerOutId || inn.currentStrikerId;
+    const fielderName = normalizedData.fielderName || null;
+    let newBatterId = normalizedData.newBatterId || null;
+    const runsScored = normalizedData.runsScored || 0;
+    const extraType = normalizedData.extraType || null;
+    const extraRuns = normalizedData.extraRuns || 0;
+
+    // If newBatterId is not provided and wickets remain, automatically pick next available batter
+    if (!newBatterId && inn.wickets < 9) {
+      const nextAvailable = inn.batsmen.find(
+        (b) => !b.isOut && !b.isBatting && b.id !== inn.currentStrikerId && b.id !== inn.currentNonStrikerId
+      );
+      if (nextAvailable) {
+        newBatterId = nextAvailable.id;
+      }
+    }
 
     const striker = inn.batsmen.find((b) => b.id === inn.currentStrikerId);
     const nonStriker = inn.batsmen.find((b) => b.id === inn.currentNonStrikerId);
