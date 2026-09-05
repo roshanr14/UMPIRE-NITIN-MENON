@@ -120,7 +120,7 @@ export default function Dashboard({
             </div>
           </div>
           <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl shadow-inner">
-            <p className="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-slate-400">Scorer</p>
+            <p className="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-slate-400">Umpire</p>
             <p className="text-xs font-bold text-slate-200 truncate mt-1 sm:mt-2 font-display">
               {user?.user_metadata?.name || 'Nitin Menon'}
             </p>
