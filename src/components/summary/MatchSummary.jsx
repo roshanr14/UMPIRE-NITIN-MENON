@@ -2,9 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Trophy,
-  Printer,
   Download,
-  Share2,
   Calendar,
   MapPin,
   Clock,
@@ -22,7 +20,6 @@ import {
   Target,
   ArrowUpRight,
   Sparkles,
-  Image as ImageIcon,
   CheckCircle2,
   X,
   ExternalLink,
@@ -40,9 +37,7 @@ export default function MatchSummary({ onNavigateToScoring }) {
   const scorecardRef = useRef(null);
 
   const [activeTab, setActiveTab] = useState('full'); // 'full' | 'innings1' | 'innings2' | 'partnerships'
-  const [copiedShare, setCopiedShare] = useState(false);
   const [isExportingPDF, setIsExportingPDF] = useState(false);
-  const [isExportingImage, setIsExportingImage] = useState(false);
   const [exportStatus, setExportStatus] = useState(null);
 
   if (!match) {
@@ -79,12 +74,7 @@ export default function MatchSummary({ onNavigateToScoring }) {
   const activeInningsData = activeTab === 'innings2' ? innings2 : innings1;
   const activeInningNumber = activeTab === 'innings2' ? 2 : 1;
 
-  // Print scorecard
-  const handlePrint = () => {
-    window.print();
-  };
-
-  // Export High-Resolution Multi-Page PDF with Lossless PNG & Zero Sliced Rows
+  // Export High-Resolution Multi-Page PDF with Lossless PNG & Full Dual-Innings Coverage
   const handleExportPDF = async () => {
     if (!scorecardRef.current) return;
     setIsExportingPDF(true);
@@ -92,15 +82,15 @@ export default function MatchSummary({ onNavigateToScoring }) {
     const prevTab = activeTab;
 
     try {
-      // Ensure the complete scorecard (both innings) is visible
+      // Ensure the complete scorecard (both innings) is visible during PDF generation
       if (activeTab !== 'full') {
         setActiveTab('full');
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 250));
       }
 
       const element = scorecardRef.current;
       const canvas = await html2canvas(element, {
-        scale: 2.2,
+        scale: 2.5, // High-DPI crisp rendering
         backgroundColor: '#060919',
         useCORS: true,
         logging: false,
@@ -149,14 +139,13 @@ export default function MatchSummary({ onNavigateToScoring }) {
       try {
         const pdfBlob = pdf.output('blob');
         blobUrl = URL.createObjectURL(pdfBlob);
-        window.open(blobUrl, '_blank');
       } catch (previewErr) {
-        console.warn('Could not open preview tab:', previewErr);
+        console.warn('Could not generate blob URL:', previewErr);
       }
 
       setExportStatus({
         type: 'success',
-        text: `Official Complete Match PDF generated! Saved to your computer and ready to view in high definition.`,
+        text: `Official Complete Match PDF downloaded successfully! Saved as ${filename}`,
         previewUrl: blobUrl,
       });
       setTimeout(() => setExportStatus(null), 12000);
@@ -164,95 +153,15 @@ export default function MatchSummary({ onNavigateToScoring }) {
       console.error('PDF export error:', err);
       setExportStatus({
         type: 'error',
-        text: 'Custom canvas rendering was blocked by browser. You can save as PDF directly using Print Sheet.',
+        text: 'PDF generation encountered an error. Please try again.',
       });
-      setTimeout(() => setExportStatus(null), 10000);
+      setTimeout(() => setExportStatus(null), 8000);
     } finally {
       setIsExportingPDF(false);
       if (prevTab !== 'full') {
         setActiveTab(prevTab);
       }
     }
-  };
-
-  // Export High-Definition Image (PNG) with Full Match Coverage
-  const handleExportImage = async () => {
-    if (!scorecardRef.current) return;
-    setIsExportingImage(true);
-    setExportStatus(null);
-    const prevTab = activeTab;
-
-    try {
-      if (activeTab !== 'full') {
-        setActiveTab('full');
-        await new Promise((resolve) => setTimeout(resolve, 200));
-      }
-
-      const element = scorecardRef.current;
-      const canvas = await html2canvas(element, {
-        scale: 2.2,
-        backgroundColor: '#060919',
-        useCORS: true,
-        logging: false,
-        windowWidth: 1200,
-        ignoreElements: (element) => element.classList.contains('no-print'),
-      });
-
-      const cleanA = (match.teamA?.name || 'TeamA').replace(/\s+/g, '_');
-      const cleanB = (match.teamB?.name || 'TeamB').replace(/\s+/g, '_');
-      const filename = `${cleanA}_vs_${cleanB}_Complete_Scorecard.png`;
-
-      const link = document.createElement('a');
-      link.download = filename;
-      link.href = canvas.toDataURL('image/png'); // 100% Lossless High-DPI PNG
-      link.click();
-
-      setExportStatus({
-        type: 'success',
-        text: `High-Definition Complete Scorecard PNG image exported! Check your Downloads or Desktop folder.`,
-      });
-      setTimeout(() => setExportStatus(null), 6000);
-    } catch (err) {
-      console.error('Image export error:', err);
-      setExportStatus({
-        type: 'error',
-        text: 'Image export encountered an error.',
-      });
-      setTimeout(() => setExportStatus(null), 6000);
-    } finally {
-      setIsExportingImage(false);
-      if (prevTab !== 'full') {
-        setActiveTab(prevTab);
-      }
-    }
-  };
-
-  // Copy share text for WhatsApp / SMS
-  const handleShare = () => {
-    const text = `🏏 *UMPIRE NITIN MENON - OFFICIAL MATCH REPORT*
-*${match.teamA.name} vs ${match.teamB.name}*
-🏆 *Result:* ${match.result || (match.status === 'live' ? 'Match Live in Progress' : 'Innings Complete')}
-
-📊 *1st Innings (${innings1?.battingTeamName}):*
-${innings1?.totalRuns}/${innings1?.wickets} in ${formatOvers(innings1?.validBalls)} ov (CRR: ${calculateCRR(innings1?.totalRuns, innings1?.validBalls)})
-${
-  topBatter && topBatter.runs > 0
-    ? `⭐ Top Batter: ${topBatter.name} ${topBatter.runs} (${topBatter.balls}b, ${topBatter.fours}x4, ${topBatter.sixes}x6)`
-    : ''
-}
-
-${
-  innings2
-    ? `📊 *2nd Innings (${innings2?.battingTeamName}):*
-${innings2?.totalRuns}/${innings2?.wickets} in ${formatOvers(innings2?.validBalls)} ov (Target: ${innings2?.target})`
-    : ''
-}
-📍 Venue: ${match.venue}
-Lead Umpire: Nitin Menon`;
-
-    navigator.clipboard.writeText(text);
-    setCopiedShare(true);
-    setTimeout(() => setCopiedShare(false), 2000);
   };
 
   return (
@@ -271,39 +180,15 @@ Lead Umpire: Nitin Menon`;
           )}
         </div>
 
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 text-xs font-semibold w-full sm:w-auto">
-          <button
-            onClick={handleShare}
-            className="liquid-btn liquid-btn-secondary px-3.5 sm:px-4 py-2.5 rounded-xl sm:rounded-2xl flex items-center justify-center gap-1.5"
-          >
-            {copiedShare ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 text-cyan-300" />}
-            <span>{copiedShare ? 'Copied!' : 'Share Match'}</span>
-          </button>
-
-          <button
-            onClick={handleExportImage}
-            disabled={isExportingImage}
-            className="liquid-btn liquid-btn-secondary px-3.5 sm:px-4 py-2.5 rounded-xl sm:rounded-2xl flex items-center justify-center gap-1.5 disabled:opacity-40"
-          >
-            <ImageIcon className="w-3.5 h-3.5 text-sky-400" />
-            <span>{isExportingImage ? 'Exporting...' : 'Save PNG'}</span>
-          </button>
-
-          <button
-            onClick={handlePrint}
-            className="liquid-btn liquid-btn-secondary px-3.5 sm:px-4 py-2.5 rounded-xl sm:rounded-2xl flex items-center justify-center gap-1.5"
-          >
-            <Printer className="w-3.5 h-3.5 text-purple-400" />
-            <span>Print Sheet</span>
-          </button>
-
+        {/* Unified Scorecard PDF Download Button */}
+        <div className="flex items-center gap-2 text-xs font-semibold w-full sm:w-auto">
           <button
             onClick={handleExportPDF}
             disabled={isExportingPDF}
-            className="liquid-btn liquid-btn-primary col-span-2 sm:col-span-1 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs flex items-center justify-center gap-2 disabled:opacity-40"
+            className="liquid-btn liquid-btn-primary w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-xl shadow-cyan-500/20 text-white disabled:opacity-40"
           >
-            <Download className="w-3.5 h-3.5 text-cyan-200" />
-            <span>{isExportingPDF ? 'Generating PDF...' : 'Download Scorecard PDF'}</span>
+            <Download className="w-4 h-4 text-cyan-200" />
+            <span>{isExportingPDF ? 'Generating Scorecard PDF...' : 'Download Scorecard (PDF)'}</span>
           </button>
         </div>
       </div>
