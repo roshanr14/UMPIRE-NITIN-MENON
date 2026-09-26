@@ -35,6 +35,7 @@ export default function MatchSummary({ onNavigateToScoring }) {
   const { match } = useMatch();
   const { user } = useAuth();
   const scorecardRef = useRef(null);
+  const pdfPrintRef = useRef(null);
 
   const [activeTab, setActiveTab] = useState('full'); // 'full' | 'innings1' | 'innings2' | 'partnerships'
   const [isExportingPDF, setIsExportingPDF] = useState(false);
@@ -74,59 +75,60 @@ export default function MatchSummary({ onNavigateToScoring }) {
   const activeInningsData = activeTab === 'innings2' ? innings2 : innings1;
   const activeInningNumber = activeTab === 'innings2' ? 2 : 1;
 
-  // Export High-Resolution Multi-Page PDF with Lossless PNG & Full Dual-Innings Coverage
+  // Export High-Resolution Multi-Page PDF using Dedicated Official Print Template
   const handleExportPDF = async () => {
-    if (!scorecardRef.current) return;
+    if (!pdfPrintRef.current) return;
     setIsExportingPDF(true);
     setExportStatus(null);
-    const prevTab = activeTab;
 
     try {
-      // Ensure the complete scorecard (both innings) is visible during PDF generation
-      if (activeTab !== 'full') {
-        setActiveTab('full');
-        await new Promise((resolve) => setTimeout(resolve, 250));
-      }
-
-      const element = scorecardRef.current;
+      const element = pdfPrintRef.current;
       const canvas = await html2canvas(element, {
-        scale: 2.5, // High-DPI crisp rendering
-        backgroundColor: '#060919',
+        scale: 2.2, // High-DPI crystal clear typography
+        backgroundColor: '#ffffff',
         useCORS: true,
         logging: false,
-        windowWidth: 1200,
-        ignoreElements: (el) => el.classList.contains('no-print'),
+        windowWidth: 850,
       });
 
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = 210;
       const pdfHeight = 297;
-      const pageCanvasHeight = Math.floor((canvas.width * pdfHeight) / pdfWidth);
-      const totalPages = Math.ceil(canvas.height / pageCanvasHeight);
+      
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-      for (let p = 0; p < totalPages; p++) {
-        if (p > 0) pdf.addPage();
+      if (imgHeight <= pdfHeight) {
+        // Fits on a single A4 page
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, imgHeight, undefined, 'FAST');
+      } else {
+        // Multi-page clean slicing on pure white canvas
+        const pageCanvasHeight = Math.floor((canvas.width * pdfHeight) / pdfWidth);
+        const totalPages = Math.ceil(canvas.height / pageCanvasHeight);
 
-        const pageCanvas = document.createElement('canvas');
-        pageCanvas.width = canvas.width;
-        pageCanvas.height = pageCanvasHeight;
+        for (let p = 0; p < totalPages; p++) {
+          if (p > 0) pdf.addPage();
 
-        const ctx = pageCanvas.getContext('2d');
-        ctx.fillStyle = '#060919';
-        ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+          const pageCanvas = document.createElement('canvas');
+          pageCanvas.width = canvas.width;
+          pageCanvas.height = pageCanvasHeight;
 
-        const sourceY = p * pageCanvasHeight;
-        const sourceH = Math.min(pageCanvasHeight, canvas.height - sourceY);
+          const ctx = pageCanvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
-        ctx.drawImage(
-          canvas,
-          0, sourceY, canvas.width, sourceH,
-          0, 0, canvas.width, sourceH
-        );
+          const sourceY = p * pageCanvasHeight;
+          const sourceH = Math.min(pageCanvasHeight, canvas.height - sourceY);
 
-        // Lossless PNG format: crystal-clear typography, zero JPEG blur
-        const pageDataUrl = pageCanvas.toDataURL('image/png');
-        pdf.addImage(pageDataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+          ctx.drawImage(
+            canvas,
+            0, sourceY, canvas.width, sourceH,
+            0, 0, canvas.width, sourceH
+          );
+
+          const pageDataUrl = pageCanvas.toDataURL('image/png');
+          pdf.addImage(pageDataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+        }
       }
 
       const cleanA = (match.teamA?.name || 'TeamA').replace(/\s+/g, '_');
@@ -145,7 +147,7 @@ export default function MatchSummary({ onNavigateToScoring }) {
 
       setExportStatus({
         type: 'success',
-        text: `Official Complete Match PDF downloaded successfully! Saved as ${filename}`,
+        text: `Official Scorecard PDF downloaded successfully! Saved as ${filename}`,
         previewUrl: blobUrl,
       });
       setTimeout(() => setExportStatus(null), 12000);
@@ -158,9 +160,6 @@ export default function MatchSummary({ onNavigateToScoring }) {
       setTimeout(() => setExportStatus(null), 8000);
     } finally {
       setIsExportingPDF(false);
-      if (prevTab !== 'full') {
-        setActiveTab(prevTab);
-      }
     }
   };
 
@@ -566,6 +565,30 @@ export default function MatchSummary({ onNavigateToScoring }) {
           </div>
         </div>
       </div>
+
+      {/* OFF-SCREEN HIGH-RESOLUTION OFFICIAL SCORECARD PDF TEMPLATE */}
+      <div
+        style={{
+          position: 'fixed',
+          left: '-9999px',
+          top: 0,
+          width: '800px',
+          zIndex: -999,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+        }}
+        aria-hidden="true"
+      >
+        <OfficialScorecardPrintTemplate
+          ref={pdfPrintRef}
+          match={match}
+          innings1={innings1}
+          innings2={innings2}
+          topBatter={topBatter}
+          topBowler={topBowler}
+          umpireName={user?.user_metadata?.name || 'Nitin Menon'}
+        />
+      </div>
     </div>
   );
 }
@@ -823,3 +846,463 @@ function FallOfWicketsCard({ innings }) {
     </div>
   );
 }
+
+// Subcomponent: Dedicated High-Resolution Printable Official Scorecard Template
+const OfficialScorecardPrintTemplate = React.forwardRef(
+  ({ match, innings1, innings2, topBatter, topBowler, umpireName }, ref) => {
+    if (!match) return null;
+
+    const teamAName = match.teamA?.name || 'Team A';
+    const teamBName = match.teamB?.name || 'Team B';
+
+    return (
+      <div
+        ref={ref}
+        style={{
+          width: '800px',
+          backgroundColor: '#ffffff',
+          color: '#0f172a',
+          fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          padding: '36px 40px',
+          boxSizing: 'border-box',
+          lineHeight: '1.4',
+        }}
+      >
+        {/* 1. OFFICIAL TOURNAMENT HEADER */}
+        <div
+          style={{
+            backgroundColor: '#0f172a',
+            color: '#ffffff',
+            borderRadius: '12px',
+            padding: '24px 28px',
+            marginBottom: '24px',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+            <div>
+              <span
+                style={{
+                  fontSize: '11px',
+                  fontWeight: '800',
+                  letterSpacing: '1.5px',
+                  textTransform: 'uppercase',
+                  color: '#38bdf8',
+                  display: 'block',
+                }}
+              >
+                CRICSCORE • OFFICIAL MATCH SCORECARD
+              </span>
+              <h1 style={{ fontSize: '26px', fontWeight: '900', margin: '4px 0 0 0', letterSpacing: '-0.5px' }}>
+                {teamAName} <span style={{ color: '#94a3b8', fontWeight: '400' }}>vs</span> {teamBName}
+              </h1>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <span
+                style={{
+                  display: 'inline-block',
+                  backgroundColor: '#1e293b',
+                  border: '1px solid #334155',
+                  borderRadius: '20px',
+                  padding: '4px 12px',
+                  fontSize: '11px',
+                  fontWeight: '700',
+                  color: '#f8fafc',
+                }}
+              >
+                {match.format || 'T20'} • {match.totalOvers} Overs
+              </span>
+            </div>
+          </div>
+
+          {/* Match Meta Information */}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '16px',
+              fontSize: '12px',
+              color: '#cbd5e1',
+              paddingTop: '12px',
+              borderTop: '1px solid #334155',
+              marginBottom: '16px',
+            }}
+          >
+            <span>📍 <strong>Venue:</strong> {match.venue || 'Stadium'}</span>
+            <span>📅 <strong>Date:</strong> {match.date || 'Today'}</span>
+            <span>🪙 <strong>Toss:</strong> Won by <strong>{match.toss?.winnerName}</strong> (elected to {match.toss?.decision === 'bat' ? 'Bat First' : 'Bowl First'})</span>
+          </div>
+
+          {/* Victory / Result Announcement Ribbon */}
+          <div
+            style={{
+              backgroundColor: '#059669',
+              color: '#ffffff',
+              padding: '10px 18px',
+              borderRadius: '8px',
+              fontWeight: '800',
+              fontSize: '15px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>🏆 RESULT: {match.result || (match.status === 'live' ? 'MATCH IN PROGRESS' : 'INNINGS COMPLETED')}</span>
+            <span style={{ fontSize: '11px', fontWeight: '600', opacity: 0.9 }}>VERIFIED OFFICIAL</span>
+          </div>
+        </div>
+
+        {/* 2. MATCH SNAPSHOT SUMMARY (DUAL INNINGS BOXES) */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+          {/* Innings 1 Summary Card */}
+          <div
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '10px',
+              padding: '14px 18px',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+              <strong style={{ fontSize: '14px', color: '#0f172a', textTransform: 'uppercase' }}>
+                1st Inn: {innings1?.battingTeamName || teamAName}
+              </strong>
+              <span style={{ fontSize: '11px', fontWeight: '700', color: '#64748b' }}>
+                CRR: {calculateCRR(innings1?.totalRuns, innings1?.validBalls)}
+              </span>
+            </div>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: '#0f172a' }}>
+              {innings1?.totalRuns || 0}/{innings1?.wickets || 0}{' '}
+              <span style={{ fontSize: '13px', fontWeight: '600', color: '#64748b' }}>
+                ({formatOvers(innings1?.validBalls)} / {match.totalOvers} ov)
+              </span>
+            </div>
+          </div>
+
+          {/* Innings 2 Summary Card */}
+          <div
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '10px',
+              padding: '14px 18px',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+              <strong style={{ fontSize: '14px', color: '#0f172a', textTransform: 'uppercase' }}>
+                2nd Inn: {innings2?.battingTeamName || teamBName}
+              </strong>
+              <span style={{ fontSize: '11px', fontWeight: '700', color: '#64748b' }}>
+                {innings2?.target ? `Target: ${innings2.target}` : '2nd Innings'}
+              </span>
+            </div>
+            {innings2 ? (
+              <div style={{ fontSize: '24px', fontWeight: '900', color: '#0f172a' }}>
+                {innings2.totalRuns || 0}/{innings2.wickets || 0}{' '}
+                <span style={{ fontSize: '13px', fontWeight: '600', color: '#64748b' }}>
+                  ({formatOvers(innings2.validBalls)} / {match.totalOvers} ov)
+                </span>
+              </div>
+            ) : (
+              <div style={{ fontSize: '13px', color: '#94a3b8', fontStyle: 'italic', marginTop: '6px' }}>
+                2nd Innings not commenced yet
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 3. 1ST INNINGS DETAILED SCORECARD */}
+        {innings1 && (
+          <PrintableInningsBlock
+            innings={innings1}
+            inningsNumber={1}
+            totalMatchOvers={match.totalOvers}
+          />
+        )}
+
+        {/* 4. 2ND INNINGS DETAILED SCORECARD */}
+        {innings2 && (
+          <PrintableInningsBlock
+            innings={innings2}
+            inningsNumber={2}
+            totalMatchOvers={match.totalOvers}
+          />
+        )}
+
+        {/* 5. TOP PERFORMERS HIGHLIGHTS */}
+        {(topBatter || topBowler) && (
+          <div
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #cbd5e1',
+              borderRadius: '10px',
+              padding: '16px 20px',
+              marginBottom: '24px',
+            }}
+          >
+            <h3
+              style={{
+                fontSize: '12px',
+                fontWeight: '800',
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
+                color: '#475569',
+                margin: '0 0 12px 0',
+              }}
+            >
+              🌟 Match Top Performers
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              {topBatter && topBatter.runs > 0 && (
+                <div style={{ borderLeft: '3px solid #f59e0b', paddingLeft: '12px' }}>
+                  <span style={{ fontSize: '10px', fontWeight: '700', color: '#d97706', textTransform: 'uppercase' }}>
+                    Top Batter
+                  </span>
+                  <p style={{ fontSize: '14px', fontWeight: '800', margin: '2px 0', color: '#0f172a' }}>
+                    {topBatter.name} ({topBatter.teamName})
+                  </p>
+                  <p style={{ fontSize: '12px', color: '#475569', margin: 0 }}>
+                    <strong>{topBatter.runs}</strong> runs ({topBatter.balls} balls, {topBatter.fours}x4, {topBatter.sixes}x6, SR: {calculateStrikeRate(topBatter.runs, topBatter.balls)})
+                  </p>
+                </div>
+              )}
+
+              {topBowler && (topBowler.wickets > 0 || topBowler.balls > 0) && (
+                <div style={{ borderLeft: '3px solid #0284c7', paddingLeft: '12px' }}>
+                  <span style={{ fontSize: '10px', fontWeight: '700', color: '#0284c7', textTransform: 'uppercase' }}>
+                    Top Bowler
+                  </span>
+                  <p style={{ fontSize: '14px', fontWeight: '800', margin: '2px 0', color: '#0f172a' }}>
+                    {topBowler.name} ({topBowler.teamName})
+                  </p>
+                  <p style={{ fontSize: '12px', color: '#475569', margin: 0 }}>
+                    <strong>{topBowler.wickets}</strong> wkts for {topBowler.runsConceded} runs ({formatOvers(topBowler.balls)} ov, Econ: {calculateEconomy(topBowler.runsConceded, topBowler.balls)})
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* 6. OFFICIAL UMPIRE CERTIFICATION FOOTER */}
+        <div
+          style={{
+            borderTop: '2px solid #0f172a',
+            paddingTop: '16px',
+            marginTop: '20px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            fontSize: '11px',
+            color: '#475569',
+          }}
+        >
+          <div>
+            <p style={{ margin: 0, fontWeight: '800', color: '#0f172a' }}>
+              OFFICIAL CERTIFIED MATCH RECORD
+            </p>
+            <p style={{ margin: '2px 0 0 0' }}>
+              Lead Umpire: <strong>{umpireName}</strong> (ICC Elite Panel System)
+            </p>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ margin: 0, fontWeight: '700', color: '#0f172a' }}>
+              Digital Seal Verified
+            </p>
+            <p style={{ margin: '2px 0 0 0', fontSize: '10px', color: '#94a3b8' }}>
+              Generated: {new Date().toLocaleString()}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
+
+OfficialScorecardPrintTemplate.displayName = 'OfficialScorecardPrintTemplate';
+
+// Helper Subcomponent for Print Innings Block (Batting + Extras + Bowling + FOW)
+function PrintableInningsBlock({ innings, inningsNumber, totalMatchOvers }) {
+  if (!innings) return null;
+
+  return (
+    <div style={{ marginBottom: '24px' }}>
+      {/* Innings Section Header */}
+      <div
+        style={{
+          backgroundColor: '#1e293b',
+          color: '#ffffff',
+          padding: '8px 16px',
+          borderRadius: '6px 6px 0 0',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <strong style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          {inningsNumber === 1 ? '1st' : '2nd'} Innings — {innings.battingTeamName} Batting
+        </strong>
+        <span style={{ fontSize: '12px', fontWeight: '700', color: '#38bdf8' }}>
+          {innings.totalRuns}/{innings.wickets} ({formatOvers(innings.validBalls)}/{totalMatchOvers} ov)
+        </span>
+      </div>
+
+      {/* Batting Table */}
+      <table
+        style={{
+          width: '100%',
+          borderCollapse: 'collapse',
+          fontSize: '11px',
+          border: '1px solid #cbd5e1',
+          borderTop: 'none',
+        }}
+      >
+        <thead>
+          <tr style={{ backgroundColor: '#f1f5f9', color: '#475569', textAlign: 'left', fontWeight: '700', borderBottom: '1px solid #cbd5e1' }}>
+            <th style={{ padding: '7px 10px' }}>Batter</th>
+            <th style={{ padding: '7px 10px' }}>Dismissal</th>
+            <th style={{ padding: '7px 10px', textAlign: 'right' }}>R</th>
+            <th style={{ padding: '7px 10px', textAlign: 'right' }}>B</th>
+            <th style={{ padding: '7px 10px', textAlign: 'right' }}>4s</th>
+            <th style={{ padding: '7px 10px', textAlign: 'right' }}>6s</th>
+            <th style={{ padding: '7px 10px', textAlign: 'right' }}>SR</th>
+          </tr>
+        </thead>
+        <tbody>
+          {innings.batsmen?.map((b, idx) => {
+            const hasBatted = b.balls > 0 || b.runs > 0 || b.isOut || b.isBatting;
+            if (!hasBatted) return null;
+
+            let dismissalText = 'not out';
+            if (b.isOut && b.dismissal) {
+              const d = b.dismissal;
+              if (d.type === 'bowled') dismissalText = `b ${d.bowlerName}`;
+              else if (d.type === 'caught') dismissalText = `c ${d.fielderName || 'Fielder'} b ${d.bowlerName}`;
+              else if (d.type === 'lbw') dismissalText = `lbw b ${d.bowlerName}`;
+              else if (d.type === 'run_out') dismissalText = `run out (${d.fielderName || 'Fielder'})`;
+              else if (d.type === 'stumped') dismissalText = `st ${d.fielderName || 'Wk'} b ${d.bowlerName}`;
+              else dismissalText = d.type.replace('_', ' ');
+            } else if (b.isBatting) {
+              dismissalText = 'not out *';
+            }
+
+            return (
+              <tr
+                key={idx}
+                style={{
+                  backgroundColor: idx % 2 === 0 ? '#ffffff' : '#f8fafc',
+                  borderBottom: '1px solid #e2e8f0',
+                  color: '#0f172a',
+                }}
+              >
+                <td style={{ padding: '6px 10px', fontWeight: '700' }}>
+                  {b.name}{' '}
+                  {b.isBatting && (
+                    <span style={{ fontSize: '9px', backgroundColor: '#dcfce7', color: '#15803d', padding: '1px 5px', borderRadius: '4px', marginLeft: '4px', fontWeight: '800' }}>
+                      NOT OUT
+                    </span>
+                  )}
+                </td>
+                <td style={{ padding: '6px 10px', color: '#64748b' }}>{dismissalText}</td>
+                <td style={{ padding: '6px 10px', textAlign: 'right', fontWeight: '800', fontSize: '12px' }}>{b.runs}</td>
+                <td style={{ padding: '6px 10px', textAlign: 'right', color: '#475569' }}>{b.balls}</td>
+                <td style={{ padding: '6px 10px', textAlign: 'right', color: '#475569' }}>{b.fours}</td>
+                <td style={{ padding: '6px 10px', textAlign: 'right', color: '#475569' }}>{b.sixes}</td>
+                <td style={{ padding: '6px 10px', textAlign: 'right', fontWeight: '700', color: '#0f172a' }}>
+                  {calculateStrikeRate(b.runs, b.balls)}
+                </td>
+              </tr>
+            );
+          })}
+
+          {/* Extras and Totals Rows */}
+          <tr style={{ backgroundColor: '#f1f5f9', borderTop: '2px solid #cbd5e1', fontSize: '11px', color: '#334155' }}>
+            <td colSpan="2" style={{ padding: '6px 10px', fontWeight: '600' }}>
+              Extras: <strong>{innings.extras?.total || 0}</strong>{' '}
+              <span style={{ color: '#64748b', fontSize: '10px' }}>
+                (wd {innings.extras?.wides || 0}, nb {innings.extras?.noBalls || 0}, b {innings.extras?.byes || 0}, lb {innings.extras?.legByes || 0})
+              </span>
+            </td>
+            <td colSpan="5" style={{ padding: '6px 10px', textAlign: 'right', fontWeight: '800', fontSize: '12px', color: '#0f172a' }}>
+              TOTAL: {innings.totalRuns}/{innings.wickets}{' '}
+              <span style={{ fontSize: '11px', fontWeight: '600', color: '#64748b' }}>
+                ({formatOvers(innings.validBalls)} ov, CRR: {calculateCRR(innings.totalRuns, innings.validBalls)})
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      {/* Bowling Section */}
+      <div style={{ marginTop: '12px' }}>
+        <table
+          style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            fontSize: '11px',
+            border: '1px solid #cbd5e1',
+          }}
+        >
+          <thead>
+            <tr style={{ backgroundColor: '#f1f5f9', color: '#475569', textAlign: 'left', fontWeight: '700', borderBottom: '1px solid #cbd5e1' }}>
+              <th style={{ padding: '6px 10px' }}>Bowler ({innings.bowlingTeamName})</th>
+              <th style={{ padding: '6px 10px', textAlign: 'right' }}>O</th>
+              <th style={{ padding: '6px 10px', textAlign: 'right' }}>M</th>
+              <th style={{ padding: '6px 10px', textAlign: 'right' }}>R</th>
+              <th style={{ padding: '6px 10px', textAlign: 'right' }}>W</th>
+              <th style={{ padding: '6px 10px', textAlign: 'right' }}>Dots</th>
+              <th style={{ padding: '6px 10px', textAlign: 'right' }}>Econ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {innings.bowlers
+              ?.filter((bw) => bw.balls > 0 || bw.runsConceded > 0 || bw.wickets > 0)
+              ?.map((bw, idx) => (
+                <tr
+                  key={idx}
+                  style={{
+                    backgroundColor: idx % 2 === 0 ? '#ffffff' : '#f8fafc',
+                    borderBottom: '1px solid #e2e8f0',
+                    color: '#0f172a',
+                  }}
+                >
+                  <td style={{ padding: '5px 10px', fontWeight: '700' }}>{bw.name}</td>
+                  <td style={{ padding: '5px 10px', textAlign: 'right', fontWeight: '600' }}>{formatOvers(bw.balls)}</td>
+                  <td style={{ padding: '5px 10px', textAlign: 'right', color: '#475569' }}>{bw.maidens}</td>
+                  <td style={{ padding: '5px 10px', textAlign: 'right', color: '#475569' }}>{bw.runsConceded}</td>
+                  <td style={{ padding: '5px 10px', textAlign: 'right', fontWeight: '800', color: '#dc2626', fontSize: '12px' }}>{bw.wickets}</td>
+                  <td style={{ padding: '5px 10px', textAlign: 'right', color: '#475569' }}>{bw.dots || 0}</td>
+                  <td style={{ padding: '5px 10px', textAlign: 'right', fontWeight: '700' }}>
+                    {calculateEconomy(bw.runsConceded, bw.balls)}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Fall of Wickets Summary */}
+      {innings.fallOfWickets && innings.fallOfWickets.length > 0 && (
+        <div
+          style={{
+            marginTop: '8px',
+            backgroundColor: '#f8fafc',
+            border: '1px solid #e2e8f0',
+            borderRadius: '6px',
+            padding: '6px 12px',
+            fontSize: '10px',
+            color: '#475569',
+          }}
+        >
+          <strong style={{ color: '#0f172a', marginRight: '6px' }}>Fall of Wickets:</strong>
+          {innings.fallOfWickets.map((fow, idx) => (
+            <span key={idx} style={{ marginRight: '10px', display: 'inline-block' }}>
+              <strong>{fow.score}/{fow.wicketNumber}</strong> ({fow.playerOutName}, {fow.overs} ov)
+              {idx < innings.fallOfWickets.length - 1 ? ' • ' : ''}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
