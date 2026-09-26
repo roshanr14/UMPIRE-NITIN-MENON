@@ -139,7 +139,7 @@ export default function Header({
             <button
               type="button"
               onClick={onOpenInstallModal}
-              title={isStandalone ? 'CricScore App (Installed)' : 'Download & Install Web App for PC / Android / iOS'}
+              title={isStandalone ? 'Umpire Nitin Menon App (Installed)' : 'Download & Install Umpire Nitin Menon for PC / Android / iOS'}
               className={`liquid-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-sans font-semibold flex items-center gap-1.5 sm:gap-2 ${
                 isStandalone
                   ? 'liquid-btn-secondary text-emerald-400'

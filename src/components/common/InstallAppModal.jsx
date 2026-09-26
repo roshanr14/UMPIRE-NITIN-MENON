@@ -58,8 +58,8 @@ export default function InstallAppModal({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-base sm:text-lg font-black text-white font-display">
-                    Install CricScore Web App
+                  <h3 className="text-base sm:text-lg font-black text-white font-display uppercase tracking-wide">
+                    Install Umpire Nitin Menon
                   </h3>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/40">
                     PWA
@@ -128,7 +128,7 @@ export default function InstallAppModal({
               <div className="p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-between">
                 <div className="flex items-center gap-2.5 text-emerald-300 text-xs font-bold">
                   <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                  <span>CricScore is installed on this device!</span>
+                  <span>Umpire Nitin Menon is installed on this device!</span>
                 </div>
                 <button
                   onClick={onClose}
@@ -171,8 +171,8 @@ export default function InstallAppModal({
                 </button>
                 <p className="text-[11px] text-center text-slate-400">
                   {platform.isDesktop
-                    ? 'Adds CricScore as a standalone app to your Windows or Mac desktop.'
-                    : 'Adds CricScore as a native web app to your Android home screen.'}
+                    ? 'Adds Umpire Nitin Menon as a standalone app to your Windows or Mac desktop.'
+                    : 'Adds Umpire Nitin Menon as a native web app to your Android home screen.'}
                 </p>
               </div>
             )}
