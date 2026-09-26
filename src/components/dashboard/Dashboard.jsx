@@ -15,6 +15,7 @@ import {
   Zap,
   Sparkles,
   Layers,
+  Download,
 } from 'lucide-react';
 import { useMatch } from '../../context/MatchContext';
 import { useAuth } from '../../context/AuthContext';
@@ -24,6 +25,9 @@ export default function Dashboard({
   onOpenCreateMatch,
   onNavigateToScoring,
   onNavigateToSummary,
+  onOpenInstallModal,
+  isInstalled,
+  isStandalone,
 }) {
   const { match, matchList, loadMatch, deleteMatch, isOnline } = useMatch();
   const { user } = useAuth();
@@ -82,13 +86,29 @@ export default function Dashboard({
             </p>
           </div>
 
-          <button
-            onClick={onOpenCreateMatch}
-            className="liquid-btn liquid-btn-primary w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shrink-0"
-          >
-            <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-200" />
-            <span>Create New Match</span>
-          </button>
+          <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 w-full sm:w-auto shrink-0">
+            {onOpenInstallModal && (
+              <button
+                onClick={onOpenInstallModal}
+                className={`liquid-btn w-full sm:w-auto px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 ${
+                  isStandalone
+                    ? 'liquid-btn-secondary text-emerald-300'
+                    : 'liquid-btn-secondary text-cyan-200 border-cyan-400/40 hover:border-cyan-300'
+                }`}
+              >
+                <Download className={`w-4 h-4 sm:w-4.5 sm:h-4.5 ${isStandalone ? 'text-emerald-400' : 'text-cyan-400'}`} />
+                <span>{isStandalone ? 'App Installed' : 'Download Web App'}</span>
+              </button>
+            )}
+
+            <button
+              onClick={onOpenCreateMatch}
+              className="liquid-btn liquid-btn-primary w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-lg shadow-cyan-500/20"
+            >
+              <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-200" />
+              <span>Create New Match</span>
+            </button>
+          </div>
         </div>
 
         {/* Liquid Glass Stat Counter Cards */}

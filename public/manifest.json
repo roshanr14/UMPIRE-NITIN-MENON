@@ -1,0 +1,50 @@
+{
+  "name": "UMPIRE NITIN MENON // Cricket Scorecard & Match Centre",
+  "short_name": "CricScore",
+  "description": "Professional live cricket ball-by-ball scoring, dynamic telemetry, offline storage, and voice assistant.",
+  "start_url": "/",
+  "scope": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#050713",
+  "theme_color": "#050713",
+  "categories": ["sports", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "48x48 96x96",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Live Scoring",
+      "short_name": "Scoring",
+      "description": "Open active match live scorecard",
+      "url": "/?tab=scoring",
+      "icons": [{ "src": "/pwa-icon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Create New Match",
+      "short_name": "New Match",
+      "description": "Setup and start a new match",
+      "url": "/?action=create",
+      "icons": [{ "src": "/pwa-icon.svg", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

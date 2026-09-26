@@ -9,6 +9,8 @@ import CreateMatchModal from './components/match-setup/CreateMatchModal';
 import ShortcutsModal from './components/common/ShortcutsModal';
 import AuthModal from './components/auth/AuthModal';
 import VoiceAssistantBadge from './components/voice/VoiceAssistantBadge';
+import InstallAppModal from './components/common/InstallAppModal';
+import { usePwaInstall } from './hooks/usePwaInstall';
 import { voiceEngine, speakConfirmation } from './lib/speech';
 import { createDefaultTeam } from './lib/cricketEngine';
 
@@ -23,6 +25,9 @@ function MainApp() {
     switchStrikeManual,
     setPendingOverChange,
   } = useMatch();
+
+  // PWA Install Controller
+  const { isInstallable, isInstalled, isStandalone, platform, promptInstall, deferredPrompt } = usePwaInstall();
 
   // Auto-resume active scoring session if a match is live
   const [activeTab, setActiveTab] = useState(() => {
@@ -42,6 +47,7 @@ function MainApp() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isInstallOpen, setIsInstallOpen] = useState(false);
 
   // Voice Assistant state
   const [isListeningVoice, setIsListeningVoice] = useState(false);
@@ -178,6 +184,9 @@ function MainApp() {
         onOpenAuth={() => setIsAuthOpen(true)}
         isListeningVoice={isListeningVoice}
         onToggleVoice={handleToggleVoice}
+        onOpenInstallModal={() => setIsInstallOpen(true)}
+        isInstalled={isInstalled}
+        isStandalone={isStandalone}
       />
 
       {/* Main Liquid Glass View Container */}
@@ -187,6 +196,9 @@ function MainApp() {
             onOpenCreateMatch={() => setIsCreateOpen(true)}
             onNavigateToScoring={() => setActiveTab('scoring')}
             onNavigateToSummary={() => setActiveTab('summary')}
+            onOpenInstallModal={() => setIsInstallOpen(true)}
+            isInstalled={isInstalled}
+            isStandalone={isStandalone}
           />
         )}
 
@@ -222,6 +234,21 @@ function MainApp() {
       />
 
       {/* Global Modals */}
+      <InstallAppModal
+        isOpen={isInstallOpen}
+        onClose={() => setIsInstallOpen(false)}
+        onInstall={async () => {
+          const res = await promptInstall();
+          if (res?.outcome === 'accepted') {
+            setIsInstallOpen(false);
+          }
+        }}
+        isInstalled={isInstalled}
+        isStandalone={isStandalone}
+        platform={platform}
+        hasPrompt={Boolean(deferredPrompt)}
+      />
+
       <CreateMatchModal
         isOpen={isCreateOpen}
         onClose={() => setIsCreateOpen(false)}

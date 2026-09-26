@@ -13,6 +13,7 @@ import {
   Activity,
   FileText,
   Home,
+  Download,
 } from 'lucide-react';
 import { useMatch } from '../../context/MatchContext';
 import { useAuth } from '../../context/AuthContext';
@@ -24,6 +25,9 @@ export default function Header({
   onOpenAuth,
   isListeningVoice,
   onToggleVoice,
+  onOpenInstallModal,
+  isInstalled,
+  isStandalone,
 }) {
   const { match, isOnline, syncStatus, settings, updateSettings } = useMatch();
   const { user } = useAuth();
@@ -130,6 +134,23 @@ export default function Header({
 
         {/* Quick Tools & Controls (Liquid Glass Buttons) */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Download & Install PWA Web App Button */}
+          {onOpenInstallModal && (
+            <button
+              type="button"
+              onClick={onOpenInstallModal}
+              title={isStandalone ? 'CricScore App (Installed)' : 'Download & Install Web App for PC / Android / iOS'}
+              className={`liquid-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-sans font-semibold flex items-center gap-1.5 sm:gap-2 ${
+                isStandalone
+                  ? 'liquid-btn-secondary text-emerald-400'
+                  : 'liquid-btn-primary text-cyan-200 shadow-md shadow-cyan-500/15'
+              }`}
+            >
+              <Download className={`w-4 h-4 ${isStandalone ? 'text-emerald-400' : 'text-cyan-300'}`} />
+              <span className="hidden sm:inline">{isStandalone ? 'Installed' : 'Download App'}</span>
+            </button>
+          )}
+
           {/* Voice Input Assistant Button */}
           <button
             type="button"
