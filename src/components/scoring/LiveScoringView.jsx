@@ -103,16 +103,20 @@ export default function LiveScoringView({
           recordRun(6);
           break;
         case 'w':
-          setIsExtrasOpen(true);
+          recordExtra('wide', 1);
           break;
         case 'n':
-          setIsExtrasOpen(true);
+          recordExtra('no_ball', 1);
           break;
         case 'b':
           recordExtra('bye', 1);
           break;
         case 'l':
           recordExtra('leg_bye', 1);
+          break;
+        case 'e':
+        case 'x':
+          setIsExtrasOpen(true);
           break;
         case 'k':
           setIsWicketOpen(true);
@@ -257,6 +261,7 @@ export default function LiveScoringView({
         canScore={match.status === 'live'}
         undoCount={undoStack.length}
         onRecordRun={recordRun}
+        onRecordExtra={recordExtra}
         onOpenExtras={() => setIsExtrasOpen(true)}
         onOpenWicket={() => setIsWicketOpen(true)}
         onUndo={undoLastAction}

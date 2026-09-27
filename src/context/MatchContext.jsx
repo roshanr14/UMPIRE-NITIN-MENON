@@ -357,97 +357,134 @@ export function MatchProvider({ children }) {
 
     const m = JSON.parse(JSON.stringify(match));
     const inn = m.currentInningsNumber === 2 ? m.innings2 : m.innings1;
+    if (!inn) return;
 
-    const striker = inn.batsmen.find((b) => b.id === inn.currentStrikerId);
-    const nonStriker = inn.batsmen.find((b) => b.id === inn.currentNonStrikerId);
-    const bowler = inn.bowlers.find((b) => b.id === inn.currentBowlerId);
+    // Ensure extras object exists with all fields
+    if (!inn.extras) {
+      inn.extras = { wides: 0, noBalls: 0, byes: 0, legByes: 0, penalty: 0, total: 0 };
+    }
+    inn.extras.wides = inn.extras.wides || 0;
+    inn.extras.noBalls = inn.extras.noBalls || 0;
+    inn.extras.byes = inn.extras.byes || 0;
+    inn.extras.legByes = inn.extras.legByes || 0;
+    inn.extras.penalty = inn.extras.penalty || 0;
+    inn.extras.total = inn.extras.total || 0;
+
+    // Ensure partnership object exists
+    if (!inn.currentPartnership) {
+      inn.currentPartnership = { runs: 0, balls: 0, player1Id: inn.currentStrikerId, player2Id: inn.currentNonStrikerId };
+    }
+
+    const striker = inn.batsmen?.find((b) => b.id === inn.currentStrikerId);
+    const nonStriker = inn.batsmen?.find((b) => b.id === inn.currentNonStrikerId);
+    const bowler = inn.bowlers?.find((b) => b.id === inn.currentBowlerId);
+
+    if (bowler) {
+      bowler.balls = bowler.balls || 0;
+      bowler.maidens = bowler.maidens || 0;
+      bowler.runsConceded = bowler.runsConceded || 0;
+      bowler.wickets = bowler.wickets || 0;
+      bowler.wides = bowler.wides || 0;
+      bowler.noBalls = bowler.noBalls || 0;
+      bowler.dots = bowler.dots || 0;
+    }
+
+    const type = String(extraType || 'wide').toLowerCase();
+    const parsedRuns = Math.max(1, parseInt(runs, 10) || 1);
+    const parsedRunsOffBat = Math.max(0, parseInt(runsOffBat, 10) || 0);
 
     let isLegal = true;
+    let actualExtraType = 'wide';
 
-    if (extraType === 'wide') {
+    if (type === 'wide' || type === 'wd' || type === 'w') {
+      actualExtraType = 'wide';
       isLegal = false;
-      inn.totalRuns += runs;
-      inn.extras.wides += runs;
-      inn.extras.total += runs;
+      inn.totalRuns += parsedRuns;
+      inn.extras.wides += parsedRuns;
+      inn.extras.total += parsedRuns;
       if (bowler) {
         bowler.wides += 1;
-        bowler.runsConceded += runs;
+        bowler.runsConceded += parsedRuns;
       }
-      inn.currentPartnership.runs += runs;
+      inn.currentPartnership.runs += parsedRuns;
       // Strikers do not rotate on standard wide unless running runs was odd
-      if (runs > 1 && (runs - 1) % 2 !== 0) {
+      if (parsedRuns > 1 && (parsedRuns - 1) % 2 !== 0) {
         const temp = inn.currentStrikerId;
         inn.currentStrikerId = inn.currentNonStrikerId;
         inn.currentNonStrikerId = temp;
       }
-    } else if (extraType === 'no_ball') {
+    } else if (type === 'no_ball' || type === 'noball' || type === 'no-ball' || type === 'nb' || type === 'n') {
+      actualExtraType = 'no_ball';
       isLegal = false;
-      const totalNBRuns = runs + runsOffBat;
+      const totalNBRuns = parsedRuns + parsedRunsOffBat;
       inn.totalRuns += totalNBRuns;
-      inn.extras.noBalls += runs;
-      inn.extras.total += runs;
-      if (striker && runsOffBat > 0) {
-        striker.runs += runsOffBat;
-        striker.balls += 1;
-        if (runsOffBat === 4) striker.fours += 1;
-        if (runsOffBat === 6) striker.sixes += 1;
+      inn.extras.noBalls += parsedRuns;
+      inn.extras.total += parsedRuns;
+      if (striker && parsedRunsOffBat > 0) {
+        striker.runs = (striker.runs || 0) + parsedRunsOffBat;
+        striker.balls = (striker.balls || 0) + 1;
+        if (parsedRunsOffBat === 4) striker.fours = (striker.fours || 0) + 1;
+        if (parsedRunsOffBat === 6) striker.sixes = (striker.sixes || 0) + 1;
       }
       if (bowler) {
         bowler.noBalls += 1;
         bowler.runsConceded += totalNBRuns;
       }
       inn.currentPartnership.runs += totalNBRuns;
-      if (runsOffBat % 2 !== 0) {
+      if (parsedRunsOffBat % 2 !== 0) {
         const temp = inn.currentStrikerId;
         inn.currentStrikerId = inn.currentNonStrikerId;
         inn.currentNonStrikerId = temp;
       }
-    } else if (extraType === 'bye') {
+    } else if (type === 'bye' || type === 'b' || type === 'byes') {
+      actualExtraType = 'bye';
       isLegal = true;
-      inn.totalRuns += runs;
+      inn.totalRuns += parsedRuns;
       inn.validBalls += 1;
-      inn.extras.byes += runs;
-      inn.extras.total += runs;
-      if (striker) striker.balls += 1;
-      if (bowler) bowler.balls += 1; // Byes do not charge bowler runsConceded
-      inn.currentPartnership.runs += runs;
+      inn.extras.byes += parsedRuns;
+      inn.extras.total += parsedRuns;
+      if (striker) striker.balls = (striker.balls || 0) + 1;
+      if (bowler) bowler.balls = (bowler.balls || 0) + 1; // Byes do not charge bowler runsConceded
+      inn.currentPartnership.runs += parsedRuns;
       inn.currentPartnership.balls += 1;
-      if (runs % 2 !== 0) {
+      if (parsedRuns % 2 !== 0) {
         const temp = inn.currentStrikerId;
         inn.currentStrikerId = inn.currentNonStrikerId;
         inn.currentNonStrikerId = temp;
       }
-    } else if (extraType === 'leg_bye') {
+    } else if (type === 'leg_bye' || type === 'legbye' || type === 'legbyes' || type === 'lb' || type === 'l') {
+      actualExtraType = 'leg_bye';
       isLegal = true;
-      inn.totalRuns += runs;
+      inn.totalRuns += parsedRuns;
       inn.validBalls += 1;
-      inn.extras.legByes += runs;
-      inn.extras.total += runs;
-      if (striker) striker.balls += 1;
-      if (bowler) bowler.balls += 1;
-      inn.currentPartnership.runs += runs;
+      inn.extras.legByes += parsedRuns;
+      inn.extras.total += parsedRuns;
+      if (striker) striker.balls = (striker.balls || 0) + 1;
+      if (bowler) bowler.balls = (bowler.balls || 0) + 1;
+      inn.currentPartnership.runs += parsedRuns;
       inn.currentPartnership.balls += 1;
-      if (runs % 2 !== 0) {
+      if (parsedRuns % 2 !== 0) {
         const temp = inn.currentStrikerId;
         inn.currentStrikerId = inn.currentNonStrikerId;
         inn.currentNonStrikerId = temp;
       }
-    } else if (extraType === 'penalty') {
+    } else if (type === 'penalty' || type === 'p') {
+      actualExtraType = 'penalty';
       isLegal = false;
-      inn.totalRuns += runs;
-      inn.extras.penalty += runs;
-      inn.extras.total += runs;
+      inn.totalRuns += parsedRuns;
+      inn.extras.penalty += parsedRuns;
+      inn.extras.total += parsedRuns;
     }
 
     const ballEvent = {
       id: generateBallId(),
       inningsNumber: m.currentInningsNumber,
       ballNumber: inn.validBalls,
-      overNumber: Math.floor((inn.validBalls - 1) / 6) + 1,
+      overNumber: isLegal ? Math.floor((inn.validBalls - 1) / 6) + 1 : Math.floor(inn.validBalls / 6) + 1,
       ballInOver: isLegal ? ((inn.validBalls - 1) % 6) + 1 : 'extra',
-      runsScored: runsOffBat,
-      extraRuns: runs,
-      extraType: extraType,
+      runsScored: parsedRunsOffBat,
+      extraRuns: parsedRuns,
+      extraType: actualExtraType,
       isLegalDelivery: isLegal,
       isWicket: false,
       strikerId: striker?.id,
@@ -460,6 +497,8 @@ export function MatchProvider({ children }) {
       oversAfter: formatOvers(inn.validBalls),
     };
 
+    inn.currentOverBalls = inn.currentOverBalls || [];
+    inn.allBalls = inn.allBalls || [];
     inn.currentOverBalls.push(ballEvent);
     inn.allBalls.push(ballEvent);
 
@@ -476,7 +515,7 @@ export function MatchProvider({ children }) {
 
     persistMatchState(
       m,
-      `Extra: ${extraType.toUpperCase().replace('_', ' ')} (+${runs + runsOffBat})`,
+      `Extra: ${actualExtraType.toUpperCase().replace('_', ' ')} (+${parsedRuns + parsedRunsOffBat})`,
       `Bowler: ${bowler?.name || ''} | Score: ${inn.totalRuns}/${inn.wickets}`,
       'extra'
     );

@@ -97,7 +97,7 @@ function MainApp() {
         else speakConfirmation(`${cmd.value} run added`);
         break;
       case 'extra':
-        recordExtra(cmd.extraType, cmd.runs || 1);
+        recordExtra(cmd.extraType, cmd.runs || 1, cmd.runsOffBat || 0);
         if (cmd.extraType === 'wide') speakConfirmation('Wide ball recorded');
         else if (cmd.extraType === 'no_ball') speakConfirmation('No ball recorded');
         else if (cmd.extraType === 'leg_bye') speakConfirmation('Leg bye recorded');

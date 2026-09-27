@@ -21,6 +21,7 @@ export default function ScoreKeypad({
   canScore = true,
   undoCount = 0,
   onRecordRun,
+  onRecordExtra,
   onOpenExtras,
   onOpenWicket,
   onUndo,
@@ -79,7 +80,7 @@ export default function ScoreKeypad({
   return (
     <div className="space-y-4 font-sans">
       {/* Primary Liquid Glass Scoring Console */}
-      <div className="p-3.5 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl glass-panel border border-white/[0.14] shadow-2xl space-y-3.5 sm:space-y-4">
+      <div className="p-3.5 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl glass-panel border border-white/[0.14] shadow-2xl space-y-4 sm:space-y-5">
         <div className="flex items-center justify-between pb-2.5 sm:pb-3 border-b border-white/[0.08]">
           <div className="flex items-center gap-2">
             <div className="p-1 sm:p-1.5 rounded-lg sm:rounded-xl bg-cyan-500/15 border border-cyan-400/30 text-cyan-300">
@@ -97,7 +98,7 @@ export default function ScoreKeypad({
               <button
                 type="button"
                 onClick={onToggleVoice}
-                title={isListeningVoice ? 'Voice Assistant Active (Click to Mute)' : 'Enable Voice Assistant (Speak "four", "single", "six", etc.)'}
+                title={isListeningVoice ? 'Voice Assistant Active (Click to Mute)' : 'Enable Voice Assistant (Speak "four", "single", "wide", "no ball", etc.)'}
                 className={`liquid-btn px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 sm:gap-2 ${
                   isListeningVoice
                     ? 'liquid-btn-rose text-white font-bold animate-pulse shadow-md shadow-rose-500/20'
@@ -146,7 +147,7 @@ export default function ScoreKeypad({
                   <span className="italic text-cyan-300 truncate">Heard: "{lastVoiceTranscript}"</span>
                 ) : (
                   <span className="text-slate-300 text-[11px] truncate">
-                    Listening for voice calls: say <strong className="text-amber-300">"four"</strong>, <strong className="text-rose-300">"six"</strong>, <strong className="text-cyan-300">"single"</strong>, <strong className="text-purple-300">"wide"</strong>, <strong className="text-rose-400">"wicket"</strong>
+                    Listening for calls: say <strong className="text-amber-300">"four"</strong>, <strong className="text-rose-300">"six"</strong>, <strong className="text-cyan-300">"single"</strong>, <strong className="text-purple-300">"wide"</strong>, <strong className="text-amber-400">"no ball"</strong>, <strong className="text-rose-400">"wicket"</strong>
                   </span>
                 )}
               </div>
@@ -159,79 +160,159 @@ export default function ScoreKeypad({
           </motion.div>
         )}
 
-        {/* Big Large Score Buttons */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3.5">
-          {runButtons.map((btn) => (
-            <motion.button
-              key={btn.runs}
-              whileTap={{ scale: 0.94 }}
-              disabled={!canScore || !isLive}
-              onClick={() => onRecordRun(btn.runs)}
-              className={`score-btn liquid-btn h-16 xs:h-20 sm:h-24 md:h-28 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-0.5 sm:gap-1 ${
-                btn.runs === 4
-                  ? 'liquid-btn-amber font-black'
-                  : btn.runs === 6
-                  ? 'liquid-btn-rose font-black'
-                  : btn.runs > 0
-                  ? 'liquid-btn-primary font-bold'
-                  : 'liquid-btn-secondary font-semibold'
-              } ${!canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''}`}
-            >
-              <span className="text-2xl xs:text-3xl sm:text-4xl font-black font-digit tracking-tight">
-                {btn.label}
-              </span>
-              <span className="text-[9px] xs:text-[10px] font-semibold uppercase tracking-wider opacity-90 font-sans truncate px-1">
-                {btn.sub}
-              </span>
-            </motion.button>
-          ))}
+        {/* SECTION 1: RUN BUTTONS (0, 1, 2, 3, 4, 6) */}
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase tracking-wider px-1">
+            <span>Runs Off Bat</span>
+            <span className="text-[10px] text-cyan-300 font-normal">Hotkeys: 0, 1, 2, 3, 4, 6</span>
+          </div>
+
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+            {runButtons.map((btn) => (
+              <motion.button
+                key={btn.runs}
+                whileTap={{ scale: 0.94 }}
+                disabled={!canScore || !isLive}
+                onClick={() => onRecordRun(btn.runs)}
+                className={`score-btn liquid-btn h-14 xs:h-16 sm:h-20 md:h-24 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-0.5 sm:gap-1 ${
+                  btn.runs === 4
+                    ? 'liquid-btn-amber font-black'
+                    : btn.runs === 6
+                    ? 'liquid-btn-rose font-black'
+                    : btn.runs > 0
+                    ? 'liquid-btn-primary font-bold'
+                    : 'liquid-btn-secondary font-semibold'
+                } ${!canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''}`}
+              >
+                <span className="text-2xl xs:text-3xl sm:text-3xl font-black font-digit tracking-tight">
+                  {btn.label}
+                </span>
+                <span className="text-[9px] xs:text-[10px] font-semibold uppercase tracking-wider opacity-90 font-sans truncate px-1">
+                  {btn.sub}
+                </span>
+              </motion.button>
+            ))}
+          </div>
         </div>
 
-        {/* Wicket & Extras Row (Frosted Glass Panels) */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-3.5 pt-1 sm:pt-2">
-          {/* Extras Button */}
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            disabled={!canScore || !isLive}
-            onClick={onOpenExtras}
-            className={`liquid-btn liquid-btn-amber py-2.5 sm:py-4 px-3 sm:px-5 rounded-xl sm:rounded-2xl flex items-center justify-center gap-2 sm:gap-3.5 ${
-              !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
-            }`}
-          >
-            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shrink-0">
-              <Plus className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
-            </div>
-            <div className="text-left min-w-0">
-              <p className="text-xs sm:text-base lg:text-lg font-bold font-display tracking-tight text-amber-300 truncate">
-                Extras
-              </p>
-              <p className="text-[10px] sm:text-[11px] text-slate-300 hidden md:block truncate">
-                Wide • No Ball • Bye • Leg Bye
-              </p>
-            </div>
-          </motion.button>
+        {/* SECTION 2: DEDICATED INSTANT EXTRAS & WICKET BUTTONS (WD, NB, BYE, LB, +EXT, OUT) */}
+        <div className="space-y-1.5 pt-1">
+          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase tracking-wider px-1">
+            <span className="text-amber-300/90 flex items-center gap-1">
+              <span>Extras & Wickets (Instant 1-Tap)</span>
+            </span>
+            <span className="text-[10px] text-slate-400 font-normal">Hotkeys: W (Wide), N (No Ball), B (Bye), L (Leg Bye), K (Wicket)</span>
+          </div>
 
-          {/* Wicket Button */}
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            disabled={!canScore || !isLive}
-            onClick={onOpenWicket}
-            className={`liquid-btn liquid-btn-rose py-2.5 sm:py-4 px-3 sm:px-5 rounded-xl sm:rounded-2xl flex items-center justify-center gap-2 sm:gap-3.5 ${
-              !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
-            }`}
-          >
-            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 animate-pulse shrink-0">
-              <AlertOctagon className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
-            </div>
-            <div className="text-left min-w-0">
-              <p className="text-xs sm:text-base lg:text-lg font-bold font-display tracking-tight text-rose-300 truncate">
-                Wicket (OUT)
-              </p>
-              <p className="text-[10px] sm:text-[11px] text-slate-300 hidden md:block truncate">
-                Bowled • Caught • LBW • Run Out
-              </p>
-            </div>
-          </motion.button>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+            {/* 1. Wide (+1) Instant */}
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              disabled={!canScore || !isLive}
+              onClick={() => onRecordExtra ? onRecordExtra('wide', 1) : onOpenExtras()}
+              title="Wide Delivery (+1 Run, extra ball)"
+              className={`score-btn liquid-btn liquid-btn-amber h-13 xs:h-15 sm:h-18 md:h-20 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-0.5 border-amber-400/60 shadow-md shadow-amber-500/15 ${
+                !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
+              }`}
+            >
+              <span className="text-lg xs:text-xl sm:text-2xl font-black font-digit text-amber-200">
+                WD
+              </span>
+              <span className="text-[9px] xs:text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                Wide (+1)
+              </span>
+            </motion.button>
+
+            {/* 2. No Ball (+1) Instant */}
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              disabled={!canScore || !isLive}
+              onClick={() => onRecordExtra ? onRecordExtra('no_ball', 1) : onOpenExtras()}
+              title="No Ball (+1 Run & Free Hit, extra ball)"
+              className={`score-btn liquid-btn liquid-btn-amber h-13 xs:h-15 sm:h-18 md:h-20 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-0.5 border-amber-400/60 shadow-md shadow-amber-500/15 ${
+                !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
+              }`}
+            >
+              <span className="text-lg xs:text-xl sm:text-2xl font-black font-digit text-amber-200">
+                NB
+              </span>
+              <span className="text-[9px] xs:text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                No Ball (+1)
+              </span>
+            </motion.button>
+
+            {/* 3. Bye (+1) Instant */}
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              disabled={!canScore || !isLive}
+              onClick={() => onRecordExtra ? onRecordExtra('bye', 1) : onOpenExtras()}
+              title="Bye (+1 Run to team, counts as valid ball)"
+              className={`score-btn liquid-btn liquid-btn-primary h-13 xs:h-15 sm:h-18 md:h-20 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-0.5 border-cyan-400/50 ${
+                !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
+              }`}
+            >
+              <span className="text-lg xs:text-xl sm:text-2xl font-black font-digit text-cyan-200">
+                BYE
+              </span>
+              <span className="text-[9px] xs:text-[10px] font-bold uppercase tracking-wider text-cyan-300">
+                Bye (+1)
+              </span>
+            </motion.button>
+
+            {/* 4. Leg Bye (+1) Instant */}
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              disabled={!canScore || !isLive}
+              onClick={() => onRecordExtra ? onRecordExtra('leg_bye', 1) : onOpenExtras()}
+              title="Leg Bye (+1 Run to team, counts as valid ball)"
+              className={`score-btn liquid-btn liquid-btn-primary h-13 xs:h-15 sm:h-18 md:h-20 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-0.5 border-cyan-400/50 ${
+                !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
+              }`}
+            >
+              <span className="text-lg xs:text-xl sm:text-2xl font-black font-digit text-cyan-200">
+                LB
+              </span>
+              <span className="text-[9px] xs:text-[10px] font-bold uppercase tracking-wider text-cyan-300">
+                Leg Bye (+1)
+              </span>
+            </motion.button>
+
+            {/* 5. Custom / More Extras Dialog Button */}
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              disabled={!canScore || !isLive}
+              onClick={onOpenExtras}
+              title="More Extras (Wide Boundary +4, No Ball + Off Bat, Penalties)"
+              className={`score-btn liquid-btn liquid-btn-secondary h-13 xs:h-15 sm:h-18 md:h-20 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-0.5 border-white/[0.18] hover:border-amber-400/60 ${
+                !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
+              }`}
+            >
+              <span className="text-base xs:text-lg sm:text-xl font-black font-digit text-slate-200">
+                +EXT
+              </span>
+              <span className="text-[9px] xs:text-[10px] font-semibold text-amber-300 truncate px-1">
+                More Extras
+              </span>
+            </motion.button>
+
+            {/* 6. Wicket Button (Dismissal Dialog) */}
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              disabled={!canScore || !isLive}
+              onClick={onOpenWicket}
+              title="Wicket (Bowled, Caught, LBW, Run Out, Stumped, etc.)"
+              className={`score-btn liquid-btn liquid-btn-rose h-13 xs:h-15 sm:h-18 md:h-20 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-0.5 font-black shadow-lg shadow-rose-500/25 ${
+                !canScore || !isLive ? 'opacity-35 cursor-not-allowed' : ''
+              }`}
+            >
+              <span className="text-lg xs:text-xl sm:text-2xl font-black font-digit text-rose-200">
+                OUT
+              </span>
+              <span className="text-[9px] xs:text-[10px] font-black uppercase tracking-wider text-rose-300">
+                Wicket
+              </span>
+            </motion.button>
+          </div>
         </div>
 
         {/* Secondary Match Flow Controls Toolbar */}
